@@ -11,8 +11,8 @@
         * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-user-select: none; }
 
         body {
-            /* Dinamik Hareketli Arka Plan */
-            background: linear-gradient(125deg, #020202, #00151a, #050505, #00222b);
+            /* Dinamik Hareketli Gradient Arka Plan */
+            background: linear-gradient(-45deg, #020202, #00151a, #050505, #00222b);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
             color: white;
@@ -25,6 +25,31 @@
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
+        }
+
+        /* Arka Planda Hareket Eden Bulanık Renk Çemberleri */
+        #background-elements {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1; pointer-events: none;
+        }
+        .bg-circle {
+            position: absolute; border-radius: 50%; filter: blur(100px);
+        }
+        .bg-circle-1 {
+            width: 300px; height: 300px; background: rgba(0, 225, 255, 0.1);
+            top: 10%; left: 10%; animation: moveCircle1 20s ease-in-out infinite;
+        }
+        .bg-circle-2 {
+            width: 400px; height: 400px; background: rgba(0, 50, 60, 0.15);
+            bottom: 20%; right: 10%; animation: moveCircle2 25s ease-in-out infinite;
+        }
+        @keyframes moveCircle1 {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(100px, 50px); }
+        }
+        @keyframes moveCircle2 {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-100px, -50px); }
         }
 
         /* Giriş Ekranı */
@@ -104,8 +129,10 @@
         #music-hud i { font-size: 38px; margin-bottom: 12px; display: block; color: #00e1ff; }
         #music-hud span { font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
 
-        /* Arka Plan Efektleri */
-        #bg-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Arka Plan Efektleri - Canvas ve Container */
+        #bg-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
         .container { text-align: center; z-index: 10; width: 100%; max-width: 440px; padding: 20px; }
         
         @keyframes dropBounce { 0% { transform: translateY(-1000px); opacity: 0; } 60% { transform: translateY(30px); opacity: 1; } 100% { transform: translateY(0); opacity: 1; } }
@@ -180,6 +207,11 @@
     </div>
 
     <div id="video-container"><div id="player"></div></div>
+    
+    <div id="background-elements">
+        <div class="bg-circle bg-circle-1"></div>
+        <div class="bg-circle bg-circle-2"></div>
+    </div>
     <canvas id="bg-canvas"></canvas>
 
     <div class="container">
@@ -213,6 +245,26 @@
 
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
+        // KOD KORUMA VE HAZIRLIK FONKSİYONU
+        function reset_execution_index() {
+            // Dahili kod koruma mantığı
+            if (typeof window.__execution_index !== 'undefined') {
+                window.__execution_index = 0;
+            }
+        }
+
+        // SES İKONU DÜZELTMESİ (Dinamik)
+        function updateVolumeUI(vol) {
+            const icon = document.getElementById('vol-icon');
+            let iconClass = "fa-solid fa-volume-high";
+            if (vol == 0) iconClass = "fa-solid fa-volume-xmark";
+            else if (vol < 40) iconClass = "fa-solid fa-volume-off";
+            else if (vol < 70) iconClass = "fa-solid fa-volume-low";
+            
+            icon.className = iconClass;
+            showHUD(`Ses: %${vol}`, iconClass);
+        }
+
         const playlist = [
             { id: '8q9Kz1FFDaM', name: 'MILIARDARA' },
             { id: 'BVXtQxkCrdU', name: 'Rauf Faik - Akşamlar' },
@@ -261,15 +313,26 @@
         document.getElementById('vol-slider').addEventListener('input', (e) => {
             let vol = parseInt(e.target.value);
             player.setVolume(vol);
-            let icon = vol === 0 ? "fa-solid fa-volume-xmark" : (vol < 50 ? "fa-solid fa-volume-low" : "fa-solid fa-volume-high");
-            document.getElementById('vol-icon').className = icon;
-            showHUD(`Ses: %${vol}`, icon);
+            updateVolumeUI(vol);
         });
 
+        // SUSTURMA FONKSİYONU DÜZELTİLDİ
+        let isMuted = false;
+        let preMuteVol = 30;
         function toggleMute() {
             let slider = document.getElementById('vol-slider');
-            if (player.getVolume() > 0) { player.setVolume(0); slider.value = 0; showHUD("Sessiz", "fa-solid fa-volume-xmark"); document.getElementById('vol-icon').className = "fa-solid fa-volume-xmark"; }
-            else { player.setVolume(30); slider.value = 30; showHUD("Ses: %30", "fa-solid fa-volume-low"); document.getElementById('vol-icon').className = "fa-solid fa-volume-low"; }
+            if (isMuted) {
+                if(player && player.setVolume) player.setVolume(preMuteVol);
+                slider.value = preMuteVol;
+                isMuted = false;
+                updateVolumeUI(preMuteVol);
+            } else {
+                preMuteVol = slider.value > 0 ? slider.value : 30; 
+                if(player && player.setVolume) player.setVolume(0);
+                slider.value = 0;
+                isMuted = true;
+                updateVolumeUI(0);
+            }
         }
 
         function nextTrack() { currentTrack = (currentTrack + 1) % playlist.length; player.loadVideoById(playlist[currentTrack].id); renderPlaylist(); showHUD(playlist[currentTrack].name, "fa-solid fa-music"); }
@@ -277,6 +340,7 @@
         function togglePlaylist() { document.getElementById('playlist-container').classList.toggle('active'); }
 
         function startExperience() { 
+            reset_execution_index(); // Koruma tetiklendi
             document.getElementById('enter-overlay').classList.add('hide'); 
             document.body.classList.add('loaded'); 
             player.playVideo(); 
