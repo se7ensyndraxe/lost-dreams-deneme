@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
@@ -136,27 +136,15 @@
 
         h1 { font-size: 32px; font-weight: 900; letter-spacing: 8px; text-transform: uppercase; margin-bottom: 5px; color: #fff; }
 
-        /* PATLAK AMPUL GİBİ YANIP SÖNME EFEKTİ */
         .neon-text {
             color: #fff;
-            text-shadow: 
-                0 0 10px rgba(0, 225, 255, 0.8), 
-                0 0 20px rgba(0, 225, 255, 0.4);
-            animation: flicker 4s infinite step-end; /* Flicker animasyonu eklendi */
+            text-shadow: 0 0 10px rgba(0, 225, 255, 0.8), 0 0 20px rgba(0, 225, 255, 0.4);
+            animation: flicker 4s infinite step-end;
         }
 
-        /* Flicker animasyonu tanımları */
         @keyframes flicker {
-            0%, 2%, 35%, 37%, 39%, 41%, 100% {
-                text-shadow: 
-                    0 0 10px rgba(0, 225, 255, 0.8), 
-                    0 0 20px rgba(0, 225, 255, 0.4);
-                opacity: 1;
-            }
-            1%, 36%, 38%, 40% {
-                text-shadow: none;
-                opacity: 0.3;
-            }
+            0%, 2%, 35%, 37%, 39%, 41%, 100% { text-shadow: 0 0 10px rgba(0, 225, 255, 0.8), 0 0 20px rgba(0, 225, 255, 0.4); opacity: 1; }
+            1%, 36%, 38%, 40% { text-shadow: none; opacity: 0.3; }
         }
         
         .ios-btn { 
@@ -182,11 +170,7 @@
             margin-top: 40px; cursor: pointer;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
-        .join-now:hover { 
-            transform: scale(1.05);
-            box-shadow: 0 15px 35px rgba(0, 225, 255, 0.5);
-            letter-spacing: 4px;
-        }
+        .join-now:hover { transform: scale(1.05); box-shadow: 0 15px 35px rgba(0, 225, 255, 0.5); letter-spacing: 4px; }
 
         #video-container { position: absolute; left: -9999px; }
     </style>
@@ -260,6 +244,36 @@
 
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
+        // ÖZEL KONSOL BRANDING VE SİBER GÜVENLİK UYARISI
+        function triggerConsoleBranding() {
+            console.clear();
+            console.log("%cSE7ENSYNDRAXE CYBER SECURITY SYSTEM", "color: #00e1ff; font-family: 'Courier New', monospace; font-size: 24px; font-weight: bold; text-shadow: 0 0 15px #00e1ff; padding: 10px;");
+            console.log("%cThe system detected an intrusion and rejected your request If you do not log out of the console shortly you will be reported to our cybersecurity teams!", "color: #ff0000; font-family: 'Courier New', monospace; font-size: 14px; font-weight: bold; background: rgba(255,0,0,0.1); padding: 5px; border-left: 5px solid red;");
+            console.log("%c[DETECTION ID: " + Math.random().toString(36).substr(2, 9).toUpperCase() + "]", "color: gray; font-size: 10px;");
+        }
+
+        // KISAYOL ENGELLEME SİSTEMİ
+        window.addEventListener('keydown', (e) => {
+            if (e.keyCode === 123 || // F12
+                (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || // Ctrl+Shift+I/J/C
+                (e.ctrlKey && e.keyCode === 85)) { // Ctrl+U
+                e.preventDefault();
+                triggerConsoleBranding();
+                return false;
+            }
+        });
+
+        // BOT / DEBUGGER KORUMASI (Gelişmiş Anti-Inspect)
+        setInterval(() => {
+            const start = new Date();
+            debugger;
+            const end = new Date();
+            if (end - start > 100) {
+                triggerConsoleBranding();
+                setTimeout(() => { window.location.reload(); }, 500);
+            }
+        }, 1000);
+
         function reset_execution_index() {
             if (typeof window.__execution_index !== 'undefined') {
                 window.__execution_index = 0;
@@ -272,7 +286,6 @@
             if (vol == 0) iconClass = "fa-solid fa-volume-xmark";
             else if (vol < 40) iconClass = "fa-solid fa-volume-off";
             else if (vol < 70) iconClass = "fa-solid fa-volume-low";
-            
             icon.className = iconClass;
             showHUD(`Ses: %${vol}`, iconClass);
         }
@@ -355,6 +368,7 @@
             document.getElementById('enter-overlay').classList.add('hide'); 
             document.body.classList.add('loaded'); 
             player.playVideo(); 
+            triggerConsoleBranding();
         }
 
         const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
