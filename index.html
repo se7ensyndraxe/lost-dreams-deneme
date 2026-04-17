@@ -97,9 +97,9 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Arka Plan Tasarımı */
+        /* Arka Plan */
         #bg-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-        .static-bg { position: absolute; width: 100%; height: 100%; background: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.1), transparent 50%), radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.1), transparent 50%); z-index: -1; }
+        .static-bg { position: absolute; width: 100%; height: 100%; background: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.05), transparent 50%), radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.05), transparent 50%); z-index: -1; }
         .container { text-align: center; z-index: 10; width: 100%; max-width: 440px; padding: 20px; }
         
         @keyframes dropBounceMain { 0% { transform: translateY(-1000px); opacity: 0; } 60% { transform: translateY(30px); opacity: 1; } 80% { transform: translateY(-10px); } 100% { transform: translateY(0); opacity: 1; } }
@@ -116,12 +116,12 @@
         .ios-btn { display: flex; align-items: center; justify-content: space-between; padding: 18px 25px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); text-decoration: none; color: white; border-radius: 20px; transition: 0.3s; margin-top: 15px; }
         .ios-btn:hover { background: rgba(255, 255, 255, 0.12); transform: scale(1.05); }
 
-        /* --- METALİK GÜMÜŞ & SEKMELİ BOUNCE BUTONU --- */
+        /* --- METALİK GÜMÜŞ & MOR GÖLGELİ BOUNCE BUTONU --- */
         .join-now { 
             padding: 18px 60px; 
-            /* Gümüş Dokusu ve Degrade */
-            background: linear-gradient(135deg, #aeb6bf 0%, #eef2f3 50%, #808b96 100%);
-            color: #000; 
+            /* Çoklu katmanlı metalik gümüş degrade */
+            background: linear-gradient(145deg, #d1d5d8 0%, #ffffff 40%, #aeb4b9 70%, #8e959b 100%);
+            color: #111; 
             text-decoration: none; 
             border-radius: 100px; 
             font-weight: 900; 
@@ -130,45 +130,24 @@
             letter-spacing: 2px; 
             display: inline-block; 
             margin-top: 40px; 
-            border: 1px solid #999;
+            border: 1px solid #777;
             cursor: pointer;
             position: relative;
-            overflow: hidden;
-            
-            /* Mouse Çekilince Yaylanma (Bounce) Efekti */
+            /* Bounce/Yaylanma efekti için fiziksel cubic-bezier */
             transition: transform 0.6s cubic-bezier(0.68, -0.6, 0.32, 1.6), 
-                        box-shadow 0.6s ease;
-            
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5), 
-                        inset 0 1px 2px rgba(255, 255, 255, 1);
+                        box-shadow 0.4s ease, 
+                        letter-spacing 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4), inset 0 1px 1px #fff;
         }
 
         .join-now:hover { 
-            /* Yükselme ve Genişleme */
-            transform: translateY(-12px) scaleX(1.08);
+            transform: translateY(-10px) scale(1.05);
             letter-spacing: 4px;
-            /* Mor ve Beyaz detaylı gölge */
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 
-                        0 0 30px rgba(163, 0, 255, 0.35),
-                        0 0 15px rgba(255, 255, 255, 0.4);
-            
-            /* Hover durumunda daha hızlı tepki */
-            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), 
-                        box-shadow 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        /* Metalik parlama hissi için ince fırçalanmış çizgiler */
-        .join-now::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: repeating-linear-gradient(
-                45deg,
-                rgba(255, 255, 255, 0) 0px,
-                rgba(255, 255, 255, 0.02) 1px,
-                transparent 2px
-            );
-            pointer-events: none;
+            /* Mor ve Beyaz vurgulu gölge */
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.5), 
+                        0 0 20px rgba(186, 0, 255, 0.4), 
+                        0 0 10px rgba(255, 255, 255, 0.3);
+            background: linear-gradient(145deg, #ffffff, #d1d5d8, #aeb4b9);
         }
 
         #video-container { position: absolute; left: -9999px; }
@@ -271,6 +250,14 @@
             });
         }
 
+        // SES SEVİYESİNE GÖRE İKON DEĞİŞTİRME FONKSİYONU
+        function getVolumeIcon(vol) {
+            if (vol == 0) return "fa-solid fa-volume-xmark";
+            if (vol < 35) return "fa-solid fa-volume-off";
+            if (vol < 70) return "fa-solid fa-volume-low";
+            return "fa-solid fa-volume-high";
+        }
+
         function renderPlaylist() {
             const listContainer = document.getElementById('song-list');
             listContainer.innerHTML = '';
@@ -301,8 +288,11 @@
         }
 
         document.getElementById('vol-slider').addEventListener('input', (e) => {
-            player.setVolume(e.target.value);
-            showHUD(`Ses: %${e.target.value}`, "fa-solid fa-volume-low");
+            const val = e.target.value;
+            player.setVolume(val);
+            const icon = getVolumeIcon(val);
+            document.getElementById('vol-icon').className = icon;
+            showHUD(`Ses: %${val}`, icon);
         });
 
         function nextTrack() { currentTrack = (currentTrack + 1) % playlist.length; player.loadVideoById(playlist[currentTrack].id); renderPlaylist(); showHUD(playlist[currentTrack].name, "fa-solid fa-music"); }
@@ -315,7 +305,7 @@
             showHUD(playlist[currentTrack].name, "fa-solid fa-music");
         }
 
-        /* ARKA PLAN PARÇACIK VE BAĞLANTI SİSTEMİ */
+        /* ARKA PLAN */
         const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
         let particles = [];
         function initCanvas() {
