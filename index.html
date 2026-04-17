@@ -97,9 +97,9 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Arka Plan */
+        /* Arka Plan Tasarımı */
         #bg-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-        .static-bg { position: absolute; width: 100%; height: 100%; background: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.05), transparent 50%), radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.05), transparent 50%); z-index: -1; }
+        .static-bg { position: absolute; width: 100%; height: 100%; background: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.1), transparent 50%), radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.1), transparent 50%); z-index: -1; }
         .container { text-align: center; z-index: 10; width: 100%; max-width: 440px; padding: 20px; }
         
         @keyframes dropBounceMain { 0% { transform: translateY(-1000px); opacity: 0; } 60% { transform: translateY(30px); opacity: 1; } 80% { transform: translateY(-10px); } 100% { transform: translateY(0); opacity: 1; } }
@@ -116,12 +116,11 @@
         .ios-btn { display: flex; align-items: center; justify-content: space-between; padding: 18px 25px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); text-decoration: none; color: white; border-radius: 20px; transition: 0.3s; margin-top: 15px; }
         .ios-btn:hover { background: rgba(255, 255, 255, 0.12); transform: scale(1.05); }
 
-        /* --- GÜMÜŞ BUTON (MOR/BEYAZ LÜKS GÖLGELİ VE BOUNCE FİZİKLİ) --- */
+        /* --- STATİK GÜMÜŞ DOKULU & SEKMELİ BOUNCE BUTONU --- */
         .join-now { 
             padding: 18px 60px; 
-            /* Gümüş Dokusu: Derinlik için metalik renkler */
-            background: linear-gradient(145deg, #bdc3c7, #ffffff, #bdc3c7, #9da4a9);
-            background-size: 200% 200%;
+            /* Görseldeki gibi metalik degrade geçişi */
+            background: linear-gradient(135deg, #aeb6bf 0%, #eef2f3 50%, #808b96 100%);
             color: #000; 
             text-decoration: none; 
             border-radius: 100px; 
@@ -131,48 +130,47 @@
             letter-spacing: 2px; 
             display: inline-block; 
             margin-top: 40px; 
-            border: 1px solid #777;
+            border: 1px solid #888;
             cursor: pointer;
             position: relative;
             overflow: hidden;
-
-            /* Mouse çekildiğinde yaylanma (bounce) efekti için transition */
+            
+            /* Mouse Çekildiğinde Yaylanma (Bounce) Efekti */
             transition: transform 0.6s cubic-bezier(0.68, -0.6, 0.32, 1.6), 
-                        box-shadow 0.6s cubic-bezier(0.68, -0.6, 0.32, 1.6),
-                        padding 0.4s ease,
+                        box-shadow 0.6s ease,
                         background-position 0.6s ease;
-
-            /* Başlangıç Gölgesi: Hafif gümüş derinlik ve çok ince beyaz parlama */
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 
-                        inset 0 1px 1px rgba(255, 255, 255, 0.8),
-                        inset 0 -2px 5px rgba(0, 0, 0, 0.2),
-                        0 0 2px rgba(255, 255, 255, 0.1); /* Çevresel ince beyaz vurgu */
-        }
-
-        .join-now::after {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%; width: 200%; height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.4), transparent);
-            transform: rotate(45deg);
-            transition: 0.5s;
+            
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5), 
+                        inset 0 1px 2px rgba(255, 255, 255, 1);
         }
 
         .join-now:hover { 
             /* Yükselme ve Genişleme */
-            transform: translateY(-10px) scaleX(1.1); 
-            padding: 18px 80px; 
-            background-position: right center;
-            
-            /* Lüks Gölge Effekti: Morlu Beyazlı (Glow) hem altına hem çevresine */
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6), /* Alttaki derinlik */
-                        0 0 25px rgba(186, 0, 255, 0.4), /* Çevresel Mor Glow */
-                        0 0 10px rgba(255, 255, 255, 0.3), /* Çevresel Beyaz Glow */
-                        inset 0 1px 2px rgba(255, 255, 255, 0.9);
+            transform: translateY(-12px) scaleX(1.08);
             letter-spacing: 4px;
+            
+            /* Mor ve Beyaz detaylı ÇEVRESEL gölge */
+            box-shadow: 0 0 25px rgba(163, 0, 255, 0.4), 
+                        0 0 10px rgba(255, 255, 255, 0.3);
+            
+            /* Hover durumunda daha hızlı tepki */
+            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), 
+                        box-shadow 0.3s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        .join-now:hover::after { left: 100%; }
+        /* Metalik parlama hissi için ince fırçalanmış çizgiler */
+        .join-now::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0) 0px,
+                rgba(255, 255, 255, 0.02) 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+        }
 
         #video-container { position: absolute; left: -9999px; }
     </style>
@@ -274,6 +272,14 @@
             });
         }
 
+        // SES İKONU DİNAMİK MANTIK
+        function getVolumeIcon(vol) {
+            if (vol == 0) return "fa-solid fa-volume-xmark";
+            if (vol < 35) return "fa-solid fa-volume-off";
+            if (vol < 70) return "fa-solid fa-volume-low";
+            return "fa-solid fa-volume-high";
+        }
+
         function renderPlaylist() {
             const listContainer = document.getElementById('song-list');
             listContainer.innerHTML = '';
@@ -306,10 +312,7 @@
         document.getElementById('vol-slider').addEventListener('input', (e) => {
             const val = e.target.value;
             player.setVolume(val);
-            let icon = "fa-solid fa-volume-high";
-            if (val == 0) icon = "fa-solid fa-volume-xmark";
-            else if (val < 40) icon = "fa-solid fa-volume-low";
-            
+            const icon = getVolumeIcon(val);
             document.getElementById('vol-icon').className = icon;
             showHUD(`Ses: %${val}`, icon);
         });
