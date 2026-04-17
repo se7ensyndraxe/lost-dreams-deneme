@@ -28,76 +28,81 @@
         #enter-overlay h2 { font-size: 11px; letter-spacing: 12px; color: rgba(255, 255, 255, 0.4); text-transform: uppercase; animation: neonLoader 2s infinite; }
         @keyframes neonLoader { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
 
-        /* Müzik Kontrol Paneli (Sol Üst) */
-        .music-panel {
+        /* Müzik Paneli ve Playlist */
+        .music-wrapper {
             position: absolute; top: 30px; left: 30px; z-index: 500;
-            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(20px);
-            padding: 12px 18px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex; align-items: center; gap: 15px;
             opacity: 0; transform: translateX(-30px); transition: 1s ease 0.5s;
         }
-        body.loaded .music-panel { opacity: 1; transform: translateX(0); }
-        .music-controls { display: flex; gap: 12px; align-items: center; font-size: 14px; }
-        .music-controls i { cursor: pointer; transition: 0.3s; opacity: 0.7; }
-        .music-controls i:hover { opacity: 1; transform: scale(1.2); }
-        .vol-slider { width: 60px; height: 3px; -webkit-appearance: none; background: rgba(255,255,255,0.1); border-radius: 5px; }
-        .vol-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 10px; height: 10px; background: #fff; border-radius: 50%; cursor: pointer; }
+        body.loaded .music-wrapper { opacity: 1; transform: translateX(0); }
 
-        /* Ortadaki Bildirim Paneli (HUD) - GÜNCELLENDİ */
+        .menu-icon {
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px);
+            border: 1.5px solid #ffffff; width: 45px; height: 45px;
+            display: flex; justify-content: center; align-items: center;
+            border-radius: 12px; cursor: pointer; transition: 0.3s;
+        }
+        .menu-icon:hover { background: rgba(255, 255, 255, 0.15); transform: scale(1.05); }
+
+        .playlist-container {
+            position: absolute; top: 55px; left: 0;
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px);
+            border: 1.5px solid #ffffff; border-radius: 16px;
+            width: 250px; padding: 15px; display: none;
+            flex-direction: column; gap: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .playlist-container.active { display: flex; animation: fadeIn 0.3s ease; }
+
+        .song-item {
+            padding: 10px; border-radius: 8px; cursor: pointer;
+            font-size: 13px; transition: 0.2s; border: 1px solid transparent;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .song-item:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255,255,255,0.2); }
+        .song-item.playing { background: rgba(255, 255, 255, 0.2); font-weight: bold; border-color: #fff; }
+
+        .controls-mini {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .controls-mini i { cursor: pointer; opacity: 0.7; transition: 0.2s; }
+        .controls-mini i:hover { opacity: 1; transform: scale(1.1); }
+
+        /* Ortadaki Bildirim Paneli (HUD) */
         #music-hud {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: rgba(255, 255, 255, 0.05); /* Çok hafif beyaz tonu */
-            border: 1.5px solid #ffffff; /* Saf beyaz çerçeve */
+            background: rgba(255, 255, 255, 0.05); border: 1.5px solid #ffffff;
             padding: 25px 45px; border-radius: 24px; z-index: 1000;
             text-align: center; pointer-events: none; opacity: 0; transition: 0.4s;
-            backdrop-filter: blur(6px); /* Orta seviye blur */
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            backdrop-filter: blur(6px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         #music-hud.show { opacity: 1; transform: translate(-50%, -60%); }
-        #music-hud i { font-size: 38px; margin-bottom: 12px; display: block; color: #fff; }
-        #music-hud span { font-size: 14px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: #fff; }
+        #music-hud i { font-size: 38px; margin-bottom: 12px; display: block; }
+        #music-hud span { font-size: 14px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; }
 
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Diğer Tasarımlar */
         #bg-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-        .static-bg {
-            position: absolute; width: 100%; height: 100%;
-            background: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.15), transparent 50%),
-                        radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.15), transparent 50%);
-            z-index: -1;
-        }
-
+        .static-bg { position: absolute; width: 100%; height: 100%; background: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.15), transparent 50%), radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.15), transparent 50%); z-index: -1; }
         .container { text-align: center; z-index: 10; width: 100%; max-width: 440px; padding: 20px; }
-
-        @keyframes dropBounce {
-            0% { transform: translateY(-1000px); opacity: 0; }
-            60% { transform: translateY(30px); opacity: 1; }
-            80% { transform: translateY(-10px); }
-            100% { transform: translateY(0); opacity: 1; }
-        }
-
+        @keyframes dropBounce { 0% { transform: translateY(-1000px); opacity: 0; } 60% { transform: translateY(30px); opacity: 1; } 80% { transform: translateY(-10px); } 100% { transform: translateY(0); opacity: 1; } }
         .anim-wrap { opacity: 0; }
         body.loaded .anim-wrap { animation: dropBounce 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
-
         h1 { font-size: 30px; font-weight: 900; letter-spacing: 5px; text-transform: uppercase; margin-bottom: 5px; color: #fff; display: flex; justify-content: center; align-items: center; gap: 12px; }
         .neon-text { text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.4); }
-
         .lost-side { animation: flickerLost 4s infinite; display: flex; align-items: center; gap: 12px; }
         .dreams-side { animation: flickerDreams 6s infinite; display: flex; align-items: center; gap: 12px; }
-
         @keyframes flickerLost { 0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 1; text-shadow: 0 0 10px #fff, 0 0 20px #fff; } 20%, 24%, 55% { opacity: 0.2; text-shadow: none; } }
         @keyframes flickerDreams { 0%, 12%, 15%, 26%, 28%, 80%, 84%, 100% { opacity: 1; text-shadow: 0 0 10px #fff, 0 0 20px #fff; } 13%, 27%, 82% { opacity: 0.1; text-shadow: none; } }
-
         .designer-tag, .founder-tag { font-size: 9px; color: rgba(255,255,255,0.3); letter-spacing: 4px; text-transform: uppercase; }
         .designer-tag { margin-bottom: 40px; }
         .founder-tag { margin-top: 15px; }
-
         .link-wrapper { display: flex; flex-direction: column; gap: 15px; }
-        .ios-btn { display: flex; align-items: center; justify-content: space-between; padding: 18px 25px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); text-decoration: none; color: white; border-radius: 20px; transition: 0.3s; -webkit-user-drag: none; }
+        .ios-btn { display: flex; align-items: center; justify-content: space-between; padding: 18px 25px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); text-decoration: none; color: white; border-radius: 20px; transition: 0.3s; }
         .ios-btn:hover { background: rgba(255, 255, 255, 0.12); transform: scale(1.05); }
-
         .join-now-wrap { margin-top: 45px; }
-        .join-now { padding: 18px 60px; background: linear-gradient(90deg, #000, #fff); color: #000; text-decoration: none; border-radius: 100px; font-weight: 900; font-size: 15px; text-transform: uppercase; letter-spacing: 2px; display: inline-block; transition: 0.3s; -webkit-user-drag: none; }
+        .join-now { padding: 18px 60px; background: linear-gradient(90deg, #000, #fff); color: #000; text-decoration: none; border-radius: 100px; font-weight: 900; font-size: 15px; text-transform: uppercase; letter-spacing: 2px; display: inline-block; transition: 0.3s; }
         .join-now:hover { transform: scale(1.1) translateY(-10px); box-shadow: 0 15px 40px rgba(255,255,255,0.3); }
-
         #video-container { position: absolute; left: -9999px; }
     </style>
 </head>
@@ -113,14 +118,20 @@
         <span id="hud-text">Müzik Çalıyor</span>
     </div>
 
-    <div class="music-panel">
-        <div class="music-controls">
-            <i class="fa-solid fa-backward-step" onclick="prevTrack()"></i>
-            <i id="play-pause-btn" class="fa-solid fa-pause" onclick="togglePlay()"></i>
-            <i class="fa-solid fa-forward-step" onclick="nextTrack()"></i>
+    <div class="music-wrapper">
+        <div class="menu-icon" onclick="togglePlaylist()">
+            <i class="fa-solid fa-bars"></i>
         </div>
-        <i class="fa-solid fa-volume-high"></i>
-        <input type="range" class="vol-slider" id="vol-slider" min="0" max="100" value="30">
+        <div class="playlist-container" id="playlist-container">
+            <div class="controls-mini">
+                <i class="fa-solid fa-backward-step" onclick="prevTrack()"></i>
+                <i id="play-pause-btn" class="fa-solid fa-pause" onclick="togglePlay()"></i>
+                <i class="fa-solid fa-forward-step" onclick="nextTrack()"></i>
+                <input type="range" id="vol-slider" min="0" max="100" value="30" style="width:50px; height:3px;">
+            </div>
+            <div id="song-list">
+                </div>
+        </div>
     </div>
 
     <div id="video-container"><div id="player"></div></div>
@@ -180,7 +191,10 @@
                 videoId: playlist[currentTrack].id,
                 playerVars: { 'autoplay': 1, 'controls': 0, 'disablekb': 1 },
                 events: {
-                    'onReady': (e) => e.target.setVolume(30),
+                    'onReady': (e) => {
+                        e.target.setVolume(30);
+                        renderPlaylist();
+                    },
                     'onStateChange': (e) => {
                         if (e.data === YT.PlayerState.ENDED) nextTrack();
                     }
@@ -188,19 +202,36 @@
             });
         }
 
+        function renderPlaylist() {
+            const listContainer = document.getElementById('song-list');
+            listContainer.innerHTML = '';
+            playlist.forEach((song, index) => {
+                const item = document.createElement('div');
+                item.className = `song-item ${index === currentTrack ? 'playing' : ''}`;
+                item.innerText = song.name;
+                item.onclick = () => playSong(index);
+                listContainer.appendChild(item);
+            });
+        }
+
+        function playSong(index) {
+            currentTrack = index;
+            player.loadVideoById(playlist[currentTrack].id);
+            showHUD(playlist[currentTrack].name, "fa-solid fa-music");
+            renderPlaylist();
+        }
+
+        function togglePlaylist() {
+            document.getElementById('playlist-container').classList.toggle('active');
+        }
+
         function showHUD(text, iconClass) {
             const hud = document.getElementById('music-hud');
-            const hudText = document.getElementById('hud-text');
-            const hudIcon = document.getElementById('hud-icon');
-            
             clearTimeout(hudTimeout);
-            hudText.innerText = text;
-            hudIcon.className = iconClass;
+            document.getElementById('hud-text').innerText = text;
+            document.getElementById('hud-icon').className = iconClass;
             hud.classList.add('show');
-            
-            hudTimeout = setTimeout(() => {
-                hud.classList.remove('show');
-            }, 2000);
+            hudTimeout = setTimeout(() => hud.classList.remove('show'), 2000);
         }
 
         function togglePlay() {
@@ -208,32 +239,26 @@
             if (player.getPlayerState() === 1) {
                 player.pauseVideo();
                 btn.className = "fa-solid fa-play";
-                showHUD("Müzik Durduruldu", "fa-solid fa-pause");
+                showHUD("Durduruldu", "fa-solid fa-pause");
             } else {
                 player.playVideo();
                 btn.className = "fa-solid fa-pause";
-                showHUD("Müzik Devam Ediyor", "fa-solid fa-play");
+                showHUD("Devam Ediyor", "fa-solid fa-play");
             }
         }
 
         function nextTrack() {
             currentTrack = (currentTrack + 1) % playlist.length;
-            player.loadVideoById(playlist[currentTrack].id);
-            showHUD(playlist[currentTrack].name, "fa-solid fa-forward-step");
+            playSong(currentTrack);
         }
 
         function prevTrack() {
             currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
-            player.loadVideoById(playlist[currentTrack].id);
-            showHUD(playlist[currentTrack].name, "fa-solid fa-backward-step");
+            playSong(currentTrack);
         }
 
         document.getElementById('vol-slider').addEventListener('input', (e) => {
-            if(player) {
-                player.setVolume(e.target.value);
-                if(e.target.value == 0) showHUD("Ses Kapatıldı", "fa-solid fa-volume-xmark");
-                else showHUD("Ses: %" + e.target.value, "fa-solid fa-volume-high");
-            }
+            player.setVolume(e.target.value);
         });
 
         function startExperience() { 
@@ -243,6 +268,7 @@
             showHUD(playlist[currentTrack].name, "fa-solid fa-music");
         }
 
+        // Parçacık Animasyonu (Aynı)
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -265,16 +291,6 @@
             requestAnimationFrame(draw);
         }
         window.addEventListener('resize', initCanvas); initCanvas(); draw();
-    </script>
-
-    <script>
-        (function() {
-            if (window.top !== window.self) window.top.location = window.self.location;
-            const isBot = navigator.webdriver || /bot|crawler|spider/i.test(navigator.userAgent);
-            if (isBot) document.body.innerHTML = "<div style='background:#000;height:100vh;display:flex;align-items:center;justify-content:center;color:red;'>BOT DETECTED - LD✦</div>";
-            document.onkeydown = function(e) { if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && e.keyCode === 73) || (e.ctrlKey && e.keyCode === 85)) return false; };
-            setInterval(() => { console.clear(); }, 100);
-        })();
     </script>
 </body>
 </html>
