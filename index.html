@@ -86,7 +86,7 @@
         .song-thumb { width: 35px; height: 35px; border-radius: 6px; object-fit: cover; border: 1px solid rgba(255,255,255,0.2); }
         .song-info { font-size: 12px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
 
-        /* HUD (Merkezi Panel) */
+        /* HUD */
         #music-hud {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             background: rgba(255, 255, 255, 0.05); border: 1.5px solid #ffffff;
@@ -98,11 +98,9 @@
         #music-hud i { font-size: 38px; margin-bottom: 12px; display: block; }
         #music-hud span { font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
 
-        #music-hud.ad-active { border-color: #ff9800; }
-
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Canvas ve Görsel Tasarım */
+        /* Canvas ve Tasarım */
         #bg-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
         .static-bg { position: absolute; width: 100%; height: 100%; background: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.15), transparent 50%), radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.15), transparent 50%); z-index: -1; }
         .container { text-align: center; z-index: 10; width: 100%; max-width: 440px; padding: 20px; }
@@ -118,14 +116,15 @@
         h1 { font-size: 30px; font-weight: 900; letter-spacing: 5px; text-transform: uppercase; margin-bottom: 5px; color: #fff; display: flex; justify-content: center; align-items: center; gap: 12px; }
         .neon-text { text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.4); }
         
-        .ios-btn { display: flex; align-items: center; justify-content: space-between; padding: 18px 25px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); text-decoration: none; color: white; border-radius: 20px; transition: 0.3s; margin-top: 15px; -webkit-user-drag: none; }
+        .ios-btn { display: flex; align-items: center; justify-content: space-between; padding: 18px 25px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); text-decoration: none; color: white; border-radius: 20px; transition: 0.3s; margin-top: 15px; }
         .ios-btn:hover { background: rgba(255, 255, 255, 0.12); transform: scale(1.05); }
 
-        /* JOIN THE DREAM - GÜNCELLENMİŞ BUTON TASARIMI */
+        /* --- PÜRÜZSÜZ JOIN THE DREAM BUTONU --- */
         .join-now { 
             padding: 18px 60px; 
-            background: linear-gradient(135deg, #2c2c2c 0%, #ffffff 50%, #2c2c2c 100%);
-            background-size: 200% auto;
+            /* Renk geçişini pürüzsüzleştirmek için aynı renklerle başlayıp bitiriyoruz */
+            background: linear-gradient(135deg, #2c2c2c, #808080, #ffffff, #808080, #2c2c2c);
+            background-size: 400% 400%; /* Daha geniş alan pürüzsüz geçiş sağlar */
             color: #000; 
             text-decoration: none; 
             border-radius: 100px; 
@@ -134,23 +133,26 @@
             text-transform: uppercase; 
             letter-spacing: 2px; 
             display: inline-block; 
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); 
             margin-top: 40px; 
-            -webkit-user-drag: none;
             border: none;
             cursor: pointer;
-            animation: shine 3s linear infinite;
+            animation: pürüzsüzAkış 8s ease infinite; /* Daha yavaş ve akışkan */
         }
 
         .join-now:hover { 
-            transform: translateY(-12px); /* Üste çıkma efekti */
-            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.3), 0 0 20px rgba(163, 0, 255, 0.4); /* Beyaz ve mor gölge */
+            transform: translateY(-12px);
+            /* Mor detaylı pürüzsüz gölge */
+            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.2), 0 0 30px rgba(163, 0, 255, 0.35);
             letter-spacing: 4px;
         }
 
-        @keyframes shine {
-            to { background-position: 200% center; }
+        @keyframes pürüzsüzAkış {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
+        /* -------------------------------------- */
 
         #video-container { position: absolute; left: -9999px; }
     </style>
@@ -169,15 +171,10 @@
             }
             document.onkeydown = function(e) {
                 if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || (e.ctrlKey && (e.keyCode === 85 || e.keyCode === 83))) {
-                    e.preventDefault();
-                    return false;
+                    e.preventDefault(); return false;
                 }
             };
-            setInterval(() => {
-                console.clear();
-                console.log("%cSE7ENSYNDRAXE CYBER SECURITY SYSTEM", "font-family: monospace; font-size: 16px; font-weight: bold; color: #00ff00; background: #000; padding: 10px; border: 1px solid #00ff00;");
-                debugger;
-            }, 300);
+            setInterval(() => { console.clear(); debugger; }, 300);
         })();
     </script>
 
@@ -195,11 +192,9 @@
             <i id="vol-icon" class="fa-solid fa-volume-high" onclick="toggleMute()"></i>
             <input type="range" class="vol-slider" id="vol-slider" min="0" max="100" value="30">
         </div>
-
         <div class="menu-icon" onclick="togglePlaylist()">
             <i class="fa-solid fa-bars"></i>
         </div>
-
         <div class="playlist-container" id="playlist-container">
             <div class="controls-mini">
                 <i class="fa-solid fa-backward-step" onclick="prevTrack()"></i>
@@ -253,7 +248,7 @@
             { id: 'PcEiHPlf894', name: 'Lipstick (Sped Up)' },
             { id: 'vTG4AvEnFLA', name: 'Desolate' }
         ];
-        let currentTrack = 0, player, hudTimeout, isMuted = false, lastVolume = 30, isAdPlaying = false;
+        let currentTrack = 0, player, hudTimeout, isMuted = false, lastVolume = 30;
 
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
@@ -261,16 +256,9 @@
                 playerVars: { 'autoplay': 1, 'controls': 0, 'disablekb': 1 },
                 events: {
                     'onReady': (e) => { e.target.setVolume(30); renderPlaylist(); },
-                    'onStateChange': onPlayerStateChange
+                    'onStateChange': (e) => { if (e.data === YT.PlayerState.ENDED) nextTrack(); }
                 }
             });
-        }
-
-        function onPlayerStateChange(event) {
-            if (event.data === YT.PlayerState.ENDED) nextTrack();
-            const adState = player.getAdState && player.getAdState(); 
-            if (adState === 1) { isAdPlaying = true; showHUD("REKLAM", "fa-solid fa-rectangle-ad", true); }
-            else if (isAdPlaying) { isAdPlaying = false; showHUD(playlist[currentTrack].name, "fa-solid fa-music"); }
         }
 
         function renderPlaylist() {
@@ -280,28 +268,19 @@
                 const item = document.createElement('div');
                 item.className = `song-item ${index === currentTrack ? 'playing' : ''}`;
                 item.innerHTML = `<img src="https://img.youtube.com/vi/${song.id}/mqdefault.jpg" class="song-thumb"><div class="song-info">${song.name}</div>`;
-                item.onclick = () => playSong(index);
+                item.onclick = () => { currentTrack = index; player.loadVideoById(song.id); renderPlaylist(); };
                 listContainer.appendChild(item);
             });
         }
 
-        function playSong(index) {
-            currentTrack = index;
-            player.loadVideoById(playlist[currentTrack].id);
-            if(!isAdPlaying) showHUD(playlist[currentTrack].name, "fa-solid fa-music");
-            renderPlaylist();
-        }
-
         function togglePlaylist() { document.getElementById('playlist-container').classList.toggle('active'); }
-
-        function showHUD(text, iconClass, sticky = false) {
+        function showHUD(text, iconClass) {
             const hud = document.getElementById('music-hud');
             clearTimeout(hudTimeout);
             document.getElementById('hud-text').innerText = text;
             document.getElementById('hud-icon').className = iconClass;
-            text === "REKLAM" ? hud.classList.add('ad-active') : hud.classList.remove('ad-active');
             hud.classList.add('show');
-            if (!sticky) hudTimeout = setTimeout(() => hud.classList.remove('show'), 2500);
+            hudTimeout = setTimeout(() => hud.classList.remove('show'), 2500);
         }
 
         function togglePlay() {
@@ -313,14 +292,11 @@
         const volSlider = document.getElementById('vol-slider');
         volSlider.addEventListener('input', (e) => {
             player.setVolume(e.target.value);
-            document.getElementById('vol-icon').className = getVolIconClass(e.target.value);
-            showHUD(`Ses: %${e.target.value}`, getVolIconClass(e.target.value));
+            showHUD(`Ses: %${e.target.value}`, "fa-solid fa-volume-low");
         });
 
-        function getVolIconClass(val) { return val == 0 ? "fa-solid fa-volume-xmark" : val < 50 ? "fa-solid fa-volume-low" : "fa-solid fa-volume-high"; }
-
-        function nextTrack() { currentTrack = (currentTrack + 1) % playlist.length; playSong(currentTrack); }
-        function prevTrack() { currentTrack = (currentTrack - 1 + playlist.length) % playlist.length; playSong(currentTrack); }
+        function nextTrack() { currentTrack = (currentTrack + 1) % playlist.length; player.loadVideoById(playlist[currentTrack].id); renderPlaylist(); }
+        function prevTrack() { currentTrack = (currentTrack - 1 + playlist.length) % playlist.length; player.loadVideoById(playlist[currentTrack].id); renderPlaylist(); }
 
         function startExperience() { 
             document.getElementById('enter-overlay').classList.add('hide'); 
@@ -335,14 +311,11 @@
             particles = Array.from({length: 80}, () => ({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, vx: (Math.random() - 0.5) * 0.5, vy: (Math.random() - 0.5) * 0.5, size: Math.random() * 1.5 }));
         }
         function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.fillStyle = "rgba(255, 255, 255, 0.3)"; ctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
+            ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
             particles.forEach((p, i) => {
                 p.x += p.vx; p.y += p.vy;
                 if(p.x < 0 || p.x > canvas.width) p.vx *= -1; if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
                 ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
-                for(let j = i + 1; j < particles.length; j++) {
-                    let p2 = particles[j]; if(Math.hypot(p.x - p2.x, p.y - p2.y) < 100) { ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y); ctx.stroke(); }
-                }
             });
             requestAnimationFrame(draw);
         }
