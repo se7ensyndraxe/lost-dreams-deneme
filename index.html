@@ -116,7 +116,7 @@
         .ios-btn { display: flex; align-items: center; justify-content: space-between; padding: 18px 25px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); text-decoration: none; color: white; border-radius: 20px; transition: 0.3s; margin-top: 15px; }
         .ios-btn:hover { background: rgba(255, 255, 255, 0.12); transform: scale(1.05); }
 
-        /* --- GELİŞMİŞ GÜMÜŞ BUTON (BOUNCE & EXPAND) --- */
+        /* --- GÜMÜŞ BUTON (DOKU KORUNMUŞ, FİZİK EKLENMİŞ) --- */
         .join-now { 
             padding: 18px 60px; 
             background: linear-gradient(145deg, #bdc3c7, #8e9eab, #bdc3c7, #606c88);
@@ -134,19 +134,15 @@
             cursor: pointer;
             position: relative;
             overflow: hidden;
-
-            /* Fiziksel tepki ve yaylanma için cubic-bezier */
             transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
                         padding 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
                         box-shadow 0.4s ease,
                         letter-spacing 0.3s ease;
-
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 
                         inset 0 1px 1px rgba(255, 255, 255, 0.8),
                         inset 0 -2px 5px rgba(0, 0, 0, 0.3);
         }
 
-        /* Işık yansıması efekti */
         .join-now::after {
             content: '';
             position: absolute;
@@ -156,34 +152,20 @@
             transition: 0.5s;
         }
 
-        /* Üzerine gelince tetiklenen efektler */
         .join-now:hover { 
-            transform: translateY(-12px) scale(1.02); /* Yukarı sekme (Bounce) */
-            padding: 18px 85px; /* Yatayda genişleme (Expand) */
+            transform: translateY(-12px) scale(1.02); 
+            padding: 18px 85px; 
             letter-spacing: 4px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 20px rgba(255,255,255,0.15);
         }
 
-        .join-now:hover::after {
-            left: 100%;
-        }
+        .join-now:hover::after { left: 100%; }
 
         #video-container { position: absolute; left: -9999px; }
     </style>
 </head>
 
 <body oncontextmenu="return false;" ondragstart="return false;">
-
-    <script>
-        (function() {
-            if (window.top !== window.self) { window.top.location = window.self.location; }
-            document.onkeydown = function(e) {
-                if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || (e.ctrlKey && (e.keyCode === 85 || e.keyCode === 83))) {
-                    e.preventDefault(); return false;
-                }
-            };
-        })();
-    </script>
 
     <div id="enter-overlay" onclick="startExperience()">
         <h2>CLICK TO ENTER</h2>
@@ -196,7 +178,7 @@
 
     <div class="music-wrapper">
         <div class="volume-panel-top">
-            <i id="vol-icon" class="fa-solid fa-volume-high" onclick="toggleMute()"></i>
+            <i id="vol-icon" class="fa-solid fa-volume-high"></i>
             <input type="range" class="vol-slider" id="vol-slider" min="0" max="100" value="30">
         </div>
         <div class="menu-icon" onclick="togglePlaylist()">
@@ -268,6 +250,24 @@
             });
         }
 
+        /* SES İKONU DİNAMİK MANTIK */
+        function updateVolumeUI(val) {
+            const icon = document.getElementById('vol-icon');
+            let iconClass = "fa-solid fa-volume-high";
+            if (val == 0) iconClass = "fa-solid fa-volume-xmark";
+            else if (val < 40) iconClass = "fa-solid fa-volume-off";
+            else if (val < 70) iconClass = "fa-solid fa-volume-low";
+            
+            icon.className = iconClass;
+            showHUD(`SES: %${val}`, iconClass);
+        }
+
+        document.getElementById('vol-slider').addEventListener('input', (e) => {
+            const val = e.target.value;
+            player.setVolume(val);
+            updateVolumeUI(val);
+        });
+
         function renderPlaylist() {
             const listContainer = document.getElementById('song-list');
             listContainer.innerHTML = '';
@@ -293,14 +293,9 @@
 
         function togglePlay() {
             const btn = document.getElementById('play-pause-btn');
-            if (player.getPlayerState() === 1) { player.pauseVideo(); btn.className = "fa-solid fa-play"; showHUD("Durduruldu", "fa-solid fa-pause"); }
-            else { player.playVideo(); btn.className = "fa-solid fa-pause"; showHUD("Devam Ediyor", "fa-solid fa-play"); }
+            if (player.getPlayerState() === 1) { player.pauseVideo(); btn.className = "fa-solid fa-play"; showHUD("DURDURULDU", "fa-solid fa-pause"); }
+            else { player.playVideo(); btn.className = "fa-solid fa-pause"; showHUD("DEVAM EDİYOR", "fa-solid fa-play"); }
         }
-
-        document.getElementById('vol-slider').addEventListener('input', (e) => {
-            player.setVolume(e.target.value);
-            showHUD(`Ses: %${e.target.value}`, "fa-solid fa-volume-low");
-        });
 
         function nextTrack() { currentTrack = (currentTrack + 1) % playlist.length; player.loadVideoById(playlist[currentTrack].id); renderPlaylist(); showHUD(playlist[currentTrack].name, "fa-solid fa-music"); }
         function prevTrack() { currentTrack = (currentTrack - 1 + playlist.length) % playlist.length; player.loadVideoById(playlist[currentTrack].id); renderPlaylist(); showHUD(playlist[currentTrack].name, "fa-solid fa-music"); }
@@ -309,7 +304,6 @@
             document.getElementById('enter-overlay').classList.add('hide'); 
             document.body.classList.add('loaded'); 
             if(player && player.playVideo) player.playVideo(); 
-            showHUD(playlist[currentTrack].name, "fa-solid fa-music");
         }
 
         const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
