@@ -97,9 +97,9 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Arka Plan */
+        /* Arka Plan Tasarımı */
         #bg-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-        .static-bg { position: absolute; width: 100%; height: 100%; background: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.05), transparent 50%), radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.05), transparent 50%); z-index: -1; }
+        .static-bg { position: absolute; width: 100%; height: 100%; background: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.1), transparent 50%), radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.1), transparent 50%); z-index: -1; }
         .container { text-align: center; z-index: 10; width: 100%; max-width: 440px; padding: 20px; }
         
         @keyframes dropBounce { 0% { transform: translateY(-1000px); opacity: 0; } 60% { transform: translateY(30px); opacity: 1; } 80% { transform: translateY(-10px); } 100% { transform: translateY(0); opacity: 1; } }
@@ -116,12 +116,11 @@
         .ios-btn { display: flex; align-items: center; justify-content: space-between; padding: 18px 25px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); text-decoration: none; color: white; border-radius: 20px; transition: 0.3s; margin-top: 15px; }
         .ios-btn:hover { background: rgba(255, 255, 255, 0.12); transform: scale(1.05); }
 
-        /* --- GERÇEK GÜMÜŞ METALİK BUTON --- */
+        /* --- STATİK GÜMÜŞ METAL VE SEKMELİ BOUNCE BUTONU --- */
         .join-now { 
             padding: 18px 60px; 
-            /* Gümüş Dokusu: Derinlik için çok katmanlı metalik renkler */
-            background: linear-gradient(145deg, #bdc3c7, #8e9eab, #bdc3c7, #606c88);
-            background-size: 200% 200%;
+            /* Gümüş dokusu için çok ince, mat bir geçiş */
+            background: linear-gradient(145deg, #a8a8a8 0%, #d6d6d6 50%, #a8a8a8 100%);
             color: #000; 
             text-decoration: none; 
             border-radius: 100px; 
@@ -130,37 +129,38 @@
             text-transform: uppercase; 
             letter-spacing: 2px; 
             display: inline-block; 
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); 
+            /* mouse çekildiğinde bounce efekti için */
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.4), box-shadow 0.6s ease;
             margin-top: 40px; 
-            border: 1px solid #4a4a4a;
+            border: none;
             cursor: pointer;
-            /* Metal parlaması ve gölgesi */
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 
-                        inset 0 1px 1px rgba(255, 255, 255, 0.8),
-                        inset 0 -2px 5px rgba(0, 0, 0, 0.3);
+            /* Metal hissi için iç ve dış lüks gölgeler */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), inset 0 1px 3px rgba(255, 255, 255, 0.5), inset 0 -2px 3px rgba(0, 0, 0, 0.2);
             position: relative;
-            overflow: hidden;
         }
 
-        /* Üzerine gelince metalik parıltı (shimmer) */
+        /* Metalik parıltı hissi için ince bir yüzey kaplaması */
         .join-now::after {
             content: '';
             position: absolute;
-            top: -50%; left: -50%; width: 200%; height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.4), transparent);
-            transform: rotate(45deg);
-            transition: 0.5s;
-        }
-
-        .join-now:hover::after {
-            left: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
+            border-radius: 100px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.1) 100%);
+            pointer-events: none;
         }
 
         .join-now:hover { 
-            transform: translateY(-8px);
-            background: linear-gradient(145deg, #ffffff, #bdc3c7, #8e9eab);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.6), 0 0 15px rgba(255,255,255,0.2);
+            transform: translateY(-10px); /* Üste çıkma efekti */
+            /* Mor ve Gümüş detaylı lüks gölge */
+            box-shadow: 0 15px 35px rgba(176, 176, 176, 0.3), 0 0 25px rgba(163, 0, 255, 0.3);
             letter-spacing: 4px;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1); /* mouse üzerindeyken hızlı tepki */
+        }
+
+        /* mouse tıklandığında hafif geri basma hissi */
+        .join-now:active {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(176, 176, 176, 0.3), 0 0 15px rgba(163, 0, 255, 0.2);
         }
 
         #video-container { position: absolute; left: -9999px; }
@@ -270,11 +270,12 @@
                 const item = document.createElement('div');
                 item.className = `song-item ${index === currentTrack ? 'playing' : ''}`;
                 item.innerHTML = `<img src="https://img.youtube.com/vi/${song.id}/mqdefault.jpg" class="song-thumb"><div class="song-info">${song.name}</div>`;
-                item.onclick = () => { currentTrack = index; player.loadVideoById(song.id); renderPlaylist(); showHUD(song.name, "fa-solid fa-music"); };
+                item.onclick = () => { currentTrack = index; player.loadVideoById(song.id); renderPlaylist(); };
                 listContainer.appendChild(item);
             });
         }
 
+        function togglePlaylist() { document.getElementById('playlist-container').classList.toggle('active'); }
         function showHUD(text, iconClass) {
             const hud = document.getElementById('music-hud');
             clearTimeout(hudTimeout);
@@ -284,21 +285,20 @@
             hudTimeout = setTimeout(() => hud.classList.remove('show'), 2500);
         }
 
-        function togglePlaylist() { document.getElementById('playlist-container').classList.toggle('active'); }
-
         function togglePlay() {
             const btn = document.getElementById('play-pause-btn');
             if (player.getPlayerState() === 1) { player.pauseVideo(); btn.className = "fa-solid fa-play"; showHUD("Durduruldu", "fa-solid fa-pause"); }
             else { player.playVideo(); btn.className = "fa-solid fa-pause"; showHUD("Devam Ediyor", "fa-solid fa-play"); }
         }
 
-        document.getElementById('vol-slider').addEventListener('input', (e) => {
+        const volSlider = document.getElementById('vol-slider');
+        volSlider.addEventListener('input', (e) => {
             player.setVolume(e.target.value);
             showHUD(`Ses: %${e.target.value}`, "fa-solid fa-volume-low");
         });
 
-        function nextTrack() { currentTrack = (currentTrack + 1) % playlist.length; player.loadVideoById(playlist[currentTrack].id); renderPlaylist(); showHUD(playlist[currentTrack].name, "fa-solid fa-music"); }
-        function prevTrack() { currentTrack = (currentTrack - 1 + playlist.length) % playlist.length; player.loadVideoById(playlist[currentTrack].id); renderPlaylist(); showHUD(playlist[currentTrack].name, "fa-solid fa-music"); }
+        function nextTrack() { currentTrack = (currentTrack + 1) % playlist.length; player.loadVideoById(playlist[currentTrack].id); renderPlaylist(); }
+        function prevTrack() { currentTrack = (currentTrack - 1 + playlist.length) % playlist.length; player.loadVideoById(playlist[currentTrack].id); renderPlaylist(); }
 
         function startExperience() { 
             document.getElementById('enter-overlay').classList.add('hide'); 
@@ -312,17 +312,17 @@
         let particles = [];
         function initCanvas() {
             canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-            particles = Array.from({length: 70}, () => ({ 
+            particles = Array.from({length: 80}, () => ({ 
                 x: Math.random() * canvas.width, 
                 y: Math.random() * canvas.height, 
-                vx: (Math.random() - 0.5) * 0.4, 
-                vy: (Math.random() - 0.5) * 0.4, 
+                vx: (Math.random() - 0.5) * 0.5, 
+                vy: (Math.random() - 0.5) * 0.5, 
                 size: Math.random() * 1.5 
             }));
         }
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height); 
-            ctx.fillStyle = "rgba(255, 255, 255, 0.2)"; 
+            ctx.fillStyle = "rgba(255, 255, 255, 0.3)"; 
             ctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
             particles.forEach((p, i) => {
                 p.x += p.vx; p.y += p.vy;
