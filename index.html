@@ -113,13 +113,27 @@
         h1 { font-size: 30px; font-weight: 900; letter-spacing: 5px; text-transform: uppercase; margin-bottom: 5px; color: #fff; display: flex; justify-content: center; align-items: center; gap: 12px; }
         .neon-text { text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.4); }
         
-        .ios-btn { display: flex; align-items: center; justify-content: space-between; padding: 18px 25px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); text-decoration: none; color: white; border-radius: 20px; transition: 0.3s; margin-top: 15px; }
-        .ios-btn:hover { background: rgba(255, 255, 255, 0.12); transform: scale(1.05); }
+        /* --- STEAM VE INSTAGRAM BUTONLARI --- */
+        .ios-btn { 
+            display: flex; align-items: center; justify-content: space-between; 
+            padding: 18px 25px; background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); 
+            text-decoration: none; color: white; border-radius: 20px; 
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); 
+            margin-top: 15px; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Başlangıç hafif gölgesi */
+        }
+        .ios-btn:hover { 
+            background: rgba(255, 255, 255, 0.12); 
+            transform: translateY(-5px) scale(1.02); /* Hafif yukarı kalkma efekti */
+            /* Elektrik mavisi & Beyaz detaylı gölge (Ana butonla aynı) */
+            box-shadow: 0 15px 35px rgba(0, 225, 255, 0.4), 0 10px 20px rgba(255, 255, 255, 0.3);
+            text-shadow: 0 5px 12px rgba(255, 255, 255, 1), 0 0 20px rgba(0, 225, 255, 0.8);
+        }
 
-        /* --- GERÇEK GÜMÜŞ METALİK BUTON --- */
+        /* --- JOIN THE DREAM BUTONU --- */
         .join-now { 
             padding: 18px 60px; 
-            /* Gümüş Dokusu: Derinlik için çok katmanlı metalik renkler */
             background: linear-gradient(145deg, #bdc3c7, #8e9eab, #bdc3c7, #606c88);
             background-size: 200% 200%;
             color: #000; 
@@ -134,17 +148,15 @@
             margin-top: 40px; 
             border: 1px solid #4a4a4a;
             cursor: pointer;
-            /* Metal parlaması ve gölgesi */
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 
                         inset 0 1px 1px rgba(255, 255, 255, 0.8),
                         inset 0 -2px 5px rgba(0, 0, 0, 0.3);
             position: relative;
             overflow: hidden;
-            /* SADECE YAZININ ALTINA BEYAZ GÖLGE VE MOR DETAYLAR */
-            text-shadow: 0 4px 10px rgba(255, 255, 255, 0.9), 0 0 12px rgba(186, 1, 255, 0.6);
+            /* Elektrik Mavisi & Beyaz gölge */
+            text-shadow: 0 4px 10px rgba(255, 255, 255, 0.9), 0 0 12px rgba(0, 225, 255, 0.6);
         }
 
-        /* Üzerine gelince metalik parıltı (shimmer) */
         .join-now::after {
             content: '';
             position: absolute;
@@ -161,11 +173,11 @@
         .join-now:hover { 
             transform: translateY(-8px);
             background: linear-gradient(145deg, #ffffff, #bdc3c7, #8e9eab);
-            /* SADECE ALTTA BEYAZ VE MOR KARIŞIMI GÖLGE */
-            box-shadow: 0 15px 35px rgba(186, 1, 255, 0.4), 0 10px 20px rgba(255, 255, 255, 0.3);
+            /* Elektrik Mavisi alt gölge */
+            box-shadow: 0 15px 35px rgba(0, 225, 255, 0.4), 0 10px 20px rgba(255, 255, 255, 0.3);
             letter-spacing: 4px;
-            /* YAZININ ALTINDAKİ GÖLGENİN HOVER HALİ */
-            text-shadow: 0 5px 12px rgba(255, 255, 255, 1), 0 0 20px rgba(186, 1, 255, 0.8);
+            /* Yazı parlaklığı */
+            text-shadow: 0 5px 12px rgba(255, 255, 255, 1), 0 0 20px rgba(0, 225, 255, 0.8);
         }
 
         #video-container { position: absolute; left: -9999px; }
@@ -219,7 +231,7 @@
     <div class="container">
         <div class="anim-wrap delay-1">
             <h1>
-                <div style="display:flex; align-items:center; gap:12px;"><span>✦</span><span class="neon-text">𝐋𝐎𝐒0</span></div>
+                <div style="display:flex; align-items:center; gap:12px;"><span>✦</span><span class="neon-text">𝐋𝐎𝐒𝐓</span></div>
                 <div style="display:flex; align-items:center; gap:12px;"><span class="neon-text">𝐃𝐑E𝐀𝐌𝐒</span><span>✦</span></div>
             </h1>
             <div style="font-size: 9px; color: rgba(255,255,255,0.3); letter-spacing: 4px;">DESIGNED BY SE7ENSYNDRAXE</div>
@@ -297,10 +309,40 @@
             else { player.playVideo(); btn.className = "fa-solid fa-pause"; showHUD("Devam Ediyor", "fa-solid fa-play"); }
         }
 
+        // SES İKONU DÜZELTMESİ (Dinamik)
         document.getElementById('vol-slider').addEventListener('input', (e) => {
-            player.setVolume(e.target.value);
-            showHUD(`Ses: %${e.target.value}`, "fa-solid fa-volume-low");
+            let vol = parseInt(e.target.value);
+            if(player && player.setVolume) player.setVolume(vol);
+            
+            let iconClass = "fa-solid fa-volume-high";
+            if (vol === 0) iconClass = "fa-solid fa-volume-xmark";
+            else if (vol < 50) iconClass = "fa-solid fa-volume-low";
+            
+            showHUD(`Ses: %${vol}`, iconClass);
+            document.getElementById('vol-icon').className = iconClass;
         });
+
+        // SUSTURMA FONKSİYONU EKLENDİ (Tıklandığında çalışması için)
+        let isMuted = false;
+        let preMuteVol = 30;
+        function toggleMute() {
+            let slider = document.getElementById('vol-slider');
+            if (isMuted) {
+                if(player && player.setVolume) player.setVolume(preMuteVol);
+                slider.value = preMuteVol;
+                isMuted = false;
+                let iconClass = preMuteVol < 50 ? "fa-solid fa-volume-low" : "fa-solid fa-volume-high";
+                showHUD(`Ses: %${preMuteVol}`, iconClass);
+                document.getElementById('vol-icon').className = iconClass;
+            } else {
+                preMuteVol = slider.value > 0 ? slider.value : 30; // Eğer zaten 0 iken tıklanırsa 30 hafızada kalsın
+                if(player && player.setVolume) player.setVolume(0);
+                slider.value = 0;
+                isMuted = true;
+                showHUD(`Sessiz`, "fa-solid fa-volume-xmark");
+                document.getElementById('vol-icon').className = "fa-solid fa-volume-xmark";
+            }
+        }
 
         function nextTrack() { currentTrack = (currentTrack + 1) % playlist.length; player.loadVideoById(playlist[currentTrack].id); renderPlaylist(); showHUD(playlist[currentTrack].name, "fa-solid fa-music"); }
         function prevTrack() { currentTrack = (currentTrack - 1 + playlist.length) % playlist.length; player.loadVideoById(playlist[currentTrack].id); renderPlaylist(); showHUD(playlist[currentTrack].name, "fa-solid fa-music"); }
