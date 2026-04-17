@@ -47,9 +47,7 @@
             appearance: none; background: rgba(255,255,255,0.1); border-radius: 5px;
         }
         .vol-slider::-webkit-slider-thumb { appearance: none; width: 10px; height: 10px; background: #fff; border-radius: 50%; }
-        
         #vol-icon { cursor: pointer; transition: 0.2s; width: 15px; text-align: center; }
-        #vol-icon:hover { transform: scale(1.2); }
 
         .menu-icon {
             background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px);
@@ -82,8 +80,7 @@
         }
         .song-item:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255,255,255,0.2); }
         .song-item.playing { background: rgba(255, 255, 255, 0.15); border-color: #fff; }
-
-        .song-thumb { width: 35px; height: 35px; border-radius: 6px; object-fit: cover; border: 1px solid rgba(255,255,255,0.2); }
+        .song-thumb { width: 35px; height: 35px; border-radius: 6px; object-fit: cover; }
         .song-info { font-size: 12px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
 
         /* HUD */
@@ -100,9 +97,9 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Canvas ve Tasarım */
+        /* Arka Plan Tasarımı */
         #bg-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-        .static-bg { position: absolute; width: 100%; height: 100%; background: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.15), transparent 50%), radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.15), transparent 50%); z-index: -1; }
+        .static-bg { position: absolute; width: 100%; height: 100%; background: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.1), transparent 50%), radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.1), transparent 50%); z-index: -1; }
         .container { text-align: center; z-index: 10; width: 100%; max-width: 440px; padding: 20px; }
         
         @keyframes dropBounce { 0% { transform: translateY(-1000px); opacity: 0; } 60% { transform: translateY(30px); opacity: 1; } 80% { transform: translateY(-10px); } 100% { transform: translateY(0); opacity: 1; } }
@@ -119,12 +116,12 @@
         .ios-btn { display: flex; align-items: center; justify-content: space-between; padding: 18px 25px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); text-decoration: none; color: white; border-radius: 20px; transition: 0.3s; margin-top: 15px; }
         .ios-btn:hover { background: rgba(255, 255, 255, 0.12); transform: scale(1.05); }
 
-        /* --- PÜRÜZSÜZ JOIN THE DREAM BUTONU --- */
+        /* --- SONSUZ AKAN JOIN THE DREAM BUTONU --- */
         .join-now { 
             padding: 18px 60px; 
-            /* Renk geçişini pürüzsüzleştirmek için aynı renklerle başlayıp bitiriyoruz */
-            background: linear-gradient(135deg, #2c2c2c, #808080, #ffffff, #808080, #2c2c2c);
-            background-size: 400% 400%; /* Daha geniş alan pürüzsüz geçiş sağlar */
+            /* Gradyan renkleri sonsuz akış için uca uca eklenmiştir */
+            background: linear-gradient(90deg, #2c2c2c, #808080, #ffffff, #808080, #2c2c2c);
+            background-size: 200% auto;
             color: #000; 
             text-decoration: none; 
             border-radius: 100px; 
@@ -137,22 +134,20 @@
             margin-top: 40px; 
             border: none;
             cursor: pointer;
-            animation: pürüzsüzAkış 8s ease infinite; /* Daha yavaş ve akışkan */
+            /* Linear kullanımı kesintisiz tek yöne akış sağlar */
+            animation: sonsuzAksın 3s linear infinite; 
         }
 
         .join-now:hover { 
             transform: translateY(-12px);
-            /* Mor detaylı pürüzsüz gölge */
             box-shadow: 0 20px 40px rgba(255, 255, 255, 0.2), 0 0 30px rgba(163, 0, 255, 0.35);
             letter-spacing: 4px;
         }
 
-        @keyframes pürüzsüzAkış {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        @keyframes sonsuzAksın {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
         }
-        /* -------------------------------------- */
 
         #video-container { position: absolute; left: -9999px; }
     </style>
@@ -163,18 +158,11 @@
     <script>
         (function() {
             if (window.top !== window.self) { window.top.location = window.self.location; }
-            const isBot = navigator.webdriver || /bot|crawler|spider|crawling/i.test(navigator.userAgent);
-            if (isBot) {
-                document.body.innerHTML = "<div style='display:flex; justify-content:center; align-items:center; height:100vh; background:#000;'><h1 style='color:red; font-family:monospace;'>ACCESS DENIED: BOT DETECTED - LD✦</h1></div>";
-                window.stop();
-                return;
-            }
             document.onkeydown = function(e) {
                 if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || (e.ctrlKey && (e.keyCode === 85 || e.keyCode === 83))) {
                     e.preventDefault(); return false;
                 }
             };
-            setInterval(() => { console.clear(); debugger; }, 300);
         })();
     </script>
 
@@ -248,7 +236,7 @@
             { id: 'PcEiHPlf894', name: 'Lipstick (Sped Up)' },
             { id: 'vTG4AvEnFLA', name: 'Desolate' }
         ];
-        let currentTrack = 0, player, hudTimeout, isMuted = false, lastVolume = 30;
+        let currentTrack = 0, player, hudTimeout;
 
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
@@ -268,12 +256,20 @@
                 const item = document.createElement('div');
                 item.className = `song-item ${index === currentTrack ? 'playing' : ''}`;
                 item.innerHTML = `<img src="https://img.youtube.com/vi/${song.id}/mqdefault.jpg" class="song-thumb"><div class="song-info">${song.name}</div>`;
-                item.onclick = () => { currentTrack = index; player.loadVideoById(song.id); renderPlaylist(); };
+                item.onclick = () => playSong(index);
                 listContainer.appendChild(item);
             });
         }
 
+        function playSong(index) {
+            currentTrack = index;
+            player.loadVideoById(playlist[currentTrack].id);
+            showHUD(playlist[currentTrack].name, "fa-solid fa-music");
+            renderPlaylist();
+        }
+
         function togglePlaylist() { document.getElementById('playlist-container').classList.toggle('active'); }
+        
         function showHUD(text, iconClass) {
             const hud = document.getElementById('music-hud');
             clearTimeout(hudTimeout);
@@ -295,27 +291,44 @@
             showHUD(`Ses: %${e.target.value}`, "fa-solid fa-volume-low");
         });
 
-        function nextTrack() { currentTrack = (currentTrack + 1) % playlist.length; player.loadVideoById(playlist[currentTrack].id); renderPlaylist(); }
-        function prevTrack() { currentTrack = (currentTrack - 1 + playlist.length) % playlist.length; player.loadVideoById(playlist[currentTrack].id); renderPlaylist(); }
+        function nextTrack() { currentTrack = (currentTrack + 1) % playlist.length; playSong(currentTrack); }
+        function prevTrack() { currentTrack = (currentTrack - 1 + playlist.length) % playlist.length; playSong(currentTrack); }
 
         function startExperience() { 
             document.getElementById('enter-overlay').classList.add('hide'); 
             document.body.classList.add('loaded'); 
             if(player && player.playVideo) player.playVideo(); 
+            showHUD(playlist[currentTrack].name, "fa-solid fa-music");
         }
 
+        /* Arka Plan Parçacık Sistemi */
         const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
         let particles = [];
         function initCanvas() {
             canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-            particles = Array.from({length: 80}, () => ({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, vx: (Math.random() - 0.5) * 0.5, vy: (Math.random() - 0.5) * 0.5, size: Math.random() * 1.5 }));
+            particles = Array.from({length: 80}, () => ({ 
+                x: Math.random() * canvas.width, 
+                y: Math.random() * canvas.height, 
+                vx: (Math.random() - 0.5) * 0.5, 
+                vy: (Math.random() - 0.5) * 0.5, 
+                size: Math.random() * 1.5 
+            }));
         }
         function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
+            ctx.clearRect(0, 0, canvas.width, canvas.height); 
+            ctx.fillStyle = "rgba(255, 255, 255, 0.3)"; 
+            ctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
             particles.forEach((p, i) => {
                 p.x += p.vx; p.y += p.vy;
-                if(p.x < 0 || p.x > canvas.width) p.vx *= -1; if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
+                if(p.x < 0 || p.x > canvas.width) p.vx *= -1; 
+                if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
                 ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
+                for(let j = i + 1; j < particles.length; j++) {
+                    let p2 = particles[j]; 
+                    if(Math.hypot(p.x - p2.x, p.y - p2.y) < 100) { 
+                        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y); ctx.stroke(); 
+                    }
+                }
             });
             requestAnimationFrame(draw);
         }
