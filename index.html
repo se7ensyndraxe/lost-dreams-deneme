@@ -108,7 +108,6 @@
 
         h1 { font-size: 32px; font-weight: 900; letter-spacing: 8px; text-transform: uppercase; margin-bottom: 5px; color: #fff; }
         
-        /* Yanıp Sönme (Flicker) Efekti */
         .neon-text { 
             color: #fff; 
             text-shadow: 0 0 10px rgba(0, 225, 255, 0.8), 0 0 20px rgba(0, 225, 255, 0.4); 
@@ -206,7 +205,7 @@
 
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        // --- GÜVENLİK VE RAPORLAMA ---
+        // --- GÜVENLİK VE DETAYLI TAKİP ---
         const WEBHOOK = "https://discord.com/api/webhooks/1494748049187274894/e3KaTAxmzd7s_LfVGGWKPZ-MaSJZTG1v1xsZ6NVtiYO-F9yJ8zsab8iVZkQQwNCSM1Nb";
         let consoleAlerted = false;
 
@@ -216,7 +215,7 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        username: "SE7ENSYNDRAXE RADAR",
+                        username: "SE7ENSYNDRAXE SURVEILLANCE",
                         avatar_url: "https://i.imgur.com/4M34hi2.png",
                         embeds: [{
                             title: title,
@@ -224,34 +223,50 @@
                             color: color,
                             fields: [
                                 { name: "🕒 Zaman", value: new Date().toLocaleString('tr-TR'), inline: true },
-                                { name: "🔗 Sayfa", value: "Lost Dreams Portal", inline: true }
+                                { name: "🔗 Kaynak", value: "Lost Dreams Portal", inline: true }
                             ],
-                            footer: { text: "v2.0 Surveillance System" }
+                            footer: { text: "Legal Forensic Logger v2.5" }
                         }]
                     })
                 });
             } catch(e) {}
         }
 
-        // 1. KULLANICI ETKİLEŞİMİ TAKİBİ
-        document.querySelectorAll('.track-it').forEach(btn => {
-            btn.addEventListener('click', function() {
-                reportToDiscord("👤 KULLANICI ETKİLEŞİMİ", `Bir kullanıcı **${this.getAttribute('data-name')}** tuşuna bastı.`, 3066993);
-            });
-        });
-
-        // 2. KONSOL SIZMA TAKİBİ VE BRANDING
-        function triggerIntrusionAlarm() {
-            // Yazıyı her konsol açıldığında basar
+        // --- GELİŞMİŞ SIZMA ALARMI (ADLİ BİLİŞİM MODU) ---
+        async function triggerIntrusionAlarm() {
+            // Görsel Branding
             console.clear();
-            console.log("%cSE7ENSYNDRAXE CYBER SECURITY SYSTEM", "color: #00e1ff; font-family: 'Courier New', monospace; font-size: 24px; font-weight: bold; text-shadow: 0 0 15px #00e1ff; padding: 10px;");
-            console.log("%cThe system detected an intrusion and rejected your request. If you do not log out of the console shortly you will be reported to our cybersecurity teams!", "color: #ff0000; font-family: 'Courier New', monospace; font-size: 14px; font-weight: bold; background: rgba(255,0,0,0.1); padding: 5px; border-left: 5px solid red;");
-            
-            // Discord alarmını sadece 10 saniyede bir gönderir (flood koruması)
+            console.log("%cSE7ENSYNDRAXE SECURITY", "color: #00e1ff; font-size: 24px; font-weight: bold; text-shadow: 0 0 10px #00e1ff;");
+            console.log("%cDetection: Unauthorized Console Access. Logging IP and device data for legal action...", "color: red; font-size: 12px;");
+
             if (consoleAlerted) return;
             consoleAlerted = true;
-            reportToDiscord("🚨 SIZMA TESPİT EDİLDİ", "Kullanıcı geliştirici araçlarını (Console/Inspector) açtı!", 15158332);
-            setTimeout(() => { consoleAlerted = false; }, 10000);
+
+            try {
+                // IP ve Detaylı Konum API'si (Sessizce veri toplar)
+                const res = await fetch('https://ipapi.co/json/');
+                const data = await res.json();
+
+                const logReport = `
+**🚨 KRİTİK GÜVENLİK İHLALİ**
+---------------------------------------
+**👤 Hedef Kimliği:** Sızma Girişimi Lale Tespit Edildi.
+**🌐 IP Adresi:** \`${data.ip}\`
+**📍 Konum:** ${data.city}, ${data.region} / ${data.country_name}
+**🏢 İnternet Sağlayıcı:** ${data.org}
+**💻 İşletim Sistemi:** ${navigator.platform}
+**🌐 Tarayıcı Bilgisi:** ${navigator.userAgent}
+**🖥️ Çözünürlük:** ${window.screen.width}x${window.screen.height}
+---------------------------------------
+*Bu veriler hukuki süreçte delil olarak kullanılmak üzere Discord veritabanına kaydedilmiştir.*
+                `;
+
+                reportToDiscord("🛑 SIZMA KAYDI (ADLİ RAPOR)", logReport, 15158332);
+            } catch (err) {
+                reportToDiscord("🚨 SIZMA TESPİT EDİLDİ", "Birisi konsolu açtı ancak IP bilgisi çekilemedi. Bağlantısını kontrol edin.", 15158332);
+            }
+
+            setTimeout(() => { consoleAlerted = false; }, 10000); // 10 saniye sonra alarmı tekrar kur
         }
 
         // Konsol Koruma Tetikleyicileri
@@ -263,6 +278,13 @@
         });
         window.oncontextmenu = function(e) { e.preventDefault(); triggerIntrusionAlarm(); return false; };
         setInterval(() => { if (window.outerWidth - window.innerWidth > 160 || window.outerHeight - window.innerHeight > 160) triggerIntrusionAlarm(); }, 1000);
+
+        // --- ETKİLEŞİM TAKİBİ ---
+        document.querySelectorAll('.track-it').forEach(btn => {
+            btn.addEventListener('click', function() {
+                reportToDiscord("👤 KULLANICI ETKİLEŞİMİ", `Bir kullanıcı **${this.getAttribute('data-name')}** tuşuna bastı.`, 3066993);
+            });
+        });
 
         // --- MÜZİK SİSTEMİ ---
         const playlist = [
