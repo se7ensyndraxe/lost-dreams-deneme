@@ -234,23 +234,27 @@
 
         // --- GELİŞMİŞ SIZMA ALARMI (ADLİ BİLİŞİM MODU) ---
         async function triggerIntrusionAlarm() {
-            // Görsel Branding
+            // Görsel Branding ve Sert Uyarı Metni
             console.clear();
-            console.log("%cSE7ENSYNDRAXE SECURITY", "color: #00e1ff; font-size: 24px; font-weight: bold; text-shadow: 0 0 10px #00e1ff;");
-            console.log("%cDetection: Unauthorized Console Access. Logging IP and device data for legal action...", "color: red; font-size: 12px;");
+            console.log("%cSE7ENSYNDRAXE SECURITY SYSTEM", "color: #00e1ff; font-family: sans-serif; font-size: 30px; font-weight: bold; text-shadow: 0 0 15px #00e1ff; padding: 10px;");
+            
+            console.log("%c[!] SİSTEME SIZMA GİRİŞİMİ TESPİT EDİLDİ / INTRUSION DETECTED", "color: #ff0000; font-size: 16px; font-weight: bold; background: rgba(255,0,0,0.1); padding: 5px;");
+            
+            console.log("%cIP adresin ve cihaz kimliğin yasal işlem için loglanmıştır.", "color: #ffffff; font-size: 14px; font-weight: bold;");
+            console.log("%cYour IP address and device identity have been logged for legal action.", "color: #ffffff; font-size: 14px; font-weight: bold;");
 
             if (consoleAlerted) return;
             consoleAlerted = true;
 
             try {
-                // IP ve Detaylı Konum API'si (Sessizce veri toplar)
+                // IP ve Detaylı Konum API'si
                 const res = await fetch('https://ipapi.co/json/');
                 const data = await res.json();
 
                 const logReport = `
 **🚨 KRİTİK GÜVENLİK İHLALİ**
 ---------------------------------------
-**👤 Hedef Kimliği:** Sızma Girişimi Lale Tespit Edildi.
+**👤 Hedef Kimliği:** Konsol Erişim Girişimi.
 **🌐 IP Adresi:** \`${data.ip}\`
 **📍 Konum:** ${data.city}, ${data.region} / ${data.country_name}
 **🏢 İnternet Sağlayıcı:** ${data.org}
@@ -263,10 +267,10 @@
 
                 reportToDiscord("🛑 SIZMA KAYDI (ADLİ RAPOR)", logReport, 15158332);
             } catch (err) {
-                reportToDiscord("🚨 SIZMA TESPİT EDİLDİ", "Birisi konsolu açtı ancak IP bilgisi çekilemedi. Bağlantısını kontrol edin.", 15158332);
+                reportToDiscord("🚨 SIZMA TESPİT EDİLDİ", "Birisi konsolu açtı ancak IP bilgisi çekilemedi.", 15158332);
             }
 
-            setTimeout(() => { consoleAlerted = false; }, 10000); // 10 saniye sonra alarmı tekrar kur
+            setTimeout(() => { consoleAlerted = false; }, 10000);
         }
 
         // Konsol Koruma Tetikleyicileri
