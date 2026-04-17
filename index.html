@@ -30,25 +30,9 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1; pointer-events: none;
         }
-        .bg-circle {
-            position: absolute; border-radius: 50%; filter: blur(100px);
-        }
-        .bg-circle-1 {
-            width: 300px; height: 300px; background: rgba(0, 225, 255, 0.1);
-            top: 10%; left: 10%; animation: moveCircle1 20s ease-in-out infinite;
-        }
-        .bg-circle-2 {
-            width: 400px; height: 400px; background: rgba(0, 50, 60, 0.15);
-            bottom: 20%; right: 10%; animation: moveCircle2 25s ease-in-out infinite;
-        }
-        @keyframes moveCircle1 {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(100px, 50px); }
-        }
-        @keyframes moveCircle2 {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(-100px, -50px); }
-        }
+        .bg-circle { position: absolute; border-radius: 50%; filter: blur(100px); }
+        .bg-circle-1 { width: 300px; height: 300px; background: rgba(0, 225, 255, 0.1); top: 10%; left: 10%; animation: moveCircle1 20s ease-in-out infinite; }
+        .bg-circle-2 { width: 400px; height: 400px; background: rgba(0, 50, 60, 0.15); bottom: 20%; right: 10%; animation: moveCircle2 25s ease-in-out infinite; }
 
         #enter-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -71,12 +55,8 @@
             background: rgba(0, 225, 255, 0.05); backdrop-filter: blur(10px);
             border: 1px solid rgba(0, 225, 255, 0.3); padding: 8px 12px;
             border-radius: 12px; display: flex; align-items: center; gap: 10px;
-            width: fit-content;
         }
-        .vol-slider { 
-            width: 80px; height: 3px; accent-color: #00e1ff; cursor: pointer; 
-            appearance: none; background: rgba(255,255,255,0.1); border-radius: 5px;
-        }
+        .vol-slider { width: 80px; height: 3px; accent-color: #00e1ff; cursor: pointer; appearance: none; background: rgba(255,255,255,0.1); border-radius: 5px; }
         #vol-icon { cursor: pointer; transition: 0.2s; width: 15px; text-align: center; color: #00e1ff; }
 
         .menu-icon {
@@ -96,18 +76,11 @@
         }
         .playlist-container.active { display: flex; animation: fadeIn 0.3s ease; }
 
-        .controls-mini {
-            display: flex; align-items: center; justify-content: center; gap: 25px;
-            margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid rgba(0,225,255,0.1);
-        }
+        .controls-mini { display: flex; align-items: center; justify-content: center; gap: 25px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid rgba(0,225,255,0.1); }
         .controls-mini i { cursor: pointer; color: #00e1ff; opacity: 0.8; font-size: 16px; transition: 0.2s; }
         .controls-mini i:hover { opacity: 1; transform: scale(1.2); text-shadow: 0 0 10px #00e1ff; }
 
-        .song-item {
-            display: flex; align-items: center; gap: 12px;
-            padding: 8px; border-radius: 10px; cursor: pointer;
-            transition: 0.2s; border: 1px solid transparent;
-        }
+        .song-item { display: flex; align-items: center; gap: 12px; padding: 8px; border-radius: 10px; cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
         .song-item:hover { background: rgba(0, 225, 255, 0.1); }
         .song-item.playing { background: rgba(0, 225, 255, 0.15); border-color: #00e1ff; }
         .song-thumb { width: 35px; height: 35px; border-radius: 6px; object-fit: cover; }
@@ -134,17 +107,7 @@
         @keyframes dropBounce { 0% { transform: translateY(-1000px); opacity: 0; } 60% { transform: translateY(30px); opacity: 1; } 100% { transform: translateY(0); opacity: 1; } }
 
         h1 { font-size: 32px; font-weight: 900; letter-spacing: 8px; text-transform: uppercase; margin-bottom: 5px; color: #fff; }
-
-        .neon-text {
-            color: #fff;
-            text-shadow: 0 0 10px rgba(0, 225, 255, 0.8), 0 0 20px rgba(0, 225, 255, 0.4);
-            animation: flicker 4s infinite step-end;
-        }
-
-        @keyframes flicker {
-            0%, 2%, 35%, 37%, 39%, 41%, 100% { text-shadow: 0 0 10px rgba(0, 225, 255, 0.8), 0 0 20px rgba(0, 225, 255, 0.4); opacity: 1; }
-            1%, 36%, 38%, 40% { text-shadow: none; opacity: 0.3; }
-        }
+        .neon-text { color: #fff; text-shadow: 0 0 10px rgba(0, 225, 255, 0.8), 0 0 20px rgba(0, 225, 255, 0.4); animation: flicker 4s infinite step-end; }
         
         .ios-btn { 
             display: flex; align-items: center; justify-content: space-between; 
@@ -153,29 +116,21 @@
             text-decoration: none; color: white; border-radius: 20px; 
             transition: all 0.4s ease; margin-top: 15px; 
         }
-        .ios-btn:hover { 
-            background: rgba(0, 225, 255, 0.08); 
-            transform: translateY(-5px); 
-            border-color: #00e1ff;
-            box-shadow: 0 10px 30px rgba(0, 225, 255, 0.3);
-        }
+        .ios-btn:hover { background: rgba(0, 225, 255, 0.08); transform: translateY(-5px); border-color: #00e1ff; box-shadow: 0 10px 30px rgba(0, 225, 255, 0.3); }
 
         .join-now { 
-            padding: 18px 60px; 
-            background: linear-gradient(145deg, #ffffff, #bdc3c7);
+            padding: 18px 60px; background: linear-gradient(145deg, #ffffff, #bdc3c7);
             color: #000; text-decoration: none; border-radius: 100px; 
             font-weight: 900; font-size: 15px; text-transform: uppercase; 
             letter-spacing: 2px; display: inline-block; transition: all 0.4s ease; 
-            margin-top: 40px; cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            margin-top: 40px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
         .join-now:hover { transform: scale(1.05); box-shadow: 0 15px 35px rgba(0, 225, 255, 0.5); letter-spacing: 4px; }
-
         #video-container { position: absolute; left: -9999px; }
     </style>
 </head>
 
-<body oncontextmenu="return false;">
+<body>
 
     <div id="enter-overlay" onclick="startExperience()">
         <h2>CLICK TO ENTER</h2>
@@ -188,7 +143,7 @@
 
     <div class="music-wrapper">
         <div class="volume-panel-top">
-            <i id="vol-icon" class="fa-solid fa-volume-high" onclick="toggleMute()"></i>
+            <i id="vol-icon" class="fa-solid fa-volume-high"></i>
             <input type="range" class="vol-slider" id="vol-slider" min="0" max="100" value="30">
         </div>
         <div class="menu-icon" onclick="togglePlaylist()">
@@ -205,7 +160,6 @@
     </div>
 
     <div id="video-container"><div id="player"></div></div>
-    
     <div id="background-elements">
         <div class="bg-circle bg-circle-1"></div>
         <div class="bg-circle bg-circle-2"></div>
@@ -214,19 +168,18 @@
 
     <div class="container">
         <div class="anim-wrap" style="animation-delay: 0.1s">
-            <h1><span class="neon-text flicker-text">✦𝐋𝐎𝐒𝐓 𝐃𝐑E𝐀𝐌𝐒✦</span></h1>
+            <h1><span class="neon-text">✦𝐋𝐎𝐒𝐓 𝐃𝐑E𝐀𝐌𝐒✦</span></h1>
             <div style="font-size: 9px; color: rgba(0, 225, 255, 0.5); letter-spacing: 4px;">DESIGNED BY SE7ENSYNDRAXE</div>
         </div>
-
         <div class="anim-wrap" style="animation-delay: 0.3s">
-            <a href="https://steamcommunity.com/groups/LDLOSTDREAMSLD" target="_blank" class="ios-btn">
+            <a href="https://steamcommunity.com/groups/LDLOSTDREAMSLD" target="_blank" class="ios-btn track-it" data-name="Steam Button">
                 <div style="display:flex; align-items:center; gap:15px">
                     <i class="fa-brands fa-steam" style="font-size: 24px; color: #00e1ff;"></i>
                     <b>Steam Community</b>
                 </div>
                 <i class="fa-solid fa-chevron-right" style="font-size: 12px; opacity: 0.5;"></i>
             </a>
-            <a href="https://www.instagram.com/ghost53_53" target="_blank" class="ios-btn">
+            <a href="https://www.instagram.com/ghost53_53" target="_blank" class="ios-btn track-it" data-name="Instagram Button">
                 <div style="display:flex; align-items:center; gap:15px">
                     <i class="fa-brands fa-instagram" style="font-size: 24px; color: #00e1ff;"></i>
                     <b>Instagram</b>
@@ -234,77 +187,42 @@
                 <i class="fa-solid fa-chevron-right" style="font-size: 12px; opacity: 0.5;"></i>
             </a>
         </div>
-
         <div class="anim-wrap" style="animation-delay: 0.5s">
-            <a href="https://discord.gg/JJsEbmGyFX" target="_blank" class="join-now">JOIN THE DREAM ›</a>
+            <a href="https://discord.gg/JJsEbmGyFX" target="_blank" class="join-now track-it" data-name="Discord Join Button">JOIN THE DREAM ›</a>
             <div style="font-size: 9px; color: rgba(255,255,255,0.2); letter-spacing: 3px; margin-top:20px;">FOUNDER: LD✦ GHOST | CREATIVE: SE7ENSYNDRAXE</div>
         </div>
     </div>
 
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        // --- DISCORD WEBHOOK ENTEGRASYONU ---
-        const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1494748049187274894/e3KaTAxmzd7s_LfVGGWKPZ-MaSJZTG1v1xsZ6NVtiYO-F9yJ8zsab8iVZkQQwNCSM1Nb";
-        let alertSent = false;
+        // --- GÜVENLİK VE RAPORLAMA ---
+        const WEBHOOK = "https://discord.com/api/webhooks/1494748049187274894/e3KaTAxmzd7s_LfVGGWKPZ-MaSJZTG1v1xsZ6NVtiYO-F9yJ8zsab8iVZkQQwNCSM1Nb";
+        let consoleAlerted = false;
 
-        function sendDiscordAlert(method) {
-            if (alertSent) return;
-            const data = {
-                username: "SE7ENSYNDRAXE SECURITY",
-                avatar_url: "https://i.imgur.com/4M34hi2.png",
-                embeds: [{
-                    title: "🚨 SİSTEME SIZMA TESPİT EDİLDİ",
-                    color: 15158332,
-                    description: `**${method}** yöntemiyle sisteme erişim denendi.`,
-                    fields: [
-                        { name: "🛡️ Katman", value: "SE7ENSYNDRAXE v2.0", inline: true },
-                        { name: "🕒 Zaman", value: new Date().toLocaleString('tr-TR'), inline: true },
-                        { name: "🖥️ Detaylar", value: navigator.userAgent.substring(0, 150) + "..." }
-                    ],
-                    footer: { text: "Otomatik Güvenlik Raporu" }
-                }]
-            };
-            fetch(DISCORD_WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
-            .then(() => { alertSent = true; });
+        async function reportToDiscord(title, desc, color) {
+            try {
+                await fetch(WEBHOOK, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: "SE7ENSYNDRAXE RADAR",
+                        avatar_url: "https://i.imgur.com/4M34hi2.png",
+                        embeds: [{
+                            title: title,
+                            description: desc,
+                            color: color,
+                            fields: [
+                                { name: "🕒 Zaman", value: new Date().toLocaleString('tr-TR'), inline: true },
+                                { name: "🔗 Sayfa", value: "Lost Dreams Portal", inline: true }
+                            ],
+                            footer: { text: "v2.0 Surveillance System" }
+                        }]
+                    })
+                });
+            } catch(e) {}
         }
 
-        function triggerConsoleBranding() {
-            console.clear();
-            console.log("%cSE7ENSYNDRAXE CYBER SECURITY SYSTEM", "color: #00e1ff; font-family: 'Courier New', monospace; font-size: 24px; font-weight: bold; text-shadow: 0 0 15px #00e1ff; padding: 10px;");
-            console.log("%cThe system detected an intrusion and rejected your request If you do not log out of the console shortly you will be reported to our cybersecurity teams!", "color: #ff0000; font-family: 'Courier New', monospace; font-size: 14px; font-weight: bold; background: rgba(255,0,0,0.1); padding: 5px; border-left: 5px solid red;");
-            
-            // Discord'a haber ver
-            sendDiscordAlert("Console/Inspector Access");
-        }
-
-        // --- MEVCUT SİSTEM FONKSİYONLARI ---
-        window.addEventListener('keydown', (e) => {
-            if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || (e.ctrlKey && e.keyCode === 85)) {
-                e.preventDefault();
-                triggerConsoleBranding();
-                return false;
-            }
-        });
-
-        setInterval(() => {
-            const start = new Date();
-            debugger;
-            if (new Date() - start > 100) {
-                triggerConsoleBranding();
-                setTimeout(() => { window.location.reload(); }, 500);
-            }
-        }, 1000);
-
-        function updateVolumeUI(vol) {
-            const icon = document.getElementById('vol-icon');
-            let iconClass = "fa-solid fa-volume-high";
-            if (vol == 0) iconClass = "fa-solid fa-volume-xmark";
-            else if (vol < 40) iconClass = "fa-solid fa-volume-off";
-            else if (vol < 70) iconClass = "fa-solid fa-volume-low";
-            icon.className = iconClass;
-            showHUD(`Ses: %${vol}`, iconClass);
-        }
-
+        // --- MÜZİK SİSTEMİ ---
         const playlist = [
             { id: '8q9Kz1FFDaM', name: 'MILIARDARA' },
             { id: 'BVXtQxkCrdU', name: 'Rauf Faik - Akşamlar' },
@@ -330,7 +248,13 @@
                 const item = document.createElement('div');
                 item.className = `song-item ${index === currentTrack ? 'playing' : ''}`;
                 item.innerHTML = `<img src="https://img.youtube.com/vi/${song.id}/mqdefault.jpg" class="song-thumb"><div class="song-info">${song.name}</div>`;
-                item.onclick = () => { currentTrack = index; player.loadVideoById(song.id); renderPlaylist(); showHUD(song.name, "fa-solid fa-music"); };
+                item.onclick = () => { 
+                    currentTrack = index; 
+                    player.loadVideoById(song.id); 
+                    renderPlaylist(); 
+                    showHUD(song.name, "fa-solid fa-music");
+                    reportToDiscord("🎵 MÜZİK DEĞİŞTİRİLDİ", `Kullanıcı listeyi kullanarak **${song.name}** şarkısına geçti.`, 3447003);
+                };
                 list.appendChild(item);
             });
         }
@@ -346,60 +270,81 @@
 
         function togglePlay() {
             const btn = document.getElementById('play-pause-btn');
-            if (player.getPlayerState() === 1) { player.pauseVideo(); btn.className = "fa-solid fa-play"; showHUD("Durduruldu", "fa-solid fa-pause"); }
-            else { player.playVideo(); btn.className = "fa-solid fa-pause"; showHUD("Oynatılıyor", "fa-solid fa-play"); }
+            if (player.getPlayerState() === 1) { 
+                player.pauseVideo(); 
+                btn.className = "fa-solid fa-play"; 
+                showHUD("Durduruldu", "fa-solid fa-pause"); 
+            } else { 
+                player.playVideo(); 
+                btn.className = "fa-solid fa-pause"; 
+                showHUD("Oynatılıyor", "fa-solid fa-play"); 
+            }
         }
 
         document.getElementById('vol-slider').addEventListener('input', (e) => {
             let vol = parseInt(e.target.value);
             player.setVolume(vol);
             updateVolumeUI(vol);
+            showHUD(`SES: %${vol}`, vol === 0 ? "fa-solid fa-volume-xmark" : "fa-solid fa-volume-high"); // SES HUD FIX
         });
 
-        let isMuted = false, preMuteVol = 30;
-        function toggleMute() {
-            let slider = document.getElementById('vol-slider');
-            if (isMuted) {
-                player.setVolume(preMuteVol);
-                slider.value = preMuteVol;
-                isMuted = false;
-                updateVolumeUI(preMuteVol);
-            } else {
-                preMuteVol = slider.value > 0 ? slider.value : 30; 
-                player.setVolume(0);
-                slider.value = 0;
-                isMuted = true;
-                updateVolumeUI(0);
-            }
+        function updateVolumeUI(vol) {
+            const icon = document.getElementById('vol-icon');
+            let iconClass = vol == 0 ? "fa-solid fa-volume-xmark" : vol < 40 ? "fa-solid fa-volume-off" : vol < 70 ? "fa-solid fa-volume-low" : "fa-solid fa-volume-high";
+            icon.className = iconClass;
         }
 
-        function nextTrack() { currentTrack = (currentTrack + 1) % playlist.length; player.loadVideoById(playlist[currentTrack].id); renderPlaylist(); showHUD(playlist[currentTrack].name, "fa-solid fa-music"); }
-        function prevTrack() { currentTrack = (currentTrack - 1 + playlist.length) % playlist.length; player.loadVideoById(playlist[currentTrack].id); renderPlaylist(); showHUD(playlist[currentTrack].name, "fa-solid fa-music"); }
+        function nextTrack() { 
+            currentTrack = (currentTrack + 1) % playlist.length; 
+            player.loadVideoById(playlist[currentTrack].id); 
+            renderPlaylist(); 
+            showHUD(playlist[currentTrack].name, "fa-solid fa-music");
+            reportToDiscord("🎵 MÜZİK DEĞİŞTİRİLDİ", `Kullanıcı "Sonraki" tuşuna bastı. Yeni şarkı: **${playlist[currentTrack].name}**`, 3447003);
+        }
+
+        function prevTrack() { 
+            currentTrack = (currentTrack - 1 + playlist.length) % playlist.length; 
+            player.loadVideoById(playlist[currentTrack].id); 
+            renderPlaylist(); 
+            showHUD(playlist[currentTrack].name, "fa-solid fa-music");
+            reportToDiscord("🎵 MÜZİK DEĞİŞTİRİLDİ", `Kullanıcı "Önceki" tuşuna bastı. Yeni şarkı: **${playlist[currentTrack].name}**`, 3447003);
+        }
+
         function togglePlaylist() { document.getElementById('playlist-container').classList.toggle('active'); }
+
+        // --- GİRİŞ VE DİĞER TAKİPLER ---
+        document.querySelectorAll('.track-it').forEach(btn => {
+            btn.addEventListener('click', function() {
+                reportToDiscord("👤 KULLANICI ETKİLEŞİMİ", `Bir kullanıcı **${this.getAttribute('data-name')}** tuşuna bastı.`, 3066993);
+            });
+        });
+
+        function triggerIntrusionAlarm() {
+            if (consoleAlerted) return;
+            consoleAlerted = true;
+            console.clear();
+            console.log("%cSE7ENSYNDRAXE SECURITY", "color:#00e1ff; font-size:20px; font-weight:bold;");
+            reportToDiscord("🚨 SIZMA TESPİT EDİLDİ", "Kullanıcı geliştirici araçlarını (Console/Inspector) açtı!", 15158332);
+            setTimeout(() => { consoleAlerted = false; }, 10000);
+        }
+
+        // Konsol Koruma Tetikleyicileri
+        window.addEventListener('keydown', (e) => { if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && [73, 74, 67].includes(e.keyCode)) || (e.ctrlKey && e.keyCode === 85)) { e.preventDefault(); triggerIntrusionAlarm(); } });
+        window.oncontextmenu = function(e) { e.preventDefault(); triggerIntrusionAlarm(); return false; };
+        setInterval(() => { if (window.outerWidth - window.innerWidth > 160 || window.outerHeight - window.innerHeight > 160) triggerIntrusionAlarm(); }, 1000);
 
         function startExperience() { 
             document.getElementById('enter-overlay').classList.add('hide'); 
             document.body.classList.add('loaded'); 
             player.playVideo(); 
-            triggerConsoleBranding();
+            reportToDiscord("🌟 SİTEYE GİRİŞ", `Bir kullanıcı portala girdi. Çalmaya başlayan: **${playlist[currentTrack].name}**`, 1752220);
         }
 
+        // Arka Plan Çizimi
         const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
         let dots = [];
-        function init() {
-            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-            dots = Array.from({length: 80}, () => ({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, vx: (Math.random()-0.5)*0.5, vy: (Math.random()-0.5)*0.5 }));
-        }
-        function draw() {
-            ctx.clearRect(0,0,canvas.width,canvas.height);
-            ctx.fillStyle = "rgba(0, 225, 255, 0.3)";
-            dots.forEach(d => {
-                d.x += d.vx; d.y += d.vy;
-                if(d.x<0 || d.x>canvas.width) d.vx*=-1; if(d.y<0 || d.y>canvas.height) d.vy*=-1;
-                ctx.beginPath(); ctx.arc(d.x, d.y, 1, 0, Math.PI*2); ctx.fill();
-            });
-            requestAnimationFrame(draw);
-        }
+        function init() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; dots = Array.from({length: 80}, () => ({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, vx: (Math.random()-0.5)*0.5, vy: (Math.random()-0.5)*0.5 })); }
+        function draw() { ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle = "rgba(0, 225, 255, 0.3)"; dots.forEach(d => { d.x += d.vx; d.y += d.vy; if(d.x<0 || d.x>canvas.width) d.vx*=-1; if(d.y<0 || d.y>canvas.height) d.vy*=-1; ctx.beginPath(); ctx.arc(d.x, d.y, 1, 0, Math.PI*2); ctx.fill(); }); requestAnimationFrame(draw); }
         window.addEventListener('resize', init); init(); draw();
     </script>
 </body>
