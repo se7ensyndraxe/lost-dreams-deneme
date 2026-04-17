@@ -116,12 +116,16 @@
         .ios-btn { display: flex; align-items: center; justify-content: space-between; padding: 18px 25px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); text-decoration: none; color: white; border-radius: 20px; transition: 0.3s; margin-top: 15px; }
         .ios-btn:hover { background: rgba(255, 255, 255, 0.12); transform: scale(1.05); }
 
-        /* --- SONSUZ VE PÜRÜZSÜZ AKAN JOIN THE DREAM BUTONU --- */
+        /* --- PREMİUM GÜMÜŞ VE SONSUZ AKAN JOIN THE DREAM BUTONU --- */
         .join-now { 
             padding: 18px 60px; 
-            /* Renk duraklarını çoğaltarak o siyah çizgiyi yok ediyoruz */
-            background: linear-gradient(90deg, #1a1a1a, #555555, #ffffff, #555555, #1a1a1a, #555555, #ffffff, #555555, #1a1a1a);
-            background-size: 400% auto;
+            /* Temel Gümüş Doku */
+            background-color: #a0a0a0;
+            /* Sonsuz pürüzsüz gümüş gradyanı */
+            background-image: linear-gradient(90deg, 
+                #a0a0a0 0%, #d0d0d0 15%, #ffffff 30%, #d0d0d0 45%, #a0a0a0 60%,
+                #d0d0d0 75%, #ffffff 90%, #d0d0d0 100%);
+            background-size: 200% auto;
             color: #000; 
             text-decoration: none; 
             border-radius: 100px; 
@@ -134,20 +138,24 @@
             margin-top: 40px; 
             border: none;
             cursor: pointer;
-            /* Kesintisiz akış için LINEAR animasyon */
-            animation: kesintisizAkis 10s linear infinite; 
+            /* Kesintisiz gümüş akış animasyonu */
+            animation: sonsuzSilverAkis 6s linear infinite; 
+            /* Hafif gümüş parlaklığı (glow) */
+            box-shadow: 0 2px 10px rgba(160, 160, 160, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.3);
         }
 
         .join-now:hover { 
             transform: translateY(-12px);
-            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.2), 0 0 30px rgba(163, 0, 255, 0.35);
+            /* Mor ve gümüş detaylı lüks gölge */
+            box-shadow: 0 20px 40px rgba(160, 160, 160, 0.3), 0 0 30px rgba(163, 0, 255, 0.3);
             letter-spacing: 4px;
         }
 
-        @keyframes kesintisizAkis {
+        @keyframes sonsuzSilverAkis {
             0% { background-position: 0% center; }
             100% { background-position: 200% center; }
         }
+        /* -------------------------------------- */
 
         #video-container { position: absolute; left: -9999px; }
     </style>
@@ -256,18 +264,12 @@
                 const item = document.createElement('div');
                 item.className = `song-item ${index === currentTrack ? 'playing' : ''}`;
                 item.innerHTML = `<img src="https://img.youtube.com/vi/${song.id}/mqdefault.jpg" class="song-thumb"><div class="song-info">${song.name}</div>`;
-                item.onclick = () => playSong(index);
+                item.onclick = () => { currentTrack = index; player.loadVideoById(song.id); renderPlaylist(); };
                 listContainer.appendChild(item);
             });
         }
 
-        function playSong(index) {
-            currentTrack = index;
-            player.loadVideoById(playlist[currentTrack].id);
-            showHUD(playlist[currentTrack].name, "fa-solid fa-music");
-            renderPlaylist();
-        }
-
+        function togglePlaylist() { document.getElementById('playlist-container').classList.toggle('active'); }
         function showHUD(text, iconClass) {
             const hud = document.getElementById('music-hud');
             clearTimeout(hudTimeout);
@@ -277,27 +279,25 @@
             hudTimeout = setTimeout(() => hud.classList.remove('show'), 2500);
         }
 
-        function togglePlaylist() { document.getElementById('playlist-container').classList.toggle('active'); }
-
         function togglePlay() {
             const btn = document.getElementById('play-pause-btn');
             if (player.getPlayerState() === 1) { player.pauseVideo(); btn.className = "fa-solid fa-play"; showHUD("Durduruldu", "fa-solid fa-pause"); }
             else { player.playVideo(); btn.className = "fa-solid fa-pause"; showHUD("Devam Ediyor", "fa-solid fa-play"); }
         }
 
-        document.getElementById('vol-slider').addEventListener('input', (e) => {
+        const volSlider = document.getElementById('vol-slider');
+        volSlider.addEventListener('input', (e) => {
             player.setVolume(e.target.value);
             showHUD(`Ses: %${e.target.value}`, "fa-solid fa-volume-low");
         });
 
-        function nextTrack() { currentTrack = (currentTrack + 1) % playlist.length; playSong(currentTrack); }
-        function prevTrack() { currentTrack = (currentTrack - 1 + playlist.length) % playlist.length; playSong(currentTrack); }
+        function nextTrack() { currentTrack = (currentTrack + 1) % playlist.length; player.loadVideoById(playlist[currentTrack].id); renderPlaylist(); }
+        function prevTrack() { currentTrack = (currentTrack - 1 + playlist.length) % playlist.length; player.loadVideoById(playlist[currentTrack].id); renderPlaylist(); }
 
         function startExperience() { 
             document.getElementById('enter-overlay').classList.add('hide'); 
             document.body.classList.add('loaded'); 
             if(player && player.playVideo) player.playVideo(); 
-            showHUD(playlist[currentTrack].name, "fa-solid fa-music");
         }
 
         /* ARKA PLAN PARÇACIK VE BAĞLANTI SİSTEMİ */
