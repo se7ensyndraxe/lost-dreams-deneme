@@ -116,11 +116,12 @@
         .ios-btn { display: flex; align-items: center; justify-content: space-between; padding: 18px 25px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); text-decoration: none; color: white; border-radius: 20px; transition: 0.3s; margin-top: 15px; }
         .ios-btn:hover { background: rgba(255, 255, 255, 0.12); transform: scale(1.05); }
 
-        /* --- METALİK GÜMÜŞ & MOR GÖLGELİ BOUNCE BUTONU --- */
+        /* --- GERÇEK GÜMÜŞ DOKULU & SEKMELİ BOUNCE BUTONU --- */
         .join-now { 
             padding: 18px 60px; 
-            /* Çoklu katmanlı metalik gümüş degrade */
-            background: linear-gradient(145deg, #d1d5d8 0%, #ffffff 40%, #aeb4b9 70%, #8e959b 100%);
+            /* Görseldeki gibi metalik degrade geçişi */
+            background: linear-gradient(135deg, #aeb6bf 0%, #eef2f3 35%, #808b96 50%, #eef2f3 65%, #aeb6bf 100%);
+            background-size: 250% auto;
             color: #111; 
             text-decoration: none; 
             border-radius: 100px; 
@@ -130,24 +131,48 @@
             letter-spacing: 2px; 
             display: inline-block; 
             margin-top: 40px; 
-            border: 1px solid #777;
+            border: 1px solid #888;
             cursor: pointer;
             position: relative;
-            /* Bounce/Yaylanma efekti için fiziksel cubic-bezier */
-            transition: transform 0.6s cubic-bezier(0.68, -0.6, 0.32, 1.6), 
-                        box-shadow 0.4s ease, 
-                        letter-spacing 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4), inset 0 1px 1px #fff;
+            overflow: hidden;
+            
+            /* Mouse Çekildiğinde Sekme Efekti (Bounce) */
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                        box-shadow 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                        padding 0.4s ease,
+                        background-position 0.6s ease;
+
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6), 
+                        inset 0 1px 2px rgba(255, 255, 255, 0.9);
         }
 
         .join-now:hover { 
-            transform: translateY(-10px) scale(1.05);
+            transform: translateY(-15px);
+            padding: 18px 85px; /* Tuşun genişlemesi */
+            background-position: right center; /* Işığın sağa kayma efekti */
+            
+            /* Mor ve Gümüş detaylı lüks gölge */
+            box-shadow: 0 25px 50px rgba(160, 160, 160, 0.3), 0 0 30px rgba(163, 0, 255, 0.3);
             letter-spacing: 4px;
-            /* Mor ve Beyaz vurgulu gölge */
-            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.5), 
-                        0 0 20px rgba(186, 0, 255, 0.4), 
-                        0 0 10px rgba(255, 255, 255, 0.3);
-            background: linear-gradient(145deg, #ffffff, #d1d5d8, #aeb4b9);
+            
+            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), 
+                        box-shadow 0.3s cubic-bezier(0.23, 1, 0.32, 1),
+                        padding 0.3s cubic-bezier(0.23, 1, 0.32, 1),
+                        background-position 0.6s ease;
+        }
+
+        /* Fırçalanmış metal çizgileri (Brushed texture) */
+        .join-now::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0) 0px,
+                rgba(255, 255, 255, 0.02) 1px,
+                transparent 2px
+            );
+            pointer-events: none;
         }
 
         #video-container { position: absolute; left: -9999px; }
@@ -202,142 +227,4 @@
         <div class="anim-wrap delay-1">
             <h1>
                 <div style="display:flex; align-items:center; gap:12px;"><span>✦</span><span class="neon-text">𝐋𝐎𝐒𝐓</span></div>
-                <div style="display:flex; align-items:center; gap:12px;"><span class="neon-text">𝐃𝐑E𝐀𝐌𝐒</span><span>✦</span></div>
-            </h1>
-            <div style="font-size: 9px; color: rgba(255,255,255,0.3); letter-spacing: 4px;">DESIGNED BY SE7ENSYNDRAXE</div>
-        </div>
-
-        <div class="anim-wrap delay-2">
-            <a href="https://steamcommunity.com/groups/LDLOSTDREAMSLD" target="_blank" class="ios-btn">
-                <div style="display:flex; align-items:center; gap:15px">
-                    <div style="width:44px; height:44px; background:#1b2838; border-radius:12px; display:flex; align-items:center; justify-content:center"><i class="fa-brands fa-steam"></i></div>
-                    <div><b>Steam Community</b></div>
-                </div>
-            </a>
-            <a href="https://www.instagram.com/ghost53_53?igsh=MXhqbG0zNXplNDNvdg==" target="_blank" class="ios-btn">
-                <div style="display:flex; align-items:center; gap:15px">
-                    <div style="width:44px; height:44px; background:rgba(255,255,255,0.1); border-radius:12px; display:flex; align-items:center; justify-content:center"><i class="fa-brands fa-instagram"></i></div>
-                    <div><b>Instagram</b></div>
-                </div>
-            </a>
-        </div>
-
-        <div class="anim-wrap delay-4">
-            <a href="https://discord.gg/JJsEbmGyFX" target="_blank" class="join-now">JOIN THE DREAM ›</a>
-            <div style="font-size: 9px; color: rgba(255,255,255,0.3); letter-spacing: 4px; margin-top:15px;">FOUNDER: LD✦ GHOST | SECONDARY: SE7ENSYNDRAXE</div>
-        </div>
-    </div>
-
-    <script src="https://www.youtube.com/iframe_api"></script>
-    <script>
-        const playlist = [
-            { id: '8q9Kz1FFDaM', name: 'MILIARDARA' },
-            { id: 'BVXtQxkCrdU', name: 'Rauf Faik - Akşamlar' },
-            { id: '64afHun2_B0', name: 'J-Killz The Prince - Honey' },
-            { id: 'PcEiHPlf894', name: 'Lipstick (Sped Up)' },
-            { id: 'vTG4AvEnFLA', name: 'Desolate' }
-        ];
-        let currentTrack = 0, player, hudTimeout;
-
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('player', {
-                height: '1', width: '1', videoId: playlist[currentTrack].id,
-                playerVars: { 'autoplay': 1, 'controls': 0, 'disablekb': 1 },
-                events: {
-                    'onReady': (e) => { e.target.setVolume(30); renderPlaylist(); },
-                    'onStateChange': (e) => { if (e.data === YT.PlayerState.ENDED) nextTrack(); }
-                }
-            });
-        }
-
-        // SES SEVİYESİNE GÖRE İKON DEĞİŞTİRME FONKSİYONU
-        function getVolumeIcon(vol) {
-            if (vol == 0) return "fa-solid fa-volume-xmark";
-            if (vol < 35) return "fa-solid fa-volume-off";
-            if (vol < 70) return "fa-solid fa-volume-low";
-            return "fa-solid fa-volume-high";
-        }
-
-        function renderPlaylist() {
-            const listContainer = document.getElementById('song-list');
-            listContainer.innerHTML = '';
-            playlist.forEach((song, index) => {
-                const item = document.createElement('div');
-                item.className = `song-item ${index === currentTrack ? 'playing' : ''}`;
-                item.innerHTML = `<img src="https://img.youtube.com/vi/${song.id}/mqdefault.jpg" class="song-thumb"><div class="song-info">${song.name}</div>`;
-                item.onclick = () => { currentTrack = index; player.loadVideoById(song.id); renderPlaylist(); showHUD(song.name, "fa-solid fa-music"); };
-                listContainer.appendChild(item);
-            });
-        }
-
-        function showHUD(text, iconClass) {
-            const hud = document.getElementById('music-hud');
-            clearTimeout(hudTimeout);
-            document.getElementById('hud-text').innerText = text;
-            document.getElementById('hud-icon').className = iconClass;
-            hud.classList.add('show');
-            hudTimeout = setTimeout(() => hud.classList.remove('show'), 2500);
-        }
-
-        function togglePlaylist() { document.getElementById('playlist-container').classList.toggle('active'); }
-
-        function togglePlay() {
-            const btn = document.getElementById('play-pause-btn');
-            if (player.getPlayerState() === 1) { player.pauseVideo(); btn.className = "fa-solid fa-play"; showHUD("Durduruldu", "fa-solid fa-pause"); }
-            else { player.playVideo(); btn.className = "fa-solid fa-pause"; showHUD("Devam Ediyor", "fa-solid fa-play"); }
-        }
-
-        document.getElementById('vol-slider').addEventListener('input', (e) => {
-            const val = e.target.value;
-            player.setVolume(val);
-            const icon = getVolumeIcon(val);
-            document.getElementById('vol-icon').className = icon;
-            showHUD(`Ses: %${val}`, icon);
-        });
-
-        function nextTrack() { currentTrack = (currentTrack + 1) % playlist.length; player.loadVideoById(playlist[currentTrack].id); renderPlaylist(); showHUD(playlist[currentTrack].name, "fa-solid fa-music"); }
-        function prevTrack() { currentTrack = (currentTrack - 1 + playlist.length) % playlist.length; player.loadVideoById(playlist[currentTrack].id); renderPlaylist(); showHUD(playlist[currentTrack].name, "fa-solid fa-music"); }
-
-        function startExperience() { 
-            document.getElementById('enter-overlay').classList.add('hide'); 
-            document.body.classList.add('loaded'); 
-            if(player && player.playVideo) player.playVideo(); 
-            showHUD(playlist[currentTrack].name, "fa-solid fa-music");
-        }
-
-        /* ARKA PLAN */
-        const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
-        let particles = [];
-        function initCanvas() {
-            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-            particles = Array.from({length: 70}, () => ({ 
-                x: Math.random() * canvas.width, 
-                y: Math.random() * canvas.height, 
-                vx: (Math.random() - 0.5) * 0.4, 
-                vy: (Math.random() - 0.5) * 0.4, 
-                size: Math.random() * 1.5 
-            }));
-        }
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height); 
-            ctx.fillStyle = "rgba(255, 255, 255, 0.2)"; 
-            ctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
-            particles.forEach((p, i) => {
-                p.x += p.vx; p.y += p.vy;
-                if(p.x < 0 || p.x > canvas.width) p.vx *= -1; 
-                if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
-                ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
-                for(let j = i + 1; j < particles.length; j++) {
-                    let p2 = particles[j]; 
-                    let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-                    if(dist < 100) { 
-                        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y); ctx.stroke(); 
-                    }
-                }
-            });
-            requestAnimationFrame(draw);
-        }
-        window.addEventListener('resize', initCanvas); initCanvas(); draw();
-    </script>
-</body>
-</html>
+                <div style="display:flex; align-items:
