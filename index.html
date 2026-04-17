@@ -2,13 +2,13 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lost Dreams | Official Portal</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap');
         
-        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
+        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-user-select: none; }
 
         body {
             background-color: #050505; color: white;
@@ -22,83 +22,87 @@
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; z-index: 99999; display: flex; 
             justify-content: center; align-items: center; cursor: pointer;
-            transition: opacity 0.8s ease, visibility 0.8s;
+            transition: opacity 0.6s ease, visibility 0.6s;
         }
         #enter-overlay.hide { opacity: 0; visibility: hidden; pointer-events: none; }
-        #enter-overlay h2 { font-size: 10px; letter-spacing: 10px; color: rgba(255, 255, 255, 0.4); text-transform: uppercase; animation: neonLoader 2s infinite; text-align: center; padding-left: 10px; }
+        #enter-overlay h2 { font-size: 11px; letter-spacing: 12px; color: rgba(255, 255, 255, 0.4); text-transform: uppercase; animation: neonLoader 2s infinite; }
         @keyframes neonLoader { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
 
-        /* Müzik Kontrol Paneli (Responsive) */
+        /* Müzik Kontrol Paneli (Sol Üst) */
         .music-panel {
-            position: absolute; top: 20px; left: 50%; transform: translateX(-50%) translateY(-30px);
-            z-index: 500; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(20px);
-            padding: 10px 15px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex; align-items: center; gap: 12px; opacity: 0; transition: 1s ease;
+            position: absolute; top: 30px; left: 30px; z-index: 500;
+            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(20px);
+            padding: 12px 18px; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex; align-items: center; gap: 15px;
+            opacity: 0; transform: translateX(-30px); transition: 1s ease 0.5s;
         }
-        /* PC'de sol üste çekiyoruz */
-        @media (min-width: 769px) {
-            .music-panel { left: 30px; transform: translateX(-30px); }
-            body.loaded .music-panel { opacity: 1; transform: translateX(0); }
-        }
-        /* Mobilde ortada kalıyor */
-        @media (max-width: 768px) {
-            .music-panel { width: 90%; max-width: 320px; justify-content: center; top: 15px; }
-            body.loaded .music-panel { opacity: 1; transform: translateX(-50%) translateY(0); }
-        }
-        
-        .music-controls { display: flex; gap: 15px; align-items: center; }
-        .music-controls i { cursor: pointer; font-size: 16px; opacity: 0.7; }
+        body.loaded .music-panel { opacity: 1; transform: translateX(0); }
+        .music-controls { display: flex; gap: 12px; align-items: center; font-size: 14px; }
+        .music-controls i { cursor: pointer; transition: 0.3s; opacity: 0.7; }
+        .music-controls i:hover { opacity: 1; transform: scale(1.2); }
         .vol-slider { width: 60px; height: 3px; -webkit-appearance: none; background: rgba(255,255,255,0.1); border-radius: 5px; }
-        .vol-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; background: #fff; border-radius: 50%; }
+        .vol-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 10px; height: 10px; background: #fff; border-radius: 50%; cursor: pointer; }
 
-        /* HUD Bildirim */
+        /* Ortadaki Bildirim Paneli (HUD) - GÜNCELLENDİ */
         #music-hud {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.95); border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 15px 30px; border-radius: 15px; z-index: 1000;
+            background: rgba(255, 255, 255, 0.05); /* Çok hafif beyaz tonu */
+            border: 1.5px solid #ffffff; /* Saf beyaz çerçeve */
+            padding: 25px 45px; border-radius: 24px; z-index: 1000;
             text-align: center; pointer-events: none; opacity: 0; transition: 0.4s;
-            width: 80%; max-width: 300px;
+            backdrop-filter: blur(6px); /* Orta seviye blur */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         #music-hud.show { opacity: 1; transform: translate(-50%, -60%); }
-        #music-hud i { font-size: 30px; margin-bottom: 8px; display: block; }
-        #music-hud span { font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+        #music-hud i { font-size: 38px; margin-bottom: 12px; display: block; color: #fff; }
+        #music-hud span { font-size: 14px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: #fff; }
 
-        #bg-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
-
-        .container { text-align: center; z-index: 10; width: 90%; max-width: 440px; padding: 20px; transition: 0.5s; }
-
-        /* Mobil Font Küçültme */
-        h1 { font-size: 24px; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 5px; }
-        @media (min-width: 769px) { h1 { font-size: 32px; letter-spacing: 6px; } }
-
-        .lost-side, .dreams-side { display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .neon-text { text-shadow: 0 0 10px rgba(255, 255, 255, 0.8); }
-
-        .designer-tag, .founder-tag { font-size: 8px; color: rgba(255,255,255,0.3); letter-spacing: 2px; text-transform: uppercase; }
-        @media (min-width: 769px) { .designer-tag, .founder-tag { font-size: 10px; letter-spacing: 4px; } }
-        .designer-tag { margin-bottom: 30px; }
-
-        .link-wrapper { display: flex; flex-direction: column; gap: 12px; }
-        .ios-btn { 
-            display: flex; align-items: center; justify-content: space-between; 
-            padding: 15px 20px; background: rgba(255, 255, 255, 0.05); 
-            border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); 
-            text-decoration: none; color: white; border-radius: 18px; transition: 0.3s;
-        }
-        .ios-btn b { font-size: 14px; }
-
-        .join-now-wrap { margin-top: 35px; }
-        .join-now { 
-            padding: 15px 40px; background: linear-gradient(90deg, #000, #fff); 
-            color: #000; text-decoration: none; border-radius: 100px; 
-            font-weight: 900; font-size: 13px; text-transform: uppercase; letter-spacing: 1px;
+        #bg-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+        .static-bg {
+            position: absolute; width: 100%; height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.15), transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.15), transparent 50%);
+            z-index: -1;
         }
 
-        #video-container { position: absolute; top: -1000px; left: -1000px; width: 1px; height: 1px; overflow: hidden; }
+        .container { text-align: center; z-index: 10; width: 100%; max-width: 440px; padding: 20px; }
+
+        @keyframes dropBounce {
+            0% { transform: translateY(-1000px); opacity: 0; }
+            60% { transform: translateY(30px); opacity: 1; }
+            80% { transform: translateY(-10px); }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .anim-wrap { opacity: 0; }
+        body.loaded .anim-wrap { animation: dropBounce 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+
+        h1 { font-size: 30px; font-weight: 900; letter-spacing: 5px; text-transform: uppercase; margin-bottom: 5px; color: #fff; display: flex; justify-content: center; align-items: center; gap: 12px; }
+        .neon-text { text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.4); }
+
+        .lost-side { animation: flickerLost 4s infinite; display: flex; align-items: center; gap: 12px; }
+        .dreams-side { animation: flickerDreams 6s infinite; display: flex; align-items: center; gap: 12px; }
+
+        @keyframes flickerLost { 0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 1; text-shadow: 0 0 10px #fff, 0 0 20px #fff; } 20%, 24%, 55% { opacity: 0.2; text-shadow: none; } }
+        @keyframes flickerDreams { 0%, 12%, 15%, 26%, 28%, 80%, 84%, 100% { opacity: 1; text-shadow: 0 0 10px #fff, 0 0 20px #fff; } 13%, 27%, 82% { opacity: 0.1; text-shadow: none; } }
+
+        .designer-tag, .founder-tag { font-size: 9px; color: rgba(255,255,255,0.3); letter-spacing: 4px; text-transform: uppercase; }
+        .designer-tag { margin-bottom: 40px; }
+        .founder-tag { margin-top: 15px; }
+
+        .link-wrapper { display: flex; flex-direction: column; gap: 15px; }
+        .ios-btn { display: flex; align-items: center; justify-content: space-between; padding: 18px 25px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); text-decoration: none; color: white; border-radius: 20px; transition: 0.3s; -webkit-user-drag: none; }
+        .ios-btn:hover { background: rgba(255, 255, 255, 0.12); transform: scale(1.05); }
+
+        .join-now-wrap { margin-top: 45px; }
+        .join-now { padding: 18px 60px; background: linear-gradient(90deg, #000, #fff); color: #000; text-decoration: none; border-radius: 100px; font-weight: 900; font-size: 15px; text-transform: uppercase; letter-spacing: 2px; display: inline-block; transition: 0.3s; -webkit-user-drag: none; }
+        .join-now:hover { transform: scale(1.1) translateY(-10px); box-shadow: 0 15px 40px rgba(255,255,255,0.3); }
+
+        #video-container { position: absolute; left: -9999px; }
     </style>
 </head>
 
-<body oncontextmenu="return false;">
+<body oncontextmenu="return false;" ondragstart="return false;">
 
     <div id="enter-overlay" onclick="startExperience()">
         <h2>CLICK TO ENTER</h2>
@@ -115,41 +119,45 @@
             <i id="play-pause-btn" class="fa-solid fa-pause" onclick="togglePlay()"></i>
             <i class="fa-solid fa-forward-step" onclick="nextTrack()"></i>
         </div>
+        <i class="fa-solid fa-volume-high"></i>
         <input type="range" class="vol-slider" id="vol-slider" min="0" max="100" value="30">
     </div>
 
     <div id="video-container"><div id="player"></div></div>
+    <div class="static-bg"></div>
     <canvas id="bg-canvas"></canvas>
 
     <div class="container">
-        <div class="anim-wrap" style="opacity:0;" id="main-content">
+        <div class="anim-wrap delay-1">
             <h1>
                 <div class="lost-side"><span>✦</span><span class="neon-text">𝐋𝐎𝐒𝐓</span></div>
                 <div class="dreams-side"><span class="neon-text">𝐃𝐑E𝐀𝐌𝐒</span><span>✦</span></div>
             </h1>
             <div class="designer-tag">DESIGNED BY SE7ENSYNDRAXE</div>
+        </div>
 
-            <div class="link-wrapper">
+        <div class="link-wrapper">
+            <div class="anim-wrap delay-2">
                 <a href="https://steamcommunity.com/groups/LDLOSTDREAMSLD" target="_blank" class="ios-btn">
-                    <div style="display:flex; align-items:center; gap:12px">
-                        <i class="fa-brands fa-steam" style="font-size:24px"></i>
-                        <b>Steam Community</b>
+                    <div style="display:flex; align-items:center; gap:15px">
+                        <div style="width:44px; height:44px; background:#1b2838; border-radius:12px; display:flex; align-items:center; justify-content:center"><i class="fa-brands fa-steam"></i></div>
+                        <div><b>Steam Community</b></div>
                     </div>
-                    <i class="fa-solid fa-chevron-right" style="opacity:0.3"></i>
                 </a>
+            </div>
+            <div class="anim-wrap delay-3">
                 <a href="https://www.instagram.com/ghost53_53?igsh=MXhqbG0zNXplNDNvdg==" target="_blank" class="ios-btn">
-                    <div style="display:flex; align-items:center; gap:12px">
-                        <i class="fa-brands fa-instagram" style="font-size:24px"></i>
-                        <b>Instagram</b>
+                    <div style="display:flex; align-items:center; gap:15px">
+                        <div style="width:44px; height:44px; background:rgba(255,255,255,0.1); border-radius:12px; display:flex; align-items:center; justify-content:center"><i class="fa-brands fa-instagram"></i></div>
+                        <div><b>Instagram</b></div>
                     </div>
-                    <i class="fa-solid fa-chevron-right" style="opacity:0.3"></i>
                 </a>
             </div>
+        </div>
 
-            <div class="join-now-wrap">
-                <a href="https://discord.gg/JJsEbmGyFX" target="_blank" class="join-now">JOIN THE DREAM ›</a>
-                <div class="founder-tag" style="margin-top:20px">LD✦ GHOST & SE7ENSYNDRAXE</div>
-            </div>
+        <div class="join-now-wrap anim-wrap delay-4">
+            <a href="https://discord.gg/JJsEbmGyFX" target="_blank" class="join-now">JOIN THE DREAM ›</a>
+            <div class="founder-tag">FOUNDER: LD✦ GHOST | SECONDARY FOUNDER: SE7ENSYNDRAXE</div>
         </div>
     </div>
 
@@ -170,34 +178,29 @@
             player = new YT.Player('player', {
                 height: '1', width: '1',
                 videoId: playlist[currentTrack].id,
-                playerVars: { 'autoplay': 1, 'controls': 0, 'playsinline': 1, 'rel': 0 },
+                playerVars: { 'autoplay': 1, 'controls': 0, 'disablekb': 1 },
                 events: {
                     'onReady': (e) => e.target.setVolume(30),
-                    'onStateChange': (e) => { if (e.data === YT.PlayerState.ENDED) nextTrack(); }
+                    'onStateChange': (e) => {
+                        if (e.data === YT.PlayerState.ENDED) nextTrack();
+                    }
                 }
             });
         }
 
         function showHUD(text, iconClass) {
             const hud = document.getElementById('music-hud');
-            clearTimeout(hudTimeout);
-            document.getElementById('hud-text').innerText = text;
-            document.getElementById('hud-icon').className = iconClass;
-            hud.classList.add('show');
-            hudTimeout = setTimeout(() => hud.classList.remove('show'), 2000);
-        }
-
-        function startExperience() {
-            document.getElementById('enter-overlay').classList.add('hide');
-            document.body.classList.add('loaded');
-            document.getElementById('main-content').style.opacity = "1";
-            document.getElementById('main-content').style.animation = "dropBounce 1.2s forwards";
+            const hudText = document.getElementById('hud-text');
+            const hudIcon = document.getElementById('hud-icon');
             
-            // Mobil için önemli: Kullanıcı etkileşimi anında müziği başlat
-            if(player && player.playVideo) {
-                player.playVideo();
-                showHUD(playlist[currentTrack].name, "fa-solid fa-music");
-            }
+            clearTimeout(hudTimeout);
+            hudText.innerText = text;
+            hudIcon.className = iconClass;
+            hud.classList.add('show');
+            
+            hudTimeout = setTimeout(() => {
+                hud.classList.remove('show');
+            }, 2000);
         }
 
         function togglePlay() {
@@ -205,11 +208,11 @@
             if (player.getPlayerState() === 1) {
                 player.pauseVideo();
                 btn.className = "fa-solid fa-play";
-                showHUD("Durduruldu", "fa-solid fa-pause");
+                showHUD("Müzik Durduruldu", "fa-solid fa-pause");
             } else {
                 player.playVideo();
                 btn.className = "fa-solid fa-pause";
-                showHUD("Devam Ediyor", "fa-solid fa-play");
+                showHUD("Müzik Devam Ediyor", "fa-solid fa-play");
             }
         }
 
@@ -226,34 +229,37 @@
         }
 
         document.getElementById('vol-slider').addEventListener('input', (e) => {
-            player.setVolume(e.target.value);
-            if(e.target.value == 0) showHUD("Sessiz", "fa-solid fa-volume-xmark");
+            if(player) {
+                player.setVolume(e.target.value);
+                if(e.target.value == 0) showHUD("Ses Kapatıldı", "fa-solid fa-volume-xmark");
+                else showHUD("Ses: %" + e.target.value, "fa-solid fa-volume-high");
+            }
         });
 
-        // Arka Plan Animasyonu
+        function startExperience() { 
+            document.getElementById('enter-overlay').classList.add('hide'); 
+            document.body.classList.add('loaded'); 
+            if(player && player.playVideo) player.playVideo(); 
+            showHUD(playlist[currentTrack].name, "fa-solid fa-music");
+        }
+
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
         function initCanvas() {
             canvas.width = window.innerWidth; canvas.height = window.innerHeight;
             particles = [];
-            for(let i = 0; i < (window.innerWidth < 768 ? 40 : 80); i++) {
-                particles.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4, size: Math.random() * 1.2 });
+            for(let i = 0; i < 80; i++) {
+                particles.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, vx: (Math.random() - 0.5) * 0.5, vy: (Math.random() - 0.5) * 0.5, size: Math.random() * 1.5 });
             }
         }
         function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "rgba(255, 255, 255, 0.2)";
-            ctx.strokeStyle = "rgba(255, 255, 255, 0.03)";
+            ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.fillStyle = "rgba(255, 255, 255, 0.3)"; ctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
             particles.forEach((p, i) => {
-                p.x += p.vx; p.y += p.vy;
-                if(p.x < 0 || p.x > canvas.width) p.vx *= -1;
-                if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
+                p.x += p.vx; p.y += p.vy; if(p.x < 0 || p.x > canvas.width) p.vx *= -1; if(p.y < 0 || p.y > canvas.height) p.vy *= -1;
                 ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
                 for(let j = i + 1; j < particles.length; j++) {
-                    let p2 = particles[j];
-                    let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-                    if(dist < 100) { ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y); ctx.stroke(); }
+                    let p2 = particles[j]; if(Math.hypot(p.x - p2.x, p.y - p2.y) < 100) { ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y); ctx.stroke(); }
                 }
             });
             requestAnimationFrame(draw);
@@ -263,14 +269,11 @@
 
     <script>
         (function() {
+            if (window.top !== window.self) window.top.location = window.self.location;
             const isBot = navigator.webdriver || /bot|crawler|spider/i.test(navigator.userAgent);
-            if (isBot) document.body.innerHTML = "ACCESS DENIED";
-            document.onkeydown = (e) => { if(e.keyCode === 123 || (e.ctrlKey && e.keyCode === 85)) return false; };
-            setInterval(() => {
-                console.clear();
-                console.log("%cSE7ENSYNDRAXE CYBER SECURITY", "color:#0f0;font-size:14px;background:#000;padding:5px;");
-                console.log("%cBLOCKED PERMISSION - LD✦", "color:red;font-size:18px;font-weight:900;");
-            }, 200);
+            if (isBot) document.body.innerHTML = "<div style='background:#000;height:100vh;display:flex;align-items:center;justify-content:center;color:red;'>BOT DETECTED - LD✦</div>";
+            document.onkeydown = function(e) { if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && e.keyCode === 73) || (e.ctrlKey && e.keyCode === 85)) return false; };
+            setInterval(() => { console.clear(); }, 100);
         })();
     </script>
 </body>
