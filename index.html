@@ -45,43 +45,58 @@
 
         .playlist-container {
             position: absolute; top: 55px; left: 0;
-            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px);
-            border: 1.5px solid #ffffff; border-radius: 16px;
-            width: 250px; padding: 15px; display: none;
-            flex-direction: column; gap: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px);
+            border: 1.5px solid #ffffff; border-radius: 18px;
+            width: 280px; padding: 15px; display: none;
+            flex-direction: column; gap: 8px; box-shadow: 0 15px 40px rgba(0,0,0,0.6);
         }
         .playlist-container.active { display: flex; animation: fadeIn 0.3s ease; }
 
+        /* Şarkı Satırı Tasarımı */
         .song-item {
-            padding: 10px; border-radius: 8px; cursor: pointer;
-            font-size: 13px; transition: 0.2s; border: 1px solid transparent;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            display: flex; align-items: center; gap: 12px;
+            padding: 8px; border-radius: 10px; cursor: pointer;
+            transition: 0.2s; border: 1px solid transparent;
         }
         .song-item:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255,255,255,0.2); }
-        .song-item.playing { background: rgba(255, 255, 255, 0.2); font-weight: bold; border-color: #fff; }
+        .song-item.playing { background: rgba(255, 255, 255, 0.15); border-color: #fff; }
+
+        /* Kapak Fotoğrafı (Kutucuk) */
+        .song-thumb {
+            width: 35px; height: 35px;
+            border-radius: 6px;
+            object-fit: cover;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .song-info {
+            font-size: 12px; font-weight: 500;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            max-width: 180px;
+        }
 
         .controls-mini {
             display: flex; align-items: center; justify-content: space-between;
-            margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-        .controls-mini i { cursor: pointer; opacity: 0.7; transition: 0.2s; }
-        .controls-mini i:hover { opacity: 1; transform: scale(1.1); }
+        .controls-mini i { cursor: pointer; opacity: 0.8; font-size: 14px; }
+        .vol-slider { width: 60px; height: 3px; accent-color: #fff; cursor: pointer; }
 
-        /* Ortadaki Bildirim Paneli (HUD) */
+        /* HUD Paneli */
         #music-hud {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             background: rgba(255, 255, 255, 0.05); border: 1.5px solid #ffffff;
             padding: 25px 45px; border-radius: 24px; z-index: 1000;
             text-align: center; pointer-events: none; opacity: 0; transition: 0.4s;
-            backdrop-filter: blur(6px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            backdrop-filter: blur(8px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         #music-hud.show { opacity: 1; transform: translate(-50%, -60%); }
         #music-hud i { font-size: 38px; margin-bottom: 12px; display: block; }
-        #music-hud span { font-size: 14px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; }
+        #music-hud span { font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Diğer Tasarımlar */
+        /* Arkaplan ve Yazılar */
         #bg-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
         .static-bg { position: absolute; width: 100%; height: 100%; background: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.15), transparent 50%), radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.15), transparent 50%); z-index: -1; }
         .container { text-align: center; z-index: 10; width: 100%; max-width: 440px; padding: 20px; }
@@ -115,7 +130,7 @@
 
     <div id="music-hud">
         <i id="hud-icon" class="fa-solid fa-music"></i>
-        <span id="hud-text">Müzik Çalıyor</span>
+        <span id="hud-text">Yükleniyor...</span>
     </div>
 
     <div class="music-wrapper">
@@ -127,10 +142,9 @@
                 <i class="fa-solid fa-backward-step" onclick="prevTrack()"></i>
                 <i id="play-pause-btn" class="fa-solid fa-pause" onclick="togglePlay()"></i>
                 <i class="fa-solid fa-forward-step" onclick="nextTrack()"></i>
-                <input type="range" id="vol-slider" min="0" max="100" value="30" style="width:50px; height:3px;">
+                <input type="range" class="vol-slider" id="vol-slider" min="0" max="100" value="30">
             </div>
-            <div id="song-list">
-                </div>
+            <div id="song-list"></div>
         </div>
     </div>
 
@@ -208,7 +222,15 @@
             playlist.forEach((song, index) => {
                 const item = document.createElement('div');
                 item.className = `song-item ${index === currentTrack ? 'playing' : ''}`;
-                item.innerText = song.name;
+                
+                // YouTube'dan kapak fotoğrafını çekiyoruz
+                const thumbUrl = `https://img.youtube.com/vi/${song.id}/mqdefault.jpg`;
+                
+                item.innerHTML = `
+                    <img src="${thumbUrl}" class="song-thumb">
+                    <div class="song-info">${song.name}</div>
+                `;
+                
                 item.onclick = () => playSong(index);
                 listContainer.appendChild(item);
             });
@@ -268,7 +290,7 @@
             showHUD(playlist[currentTrack].name, "fa-solid fa-music");
         }
 
-        // Parçacık Animasyonu (Aynı)
+        // Arka Plan Animasyonu (Efekt)
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
