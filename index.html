@@ -102,10 +102,10 @@
         .static-bg { position: absolute; width: 100%; height: 100%; background: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.05), transparent 50%), radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.05), transparent 50%); z-index: -1; }
         .container { text-align: center; z-index: 10; width: 100%; max-width: 440px; padding: 20px; }
         
-        @keyframes dropBounceMain { 0% { transform: translateY(-1000px); opacity: 0; } 60% { transform: translateY(30px); opacity: 1; } 80% { transform: translateY(-10px); } 100% { transform: translateY(0); opacity: 1; } }
+        @keyframes dropBounce { 0% { transform: translateY(-1000px); opacity: 0; } 60% { transform: translateY(30px); opacity: 1; } 80% { transform: translateY(-10px); } 100% { transform: translateY(0); opacity: 1; } }
         
         .anim-wrap { opacity: 0; }
-        body.loaded .anim-wrap { animation: dropBounceMain 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+        body.loaded .anim-wrap { animation: dropBounce 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
         .delay-1 { animation-delay: 0.1s; }
         .delay-2 { animation-delay: 0.3s; }
         .delay-4 { animation-delay: 0.5s; }
@@ -116,12 +116,13 @@
         .ios-btn { display: flex; align-items: center; justify-content: space-between; padding: 18px 25px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); text-decoration: none; color: white; border-radius: 20px; transition: 0.3s; margin-top: 15px; }
         .ios-btn:hover { background: rgba(255, 255, 255, 0.12); transform: scale(1.05); }
 
-        /* --- METALİK GÜMÜŞ & BEYAZ MOR PARLAMALI BOUNCE BUTONU --- */
+        /* --- GERÇEK GÜMÜŞ METALİK BUTON --- */
         .join-now { 
             padding: 18px 60px; 
-            /* Çoklu katmanlı metalik gümüş degrade */
-            background: linear-gradient(145deg, #bdc3c7 0%, #ffffff 50%, #8e9eab 100%);
-            color: #111; 
+            /* Gümüş Dokusu: Derinlik için çok katmanlı metalik renkler */
+            background: linear-gradient(145deg, #bdc3c7, #8e9eab, #bdc3c7, #606c88);
+            background-size: 200% 200%;
+            color: #000; 
             text-decoration: none; 
             border-radius: 100px; 
             font-weight: 900; 
@@ -129,45 +130,42 @@
             text-transform: uppercase; 
             letter-spacing: 2px; 
             display: inline-block; 
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); 
             margin-top: 40px; 
-            border: 1px solid #777;
+            border: 1px solid #4a4a4a;
             cursor: pointer;
+            /* Metal parlaması ve gölgesi */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 
+                        inset 0 1px 1px rgba(255, 255, 255, 0.8),
+                        inset 0 -2px 5px rgba(0, 0, 0, 0.3);
             position: relative;
-            /* Bounce/Yaylanma efekti için fiziksel cubic-bezier */
-            transition: transform 0.6s cubic-bezier(0.68, -0.6, 0.32, 1.6), 
-                        box-shadow 0.6s cubic-bezier(0.68, -0.6, 0.32, 1.6);
-            
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5), 
-                        inset 0 1px 1px rgba(255, 255, 255, 1);
+            overflow: hidden;
+            /* SADECE YAZININ ALTINA BEYAZ GÖLGE VE MOR DETAYLAR */
+            text-shadow: 0 4px 10px rgba(255, 255, 255, 0.9), 0 0 12px rgba(186, 1, 255, 0.6);
         }
 
-        .join-now:hover { 
-            /* Yükselme ve Genişleme */
-            transform: translateY(-12px) scaleX(1.08);
-            letter-spacing: 4px;
-            
-            /* Lüks Gölge Effekti: Mor detaylı Beyaz Glow (Parlayan gölge) */
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), /* Alttaki derinlik */
-                        0 0 25px rgba(255, 255, 255, 0.4), /* Ana beyaz parlama */
-                        0 0 15px rgba(186, 0, 255, 0.3); /* Mor detay vurgusu */
-            
-            /* Hover durumunda daha hızlı tepki */
-            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), 
-                        box-shadow 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        /* Metalik parlama hissi için ince fırçalanmış çizgiler */
+        /* Üzerine gelince metalik parıltı (shimmer) */
         .join-now::after {
             content: '';
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: repeating-linear-gradient(
-                45deg,
-                rgba(255, 255, 255, 0) 0px,
-                rgba(255, 255, 255, 0.02) 1px,
-                transparent 2px
-            );
-            pointer-events: none;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.4), transparent);
+            transform: rotate(45deg);
+            transition: 0.5s;
+        }
+
+        .join-now:hover::after {
+            left: 100%;
+        }
+
+        .join-now:hover { 
+            transform: translateY(-8px);
+            background: linear-gradient(145deg, #ffffff, #bdc3c7, #8e9eab);
+            /* SADECE ALTTA BEYAZ VE MOR KARIŞIMI GÖLGE */
+            box-shadow: 0 15px 35px rgba(186, 1, 255, 0.4), 0 10px 20px rgba(255, 255, 255, 0.3);
+            letter-spacing: 4px;
+            /* YAZININ ALTINDAKİ GÖLGENİN HOVER HALİ */
+            text-shadow: 0 5px 12px rgba(255, 255, 255, 1), 0 0 20px rgba(186, 1, 255, 0.8);
         }
 
         #video-container { position: absolute; left: -9999px; }
@@ -221,7 +219,7 @@
     <div class="container">
         <div class="anim-wrap delay-1">
             <h1>
-                <div style="display:flex; align-items:center; gap:12px;"><span>✦</span><span class="neon-text">𝐋𝐎𝐒𝐓</span></div>
+                <div style="display:flex; align-items:center; gap:12px;"><span>✦</span><span class="neon-text">𝐋𝐎𝐒0</span></div>
                 <div style="display:flex; align-items:center; gap:12px;"><span class="neon-text">𝐃𝐑E𝐀𝐌𝐒</span><span>✦</span></div>
             </h1>
             <div style="font-size: 9px; color: rgba(255,255,255,0.3); letter-spacing: 4px;">DESIGNED BY SE7ENSYNDRAXE</div>
@@ -270,14 +268,6 @@
             });
         }
 
-        // SES İKONU DİNAMİK MANTIK
-        function getVolumeIcon(vol) {
-            if (vol == 0) return "fa-solid fa-volume-xmark";
-            if (vol < 35) return "fa-solid fa-volume-off";
-            if (vol < 70) return "fa-solid fa-volume-low";
-            return "fa-solid fa-volume-high";
-        }
-
         function renderPlaylist() {
             const listContainer = document.getElementById('song-list');
             listContainer.innerHTML = '';
@@ -308,11 +298,8 @@
         }
 
         document.getElementById('vol-slider').addEventListener('input', (e) => {
-            const val = e.target.value;
-            player.setVolume(val);
-            const icon = getVolumeIcon(val);
-            document.getElementById('vol-icon').className = icon;
-            showHUD(`Ses: %${val}`, icon);
+            player.setVolume(e.target.value);
+            showHUD(`Ses: %${e.target.value}`, "fa-solid fa-volume-low");
         });
 
         function nextTrack() { currentTrack = (currentTrack + 1) % playlist.length; player.loadVideoById(playlist[currentTrack].id); renderPlaylist(); showHUD(playlist[currentTrack].name, "fa-solid fa-music"); }
@@ -325,7 +312,7 @@
             showHUD(playlist[currentTrack].name, "fa-solid fa-music");
         }
 
-        /* ARKA PLAN */
+        /* ARKA PLAN PARÇACIK VE BAĞLANTI SİSTEMİ */
         const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
         let particles = [];
         function initCanvas() {
