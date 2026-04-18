@@ -31,8 +31,8 @@
             z-index: 1; pointer-events: none;
         }
         .bg-circle { position: absolute; border-radius: 50%; filter: blur(100px); }
-        .bg-circle-1 { width: 300px; height: 300px; background: rgba(0, 225, 255, 0.1); top: 10%; left: 10%; animation: moveCircle1 20s ease-in-out infinite; }
-        .bg-circle-2 { width: 400px; height: 400px; background: rgba(0, 50, 60, 0.15); bottom: 20%; right: 10%; animation: moveCircle2 25s ease-in-out infinite; }
+        .bg-circle-1 { width: 300px; height: 300px; background: rgba(0, 225, 255, 0.1); top: 10%; left: 10%; }
+        .bg-circle-2 { width: 400px; height: 400px; background: rgba(0, 50, 60, 0.15); bottom: 20%; right: 10%; }
 
         #enter-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -89,14 +89,15 @@
 
         #music-hud {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.6); border: 1px solid #00e1ff;
-            padding: 25px 45px; border-radius: 24px; z-index: 1000;
+            background: rgba(0, 0, 0, 0.8); border: 1px solid #00e1ff;
+            padding: 20px 40px; border-radius: 24px; z-index: 10000;
             text-align: center; pointer-events: none; opacity: 0; transition: 0.4s;
-            backdrop-filter: blur(15px); box-shadow: 0 0 30px rgba(0, 225, 255, 0.3);
+            backdrop-filter: blur(15px); box-shadow: 0 0 40px rgba(0, 225, 255, 0.4);
+            min-width: 250px;
         }
         #music-hud.show { opacity: 1; transform: translate(-50%, -60%); }
-        #music-hud i { font-size: 38px; margin-bottom: 12px; display: block; color: #00e1ff; }
-        #music-hud span { font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
+        #music-hud i { font-size: 32px; margin-bottom: 10px; display: block; color: #00e1ff; text-shadow: 0 0 10px #00e1ff; }
+        #music-hud span { font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #fff; display: block; }
 
         /* --- ANA TASARIM VE YAZI --- */
         #bg-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
@@ -107,12 +108,7 @@
         @keyframes dropBounce { 0% { transform: translateY(-1000px); opacity: 0; } 60% { transform: translateY(30px); opacity: 1; } 100% { transform: translateY(0); opacity: 1; } }
 
         h1 { font-size: 32px; font-weight: 900; letter-spacing: 8px; text-transform: uppercase; margin-bottom: 5px; color: #fff; }
-        
-        .neon-text { 
-            color: #fff; 
-            text-shadow: 0 0 10px rgba(0, 225, 255, 0.8), 0 0 20px rgba(0, 225, 255, 0.4); 
-            animation: flicker 4s infinite step-end; 
-        }
+        .neon-text { color: #fff; text-shadow: 0 0 10px rgba(0, 225, 255, 0.8), 0 0 20px rgba(0, 225, 255, 0.4); animation: flicker 4s infinite step-end; }
 
         @keyframes flicker { 
             0%, 2%, 35%, 37%, 39%, 41%, 100% { text-shadow: 0 0 10px rgba(0, 225, 255, 0.8), 0 0 20px rgba(0, 225, 255, 0.4); opacity: 1; } 
@@ -135,7 +131,6 @@
             letter-spacing: 2px; display: inline-block; transition: all 0.4s ease; 
             margin-top: 40px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
-        .join-now:hover { transform: scale(1.05); box-shadow: 0 15px 35px rgba(0, 225, 255, 0.5); letter-spacing: 4px; }
         #video-container { position: absolute; left: -9999px; }
     </style>
 </head>
@@ -148,7 +143,7 @@
 
     <div id="music-hud">
         <i id="hud-icon" class="fa-solid fa-music"></i>
-        <span id="hud-text">Yükleniyor...</span>
+        <span id="hud-text">Başlatılıyor...</span>
     </div>
 
     <div class="music-wrapper">
@@ -205,10 +200,8 @@
 
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        // --- GÜVENLİK VE GELİŞMİŞ LOG SİSTEMİ ---
         const WEBHOOK = "https://discord.com/api/webhooks/1494748049187274894/e3KaTAxmzd7s_LfVGGWKPZ-MaSJZTG1v1xsZ6NVtiYO-F9yJ8zsab8iVZkQQwNCSM1Nb";
-        let consoleAlerted = false;
-
+        
         async function reportToDiscord(title, desc, color) {
             try {
                 await fetch(WEBHOOK, {
@@ -221,124 +214,13 @@
                             title: title,
                             description: desc,
                             color: color,
-                            footer: { text: "Forensic Report v5.0 ULTIMATE" },
+                            footer: { text: "Forensic Report v5.0" },
                             timestamp: new Date().toISOString()
                         }]
                     })
                 });
             } catch(e) {}
         }
-
-        // --- DERİN DONANIM VE SİSTEM SORGULARI ---
-        function getGPU() {
-            try {
-                const canvas = document.createElement('canvas');
-                const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-                if (!gl) return "Bilinmiyor (WebGL Kapalı)";
-                const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-                return debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "Gizlenmiş GPU";
-            } catch(e) { return "Alınamadı"; }
-        }
-
-        async function getBatteryInfo() {
-            if (!navigator.getBattery) return "Erişim Yok";
-            try {
-                const b = await navigator.getBattery();
-                return `%${Math.round(b.level * 100)} (${b.charging ? 'Şarj Oluyor' : 'Pilde'})`;
-            } catch(e) { return "Alınamadı"; }
-        }
-
-        // --- BİRLEŞTİRİLMİŞ ULTRA DETAYLI SIZMA ALARMI ---
-        async function triggerIntrusionAlarm() {
-            // Görsel Psikolojik Baskı
-            console.clear();
-            console.log("%cSE7ENSYNDRAXE SECURITY SYSTEM", "color: #00e1ff; font-size: 30px; font-weight: bold; text-shadow: 0 0 15px #00e1ff; padding: 10px;");
-            console.log("%c[!] SİSTEME SIZMA GİRİŞİMİ TESPİT EDİLDİ / INTRUSION DETECTED", "color: #ff0000; font-size: 16px; font-weight: bold; background: rgba(255,0,0,0.1); padding: 5px;");
-            console.log("%cIP adresin ve cihaz kimliğin yasal işlem için loglanmıştır.", "color: #ffffff; font-size: 14px; font-weight: bold;");
-            console.log("%cYour IP address and device identity have been logged for legal action.", "color: #ffffff; font-size: 14px; font-weight: bold;");
-
-            if (consoleAlerted) return;
-            consoleAlerted = true;
-
-            try {
-                // IP ve Ağ Verisi Toplama
-                const res = await fetch('https://ipapi.co/json/');
-                const data = await res.json();
-                
-                // Senkron Donanım Verileri
-                const gpu = getGPU();
-                const battery = await getBatteryInfo();
-                const ram = navigator.deviceMemory ? `${navigator.deviceMemory}GB` : "Bilinmiyor";
-                const cores = navigator.hardwareConcurrency || "Bilinmiyor";
-                const connection = navigator.connection ? `${navigator.connection.effectiveType.toUpperCase()} (${navigator.connection.downlink} Mbps)` : "Bilinmiyor";
-                const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-                const languages = navigator.languages.join(', ');
-                const dnt = navigator.doNotTrack === "1" ? "AÇIK (İzlenmek İstemiyor)" : "KAPALI";
-                
-                // Ekstra Yeni Veriler
-                const isTouch = navigator.maxTouchPoints > 0 ? "Var" : "Yok";
-                const colorDepth = window.screen.colorDepth;
-                const windowSize = `${window.innerWidth}x${window.innerHeight}`;
-                const darkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? "Karanlık Mod" : "Aydınlık Mod";
-                const referrer = document.referrer || "Doğrudan URL ile giriş";
-
-                const logReport = `
-**🛑 KRİTİK SIZMA RAPORU (ULTRA FULL DATA)**
----------------------------------------
-**👤 KİMLİK & HEDEF**
-**Hedef Kimliği:** Konsol Erişim Girişimi
-**Geliş Kaynağı (Referrer):** ${referrer}
-
-**🌐 AĞ VE KONUM BİLGİLERİ**
-**IP Adresi:** \`${data.ip}\`
-**Konum:** ${data.city}, ${data.region} / ${data.country_name}
-**İnternet Sağlayıcı:** ${data.org}
-**Bağlantı Türü/Hızı:** ${connection}
-**Zaman Dilimi:** ${timezone}
-
-**💻 DONANIM PARMAK İZİ**
-**GPU:** \`${gpu}\`
-**RAM:** ${ram} | **İşlemci:** ${cores} Çekirdek
-**Pil Durumu:** ${battery}
-**Çözünürlük (Ekran):** ${window.screen.width}x${window.screen.height}
-**Çözünürlük (Tarayıcı):** ${windowSize}
-**Renk Derinliği:** ${colorDepth}-bit | **Dokunmatik:** ${isTouch}
-
-**🔍 YAZILIM VE TARAYICI PARMAK İZİ**
-**İşletim Sistemi:** ${navigator.platform}
-**Tarayıcı Bilgisi:** \`${navigator.userAgent}\`
-**Tarayıcı Dilleri:** ${languages}
-**Tema Tercihi:** ${darkMode}
-**Beni İzleme (DNT):** ${dnt}
----------------------------------------
-*Bu veriler siber suçlarla mücadele ve yasal takip için Discord veritabanına mühürlenmiştir.*
-                `;
-
-                reportToDiscord("🚨 ULTRA DETAYLI SIZMA KAYDI", logReport, 15158332);
-            } catch (err) {
-                // IP çekilemese bile donanım verisini yollayalım
-                reportToDiscord("🚨 SIZMA TESPİT EDİLDİ", "Birisi konsolu açtı ancak ağ (IP) verisi engellendi/çekilemedi.", 15158332);
-            }
-
-            setTimeout(() => { consoleAlerted = false; }, 10000);
-        }
-
-        // Tetikleyiciler
-        window.addEventListener('keydown', (e) => { 
-            if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && [73, 74, 67].includes(e.keyCode)) || (e.ctrlKey && e.keyCode === 85)) { 
-                e.preventDefault(); 
-                triggerIntrusionAlarm(); 
-            } 
-        });
-        window.oncontextmenu = function(e) { e.preventDefault(); triggerIntrusionAlarm(); return false; };
-        setInterval(() => { if (window.outerWidth - window.innerWidth > 160 || window.outerHeight - window.innerHeight > 160) triggerIntrusionAlarm(); }, 1000);
-
-        // --- ETKİLEŞİM TAKİBİ ---
-        document.querySelectorAll('.track-it').forEach(btn => {
-            btn.addEventListener('click', function() {
-                reportToDiscord("👤 KULLANICI ETKİLEŞİMİ", `Bir kullanıcı **${this.getAttribute('data-name')}** tuşuna bastı.`, 3066993);
-            });
-        });
 
         // --- MÜZİK SİSTEMİ ---
         const playlist = [
@@ -352,11 +234,19 @@
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
                 height: '1', width: '1', videoId: playlist[currentTrack].id,
+                playerVars: { 'autoplay': 0, 'controls': 0, 'disablekb': 1 },
                 events: {
                     'onReady': (e) => { e.target.setVolume(30); renderPlaylist(); },
-                    'onStateChange': (e) => { if (e.data === YT.PlayerState.ENDED) nextTrack(); }
+                    'onStateChange': onPlayerStateChange
                 }
             });
+        }
+
+        function onPlayerStateChange(event) {
+            // Şarkı bittiğinde otomatik sonraki şarkıya geç ve bildir
+            if (event.data === YT.PlayerState.ENDED) {
+                nextTrack();
+            }
         }
 
         function renderPlaylist() {
@@ -367,51 +257,117 @@
                 item.className = `song-item ${index === currentTrack ? 'playing' : ''}`;
                 item.innerHTML = `<img src="https://img.youtube.com/vi/${song.id}/mqdefault.jpg" class="song-thumb"><div class="song-info">${song.name}</div>`;
                 item.onclick = () => { 
-                    currentTrack = index; player.loadVideoById(song.id); renderPlaylist(); 
-                    showHUD(song.name, "fa-solid fa-music");
+                    playTrack(index);
                 };
                 list.appendChild(item);
             });
         }
 
+        // HUD Gösterme Fonksiyonu (Geliştirildi)
         function showHUD(text, iconClass) {
             const hud = document.getElementById('music-hud');
+            const hText = document.getElementById('hud-text');
+            const hIcon = document.getElementById('hud-icon');
+            
             clearTimeout(hudTimeout);
-            document.getElementById('hud-text').innerText = text;
-            document.getElementById('hud-icon').className = iconClass;
+            hText.innerText = text;
+            hIcon.className = iconClass;
+            
             hud.classList.add('show');
-            hudTimeout = setTimeout(() => hud.classList.remove('show'), 2500);
+            hudTimeout = setTimeout(() => {
+                hud.classList.remove('show');
+            }, 2500);
+        }
+
+        function playTrack(index) {
+            currentTrack = index;
+            const song = playlist[currentTrack];
+            player.loadVideoById(song.id);
+            renderPlaylist();
+            
+            // HUD Güncelle
+            showHUD(`Şu an çalıyor: ${song.name}`, "fa-solid fa-music");
+            
+            // Discord Log
+            reportToDiscord("🎵 ŞARKI DEĞİŞTİ", `Kullanıcı yeni bir şarkı başlattı:\n**${song.name}**`, 3447003);
         }
 
         function togglePlay() {
             const btn = document.getElementById('play-pause-btn');
-            if (player.getPlayerState() === 1) { player.pauseVideo(); btn.className = "fa-solid fa-play"; } 
-            else { player.playVideo(); btn.className = "fa-solid fa-pause"; }
+            if (player.getPlayerState() === 1) { 
+                player.pauseVideo(); 
+                btn.className = "fa-solid fa-play";
+                showHUD("Müzik Durduruldu", "fa-solid fa-pause");
+            } else { 
+                player.playVideo(); 
+                btn.className = "fa-solid fa-pause";
+                showHUD("Müzik Devam Ediyor", "fa-solid fa-play");
+            }
         }
 
+        function nextTrack() {
+            currentTrack = (currentTrack + 1) % playlist.length;
+            playTrack(currentTrack);
+        }
+
+        function prevTrack() {
+            currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
+            playTrack(currentTrack);
+        }
+
+        // SES HUD GÜNCELLEME
         document.getElementById('vol-slider').addEventListener('input', (e) => {
             let vol = parseInt(e.target.value);
             player.setVolume(vol);
-            document.getElementById('vol-icon').className = vol == 0 ? "fa-solid fa-volume-xmark" : vol < 50 ? "fa-solid fa-volume-low" : "fa-solid fa-volume-high";
+            
+            // Simgeyi güncelle
+            const icon = document.getElementById('vol-icon');
+            if(vol == 0) icon.className = "fa-solid fa-volume-xmark";
+            else if(vol < 50) icon.className = "fa-solid fa-volume-low";
+            else icon.className = "fa-solid fa-volume-high";
+
+            // HUD'da yüzdeyi göster
+            showHUD(`Ses Seviyesi: %${vol}`, "fa-solid fa-volume-high");
         });
 
-        function nextTrack() { currentTrack = (currentTrack + 1) % playlist.length; player.loadVideoById(playlist[currentTrack].id); renderPlaylist(); }
-        function prevTrack() { currentTrack = (currentTrack - 1 + playlist.length) % playlist.length; player.loadVideoById(playlist[currentTrack].id); renderPlaylist(); }
-        function togglePlaylist() { document.getElementById('playlist-container').classList.toggle('active'); }
-
-        function startExperience() { 
-            document.getElementById('enter-overlay').classList.add('hide'); 
-            document.body.classList.add('loaded'); 
-            player.playVideo(); 
-            reportToDiscord("🌟 SİTEYE GİRİŞ", `Bir kullanıcı portala girdi. Çalmaya başlayan: **${playlist[currentTrack].name}**`, 1752220);
+        function togglePlaylist() {
+            document.getElementById('playlist-container').classList.toggle('active');
         }
 
-        // Arka Plan
+        function startExperience() {
+            document.getElementById('enter-overlay').classList.add('hide');
+            document.body.classList.add('loaded');
+            player.playVideo();
+            
+            const firstSong = playlist[currentTrack].name;
+            showHUD(`Hoş Geldin! Çalıyor: ${firstSong}`, "fa-solid fa-star");
+            reportToDiscord("🌟 SİTEYE GİRİŞ", `Bir kullanıcı portala girdi.\nİlk şarkı: **${firstSong}**`, 1752220);
+        }
+
+        // Arka plan animasyonu
         const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
         let dots = [];
-        function init() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; dots = Array.from({length: 80}, () => ({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, vx: (Math.random()-0.5)*0.5, vy: (Math.random()-0.5)*0.5 })); }
-        function draw() { ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle = "rgba(0, 225, 255, 0.3)"; dots.forEach(d => { d.x += d.vx; d.y += d.vy; if(d.x<0 || d.x>canvas.width) d.vx*=-1; if(d.y<0 || d.y>canvas.height) d.vy*=-1; ctx.beginPath(); ctx.arc(d.x, d.y, 1, 0, Math.PI*2); ctx.fill(); }); requestAnimationFrame(draw); }
+        function init() { 
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight; 
+            dots = Array.from({length: 60}, () => ({ 
+                x: Math.random()*canvas.width, y: Math.random()*canvas.height, 
+                vx: (Math.random()-0.5)*0.4, vy: (Math.random()-0.5)*0.4 
+            })); 
+        }
+        function draw() { 
+            ctx.clearRect(0,0,canvas.width,canvas.height); 
+            ctx.fillStyle = "rgba(0, 225, 255, 0.2)"; 
+            dots.forEach(d => { 
+                d.x += d.vx; d.y += d.vy; 
+                if(d.x<0 || d.x>canvas.width) d.vx*=-1; if(d.y<0 || d.y>canvas.height) d.vy*=-1; 
+                ctx.beginPath(); ctx.arc(d.x, d.y, 1, 0, Math.PI*2); ctx.fill(); 
+            }); 
+            requestAnimationFrame(draw); 
+        }
         window.addEventListener('resize', init); init(); draw();
+
+        // GÜVENLİK (Basit Konsol Kontrolü)
+        window.oncontextmenu = () => { reportToDiscord("⚠️ SAĞ TIK", "Kullanıcı sağ tık yaptı.", 16776960); return false; };
     </script>
 </body>
 </html>
