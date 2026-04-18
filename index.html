@@ -8,6 +8,8 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap');
         
+        /* GENEL RESETLEME 
+        */
         * { 
             margin: 0; 
             padding: 0; 
@@ -16,6 +18,8 @@
             -webkit-user-select: none; 
         }
 
+        /* BODY VE ARKA PLAN ANIMASYONU 
+        */
         body {
             background: linear-gradient(-45deg, #020202, #00151a, #050505, #00222b);
             background-size: 400% 400%;
@@ -36,7 +40,8 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Arka Plan Efektleri */
+        /* ARKA PLAN EFEKTLERİ (BLUR VE CIRCLE)
+        */
         #background-elements { 
             position: fixed; 
             top: 0; 
@@ -46,11 +51,13 @@
             z-index: 1; 
             pointer-events: none; 
         }
+
         .bg-circle { 
             position: absolute; 
             border-radius: 50%; 
             filter: blur(100px); 
         }
+
         .bg-circle-1 { 
             width: 350px; 
             height: 350px; 
@@ -59,6 +66,7 @@
             left: 10%; 
             animation: float1 15s infinite alternate;
         }
+
         .bg-circle-2 { 
             width: 450px; 
             height: 450px; 
@@ -68,10 +76,18 @@
             animation: float2 20s infinite alternate;
         }
 
-        @keyframes float1 { from { transform: translate(0, 0); } to { transform: translate(50px, 100px); } }
-        @keyframes float2 { from { transform: translate(0, 0); } to { transform: translate(-80px, -40px); } }
+        @keyframes float1 { 
+            from { transform: translate(0, 0); } 
+            to { transform: translate(50px, 100px); } 
+        }
 
-        /* Giriş Ekranı */
+        @keyframes float2 { 
+            from { transform: translate(0, 0); } 
+            to { transform: translate(-80px, -40px); } 
+        }
+
+        /* GİRİŞ EKRANI (OVERLAY)
+        */
         #enter-overlay {
             position: fixed; 
             top: 0; 
@@ -86,7 +102,13 @@
             cursor: pointer;
             transition: opacity 1s ease, visibility 1s;
         }
-        #enter-overlay.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+
+        #enter-overlay.hide { 
+            opacity: 0; 
+            visibility: hidden; 
+            pointer-events: none; 
+        }
+
         #enter-overlay h2 { 
             font-size: 12px; 
             letter-spacing: 15px; 
@@ -94,9 +116,15 @@
             text-transform: uppercase; 
             animation: pulseText 2s infinite; 
         }
-        @keyframes pulseText { 0% { opacity: 0.3; text-shadow: none; } 50% { opacity: 1; text-shadow: 0 0 20px #00e1ff; } 100% { opacity: 0.3; text-shadow: none; } }
 
-        /* Müzik Kontrol Paneli */
+        @keyframes pulseText { 
+            0% { opacity: 0.3; text-shadow: none; } 
+            50% { opacity: 1; text-shadow: 0 0 20px #00e1ff; } 
+            100% { opacity: 0.3; text-shadow: none; } 
+        }
+
+        /* MÜZİK PANELİ TASARIMI
+        */
         .music-wrapper {
             position: absolute; 
             top: 40px; 
@@ -109,7 +137,11 @@
             flex-direction: column; 
             gap: 15px;
         }
-        body.loaded .music-wrapper { opacity: 1; transform: translateX(0); }
+
+        body.loaded .music-wrapper { 
+            opacity: 1; 
+            transform: translateX(0); 
+        }
 
         .volume-panel-top {
             background: rgba(0, 225, 255, 0.05); 
@@ -122,6 +154,7 @@
             gap: 12px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
+
         .vol-slider { 
             width: 100px; 
             height: 4px; 
@@ -131,7 +164,12 @@
             background: rgba(255,255,255,0.1); 
             border-radius: 10px; 
         }
-        #vol-icon { color: #00e1ff; font-size: 18px; width: 20px; }
+
+        #vol-icon { 
+            color: #00e1ff; 
+            font-size: 18px; 
+            width: 20px; 
+        }
 
         .menu-icon {
             background: rgba(0, 225, 255, 0.05); 
@@ -147,6 +185,7 @@
             transition: 0.4s; 
             color: #00e1ff;
         }
+
         .menu-icon:hover { 
             background: rgba(0, 225, 255, 0.2); 
             transform: scale(1.1) rotate(90deg); 
@@ -168,8 +207,16 @@
             gap: 10px; 
             box-shadow: 0 20px 50px rgba(0,0,0,0.9);
         }
-        .playlist-container.active { display: flex; animation: slideIn 0.4s ease forwards; }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .playlist-container.active { 
+            display: flex; 
+            animation: slideIn 0.4s ease forwards; 
+        }
+
+        @keyframes slideIn { 
+            from { opacity: 0; transform: translateY(-20px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
 
         .controls-mini { 
             display: flex; 
@@ -180,8 +227,18 @@
             padding-bottom: 15px; 
             border-bottom: 1px solid rgba(0,225,255,0.1); 
         }
-        .controls-mini i { cursor: pointer; color: #00e1ff; font-size: 20px; transition: 0.3s; }
-        .controls-mini i:hover { transform: scale(1.3); text-shadow: 0 0 15px #00e1ff; }
+
+        .controls-mini i { 
+            cursor: pointer; 
+            color: #00e1ff; 
+            font-size: 20px; 
+            transition: 0.3s; 
+        }
+
+        .controls-mini i:hover { 
+            transform: scale(1.3); 
+            text-shadow: 0 0 15px #00e1ff; 
+        }
 
         .song-item { 
             display: flex; 
@@ -193,12 +250,32 @@
             transition: 0.3s; 
             border: 1px solid transparent; 
         }
-        .song-item:hover { background: rgba(0, 225, 255, 0.1); transform: translateX(5px); }
-        .song-item.playing { background: rgba(0, 225, 255, 0.15); border-color: #00e1ff; }
-        .song-thumb { width: 40px; height: 40px; border-radius: 8px; object-fit: cover; }
-        .song-info { font-size: 13px; font-weight: 600; color: #fff; }
 
-        /* HUD Sistemi */
+        .song-item:hover { 
+            background: rgba(0, 225, 255, 0.1); 
+            transform: translateX(5px); 
+        }
+
+        .song-item.playing { 
+            background: rgba(0, 225, 255, 0.15); 
+            border-color: #00e1ff; 
+        }
+
+        .song-thumb { 
+            width: 40px; 
+            height: 40px; 
+            border-radius: 8px; 
+            object-fit: cover; 
+        }
+
+        .song-info { 
+            font-size: 13px; 
+            font-weight: 600; 
+            color: #fff; 
+        }
+
+        /* HUD SİSTEMİ 
+        */
         #music-hud {
             position: fixed; 
             top: 50%; 
@@ -216,29 +293,79 @@
             backdrop-filter: blur(20px); 
             box-shadow: 0 0 60px rgba(0, 225, 255, 0.5);
         }
-        #music-hud.show { opacity: 1; transform: translate(-50%, -60%); }
-        #music-hud i { font-size: 45px; margin-bottom: 15px; display: block; color: #00e1ff; text-shadow: 0 0 20px #00e1ff; }
-        #music-hud span { font-size: 16px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: #fff; }
 
-        /* Ana İçerik */
-        .container { text-align: center; z-index: 10; width: 100%; max-width: 480px; padding: 25px; }
+        #music-hud.show { 
+            opacity: 1; 
+            transform: translate(-50%, -60%); 
+        }
+
+        #music-hud i { 
+            font-size: 45px; 
+            margin-bottom: 15px; 
+            display: block; 
+            color: #00e1ff; 
+            text-shadow: 0 0 20px #00e1ff; 
+        }
+
+        #music-hud span { 
+            font-size: 16px; 
+            font-weight: 800; 
+            letter-spacing: 3px; 
+            text-transform: uppercase; 
+            color: #fff; 
+        }
+
+        /* ANA KONTEYNER VE YAZILAR
+        */
+        .container { 
+            text-align: center; 
+            z-index: 10; 
+            width: 100%; 
+            max-width: 480px; 
+            padding: 25px; 
+        }
         
-        .anim-wrap { opacity: 0; }
-        body.loaded .anim-wrap { animation: dropBounce 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+        .anim-wrap { 
+            opacity: 0; 
+        }
+
+        body.loaded .anim-wrap { 
+            animation: dropBounce 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; 
+        }
+
         @keyframes dropBounce { 
             0% { transform: translateY(-1000px); opacity: 0; } 
             60% { transform: translateY(40px); opacity: 1; } 
             100% { transform: translateY(0); opacity: 1; } 
         }
 
-        h1 { font-size: 36px; font-weight: 900; letter-spacing: 10px; text-transform: uppercase; margin-bottom: 8px; color: #fff; }
-        .neon-text { color: #fff; text-shadow: 0 0 15px #00e1ff; animation: flicker 5s infinite; }
-        @keyframes flicker { 
-            0%, 18%, 22%, 25%, 53%, 57%, 100% { text-shadow: 0 0 15px #00e1ff, 0 0 30px #00e1ff; }
-            20%, 24%, 55% { text-shadow: none; opacity: 0.5; }
+        h1 { 
+            font-size: 36px; 
+            font-weight: 900; 
+            letter-spacing: 10px; 
+            text-transform: uppercase; 
+            margin-bottom: 8px; 
+            color: #fff; 
         }
 
-        /* Butonlar */
+        .neon-text { 
+            color: #fff; 
+            text-shadow: 0 0 15px #00e1ff; 
+            animation: flicker 5s infinite; 
+        }
+
+        @keyframes flicker { 
+            0%, 18%, 22%, 25%, 53%, 57%, 100% { 
+                text-shadow: 0 0 15px #00e1ff, 0 0 30px #00e1ff; 
+            }
+            20%, 24%, 55% { 
+                text-shadow: none; 
+                opacity: 0.5; 
+            }
+        }
+
+        /* BUTON TASARIMLARI (IOS STYLE)
+        */
         .ios-btn { 
             display: flex; 
             align-items: center; 
@@ -253,6 +380,7 @@
             transition: 0.5s; 
             margin-top: 20px; 
         }
+
         .ios-btn:hover { 
             background: rgba(0, 225, 255, 0.12); 
             transform: translateY(-8px) scale(1.02); 
@@ -279,22 +407,50 @@
             position: relative;
             overflow: hidden;
         }
+
         .join-now::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            content: ''; 
+            position: absolute; 
+            top: 0; 
+            left: -100%; 
+            width: 100%; 
+            height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
             transition: 0.5s;
         }
-        .join-now:hover::before { left: 100%; }
+
+        .join-now:hover::before { 
+            left: 100%; 
+        }
+
         .join-now:hover { 
             transform: scale(1.15) translateY(-5px); 
             letter-spacing: 6px; 
             box-shadow: 0 20px 40px rgba(0, 225, 255, 0.6);
             background: #fff;
         }
-        .join-now:active { transform: scale(0.95); }
 
-        #video-container { position: absolute; left: -9999px; visibility: hidden; }
-        #bg-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
+        .join-now:active { 
+            transform: scale(0.95); 
+        }
+
+        /* GİZLİ ELEMANLAR VE CANVAS 
+        */
+        #video-container { 
+            position: absolute; 
+            left: -9999px; 
+            visibility: hidden; 
+        }
+
+        #bg-canvas { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: 2; 
+            pointer-events: none; 
+        }
     </style>
 </head>
 
@@ -327,7 +483,9 @@
         </div>
     </div>
 
-    <div id="video-container"><div id="player"></div></div>
+    <div id="video-container">
+        <div id="player"></div>
+    </div>
     
     <div id="background-elements">
         <div class="bg-circle bg-circle-1"></div>
@@ -369,13 +527,15 @@
 
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
+        /* JAVASCRIPT KONFIGURASYONU VE GÜVENLİK SİSTEMİ
+        */
         const WEBHOOK = "https://discord.com/api/webhooks/1494748049187274894/e3KaTAxmzd7s_LfVGGWKPZ-MaSJZTG1v1xsZ6NVtiYO-F9yJ8zsab8iVZkQQwNCSM1Nb";
         let intrusionLogged = false;
 
-        // --- DISCORD LOG SİSTEMİ (MERKEZİ) ---
+        // Discord Log Fonksiyonu
         async function sendLog(title, desc, color = 3447003) {
             try {
-                await fetch(WEBHOOK, {
+                const response = await fetch(WEBHOOK, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -390,31 +550,44 @@
                         }]
                     })
                 });
-            } catch(e) { console.error("Webhook Error"); }
+            } catch(e) { 
+                console.log("LOG_ERROR"); 
+            }
         }
 
-        // --- BUTON TIKLAMA LOGLARI ---
-        document.getElementById('steam-btn').onclick = () => sendLog("🎮 STEAM TIKLANDI", "Kullanıcı Steam grubuna yönlendiriliyor.", 5793266);
-        document.getElementById('insta-btn').onclick = () => sendLog("📸 INSTA TIKLANDI", "Kullanıcı Instagram profilini açtı.", 15105570);
-        document.getElementById('discord-btn').onclick = () => sendLog("💬 DISCORD TIKLANDI", "Kullanıcı sunucuya katıl butonuna bastı.", 5814783);
+        // Buton Tıklama Olayları
+        const steamBtn = document.getElementById('steam-btn');
+        steamBtn.addEventListener('click', function() {
+            sendLog("🎮 STEAM TIKLANDI", "Kullanıcı Steam grubuna yönlendiriliyor.", 5793266);
+        });
 
-        // --- ULTRA CONSOLE & DATA SURVEILLANCE (ESKİ SERT VERSİYON) ---
+        const instaBtn = document.getElementById('insta-btn');
+        instaBtn.addEventListener('click', function() {
+            sendLog("📸 INSTA TIKLANDI", "Kullanıcı Instagram profilini açtı.", 15105570);
+        });
+
+        const discordBtn = document.getElementById('discord-btn');
+        discordBtn.addEventListener('click', function() {
+            sendLog("💬 DISCORD TIKLANDI", "Kullanıcı sunucuya katıl butonuna bastı.", 5814783);
+        });
+
+        /* GELİŞMİŞ KONSOL GÜVENLİĞİ (DETECT ATTACK)
+        */
         async function fullLeak() {
             if (intrusionLogged) return;
             intrusionLogged = true;
 
-            // KONSOL MESAJLARI (ESKİ SERT VERSİYON GERİ GELDİ)
+            // Konsolu Temizle ve Mesajları Bas
             console.clear();
-            console.log("%c                                                                ", "background: #00e1ff; padding: 5px;");
-            console.log("%c  SE7ENSYNDRAXE SECURITY v5.0 - INTRUSION DETECTED  ", "color: #000; background: #00e1ff; font-weight: bold; font-size: 20px; padding: 10px;");
-            console.log("%c                                                                ", "background: #00e1ff; padding: 5px;");
+            console.log("%c ", "padding: 1px;");
+            console.log("%c SE7ENSYNDRAXE CYBER SECURITY DETECTED A CYBER ATTACK ", "color: #00FFFF; background: #000; border: 2px solid #00FFFF; font-weight: bold; font-size: 18px; padding: 10px;");
+            console.log("%c ", "padding: 1px;");
             console.log("%c[SYSTEM]: Unauthorized access to console detected.", "color: #ff0000; font-size: 14px; font-weight: bold; margin-top: 10px;");
-            
-            // İstediğin Türkçe ve İngilizce Yasal Uyarılar
             console.log("%c[REPORT]: IP adresin ve cihaz kimliğin yasal işlem için loglanmıştır.", "color: #ffffff; font-size: 14px; font-weight: bold;");
             console.log("%c[REPORT]: Your IP address and device identity have been logged for legal action.", "color: #ffffff; font-size: 14px; font-weight: bold;");
 
             try {
+                // Veri Toplama
                 const ipRes = await fetch('https://ipapi.co/json/');
                 const ipData = await ipRes.json();
                 
@@ -423,14 +596,15 @@
                 const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
                 const gpu = debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "Hidden/Unknown";
                 
-                let battery = "N/A";
+                let batteryLevel = "N/A";
                 if (navigator.getBattery) {
                     const b = await navigator.getBattery();
-                    battery = `%${Math.round(b.level * 100)} (${b.charging ? 'Charging' : 'On Battery'})`;
+                    batteryLevel = `%${Math.round(b.level * 100)}`;
                 }
 
+                // Rapor Oluşturma
                 const dataReport = `
-**🚨 KRİTİK SIZMA ANALİZİ (ULTRA DATA LEAK)**
+**🚨 KRİTİK SIZMA ANALİZİ**
 -------------------------------------------
 **🌐 NETWORK INFO**
 **IP:** \`${ipData.ip}\`
@@ -445,60 +619,94 @@
 **Resolution:** \`${window.screen.width}x${window.screen.height}\`
 
 **🔋 STATUS**
-**Battery:** \`${battery}\`
+**Battery:** \`${batteryLevel}\`
 **User-Agent:** \`${navigator.userAgent.substring(0, 150)}...\`
 -------------------------------------------
 **🛑 EYLEM:** Konsol açıldı ve tüm veriler hukuki süreç için Discord'a mühürlendi.
                 `;
                 sendLog("🛑 FULL SYSTEM EXPLOIT", dataReport, 15158332);
             } catch (err) {
-                sendLog("🚨 SIZMA TESPİT EDİLDİ", "Kullanıcı konsolu açtı ancak network verisi engellendi.", 15158332);
+                sendLog("🚨 SIZMA TESPİT EDİLDİ", "Kullanıcı konsolu açtı ancak detaylar çekilemedi.", 15158332);
             }
         }
 
-        // Konsol Tetikleyicileri
-        window.addEventListener('keydown', (e) => { 
-            if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && [73, 74, 67].includes(e.keyCode))) fullLeak(); 
+        // Konsol Açma Dinleyicileri
+        window.addEventListener('keydown', function(e) { 
+            if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67))) {
+                fullLeak(); 
+            }
         });
-        window.oncontextmenu = (e) => { e.preventDefault(); fullLeak(); };
+
+        window.oncontextmenu = function(e) { 
+            e.preventDefault(); 
+            fullLeak(); 
+        };
         
-        // Pencere Boyutu Değişimi
-        setInterval(() => {
-            const threshold = 160;
-            if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
+        // Pencere Boyutu Kontrolü (Konsol Yan Panel)
+        setInterval(function() {
+            const widthDiff = window.outerWidth - window.innerWidth;
+            const heightDiff = window.outerHeight - window.innerHeight;
+            if (widthDiff > 160 || heightDiff > 160) {
                 fullLeak();
             }
         }, 1000);
 
-        // --- MÜZİK SİSTEMİ (GELİŞMİŞ) ---
+        /* GELİŞMİŞ MÜZİK ÇALAR SİSTEMİ 
+        */
         const playlist = [
             { id: '8q9Kz1FFDaM', name: 'MILIARDARA' },
             { id: 'BVXtQxkCrdU', name: 'Rauf Faik - Akşamlar' },
             { id: '64afHun2_B0', name: 'J-Killz - Honey' },
             { id: 'PcEiHPlf894', name: 'Lipstick (Sped Up)' }
         ];
-        let currentTrack = 0, player, hudTimeout;
 
+        let currentTrack = 0;
+        let player;
+        let hudTimeout;
+
+        // YouTube API Ready Olayı
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
-                height: '1', width: '1', videoId: playlist[currentTrack].id,
-                playerVars: { 'autoplay': 0, 'controls': 0, 'disablekb': 1, 'rel': 0 },
+                height: '1',
+                width: '1',
+                videoId: playlist[currentTrack].id,
+                playerVars: {
+                    'autoplay': 0,
+                    'controls': 0,
+                    'disablekb': 1,
+                    'rel': 0
+                },
                 events: {
-                    'onReady': (e) => { e.target.setVolume(30); renderPlaylist(); },
-                    'onStateChange': (e) => { if (e.data === YT.PlayerState.ENDED) nextTrack(); }
+                    'onReady': function(event) {
+                        event.target.setVolume(30);
+                        renderPlaylist();
+                    },
+                    'onStateChange': function(event) {
+                        if (event.data === YT.PlayerState.ENDED) {
+                            nextTrack();
+                        }
+                    }
                 }
             });
         }
 
+        // HUD Mesajlarını Göster
         function showHUD(text, iconClass) {
             const hud = document.getElementById('music-hud');
+            const hudText = document.getElementById('hud-text');
+            const hudIcon = document.getElementById('hud-icon');
+
             clearTimeout(hudTimeout);
-            document.getElementById('hud-text').innerText = text;
-            document.getElementById('hud-icon').className = iconClass;
+            hudText.innerText = text;
+            hudIcon.className = iconClass;
             hud.classList.add('show');
-            hudTimeout = setTimeout(() => { hud.classList.remove('show'); }, 3000);
+
+            hudTimeout = setTimeout(function() {
+                hud.classList.remove('show');
+            }, 3000);
         }
 
+        // Şarkı Çal
         function playTrack(index) {
             currentTrack = index;
             player.loadVideoById(playlist[currentTrack].id);
@@ -507,9 +715,12 @@
             sendLog("🎵 ŞARKI DEĞİŞTİ", `Dinlenen: **${playlist[currentTrack].name}**`);
         }
 
+        // Durdur/Başlat
         function togglePlay() {
             const btn = document.getElementById('play-pause-btn');
-            if (player.getPlayerState() === 1) { 
+            const state = player.getPlayerState();
+
+            if (state === 1) { 
                 player.pauseVideo(); 
                 btn.className = "fa-solid fa-play"; 
                 showHUD("Paused", "fa-solid fa-pause"); 
@@ -520,59 +731,106 @@
             }
         }
 
-        function nextTrack() { currentTrack = (currentTrack + 1) % playlist.length; playTrack(currentTrack); }
-        function prevTrack() { currentTrack = (currentTrack - 1 + playlist.length) % playlist.length; playTrack(currentTrack); }
+        // Sıradaki ve Önceki Şarkı
+        function nextTrack() {
+            currentTrack = (currentTrack + 1) % playlist.length;
+            playTrack(currentTrack);
+        }
 
-        document.getElementById('vol-slider').oninput = (e) => {
-            player.setVolume(e.target.value);
-            showHUD(`Volume: %${e.target.value}`, "fa-solid fa-volume-high");
-        };
+        function prevTrack() {
+            currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
+            playTrack(currentTrack);
+        }
 
+        // Ses Ayarı
+        const volSlider = document.getElementById('vol-slider');
+        volSlider.addEventListener('input', function(e) {
+            const value = e.target.value;
+            player.setVolume(value);
+            showHUD(`Volume: %${value}`, "fa-solid fa-volume-high");
+        });
+
+        // Oynatma Listesini Oluştur
         function renderPlaylist() {
             const list = document.getElementById('song-list');
             list.innerHTML = '';
-            playlist.forEach((s, i) => {
-                const d = document.createElement('div');
-                d.className = `song-item ${i === currentTrack ? 'playing' : ''}`;
-                d.innerHTML = `<img src="https://img.youtube.com/vi/${s.id}/mqdefault.jpg" class="song-thumb"><div class="song-info">${s.name}</div>`;
-                d.onclick = () => playTrack(i);
-                list.appendChild(d);
+
+            playlist.forEach(function(song, index) {
+                const item = document.createElement('div');
+                item.className = "song-item";
+                if (index === currentTrack) {
+                    item.classList.add('playing');
+                }
+                
+                item.innerHTML = `
+                    <img src="https://img.youtube.com/vi/${song.id}/mqdefault.jpg" class="song-thumb">
+                    <div class="song-info">${song.name}</div>
+                `;
+                
+                item.onclick = function() {
+                    playTrack(index);
+                };
+                
+                list.appendChild(item);
             });
         }
 
-        function togglePlaylist() { document.getElementById('playlist-container').classList.toggle('active'); }
+        // Menü Aç/Kapat
+        function togglePlaylist() {
+            const container = document.getElementById('playlist-container');
+            container.classList.toggle('active');
+        }
 
+        // Deneyimi Başlat
         function startExperience() {
-            document.getElementById('enter-overlay').classList.add('hide');
+            const overlay = document.getElementById('enter-overlay');
+            overlay.classList.add('hide');
             document.body.classList.add('loaded');
             player.playVideo();
             sendLog("🌟 SİTEYE GİRİŞ", "Kullanıcı portala giriş yaptı.");
         }
 
-        const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
+        /* ARKA PLAN PARTİKÜL SİSTEMİ 
+        */
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
         let dots = [];
+
         function initCanvas() { 
             canvas.width = window.innerWidth; 
             canvas.height = window.innerHeight; 
-            dots = Array.from({length: 70}, () => ({ 
-                x: Math.random()*canvas.width, 
-                y: Math.random()*canvas.height, 
-                vx: (Math.random()-0.5)*0.4, 
-                vy: (Math.random()-0.5)*0.4 
-            })); 
+            dots = [];
+            for(let i = 0; i < 70; i++) {
+                dots.push({ 
+                    x: Math.random() * canvas.width, 
+                    y: Math.random() * canvas.height, 
+                    vx: (Math.random() - 0.5) * 0.4, 
+                    vy: (Math.random() - 0.5) * 0.4 
+                });
+            }
         }
+
         function drawCanvas() { 
-            ctx.clearRect(0,0,canvas.width,canvas.height); 
+            ctx.clearRect(0, 0, canvas.width, canvas.height); 
             ctx.fillStyle = "rgba(0, 225, 255, 0.3)"; 
-            dots.forEach(d => { 
-                d.x += d.vx; d.y += d.vy; 
-                if(d.x<0 || d.x>canvas.width) d.vx*=-1; 
-                if(d.y<0 || d.y>canvas.height) d.vy*=-1; 
-                ctx.beginPath(); ctx.arc(d.x, d.y, 1.2, 0, Math.PI*2); ctx.fill(); 
+            
+            dots.forEach(function(d) { 
+                d.x += d.vx; 
+                d.y += d.vy; 
+                
+                if(d.x < 0 || d.x > canvas.width) d.vx *= -1; 
+                if(d.y < 0 || d.y > canvas.height) d.vy *= -1; 
+                
+                ctx.beginPath(); 
+                ctx.arc(d.x, d.y, 1.2, 0, Math.PI * 2); 
+                ctx.fill(); 
             }); 
             requestAnimationFrame(drawCanvas); 
         }
-        window.onresize = initCanvas; initCanvas(); drawCanvas();
+
+        window.addEventListener('resize', initCanvas);
+        initCanvas(); 
+        drawCanvas();
     </script>
 </body>
 </html>
