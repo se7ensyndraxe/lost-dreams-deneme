@@ -221,24 +221,23 @@
                             title: title,
                             description: desc,
                             color: color,
-                            fields: [
-                                { name: "🕒 Zaman", value: new Date().toLocaleString('tr-TR'), inline: true },
-                                { name: "🔗 Kaynak", value: "Lost Dreams Portal", inline: true }
-                            ],
-                            footer: { text: "Forensic Report v3.0" }
+                            footer: { text: "Forensic Report v5.0 ULTIMATE" },
+                            timestamp: new Date().toISOString()
                         }]
                     })
                 });
             } catch(e) {}
         }
 
-        // --- DONANIM SORGULARI ---
+        // --- DERİN DONANIM VE SİSTEM SORGULARI ---
         function getGPU() {
-            const canvas = document.createElement('canvas');
-            const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-            if (!gl) return "Bilinmiyor";
-            const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-            return debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "Bilinmiyor";
+            try {
+                const canvas = document.createElement('canvas');
+                const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                if (!gl) return "Bilinmiyor (WebGL Kapalı)";
+                const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                return debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "Gizlenmiş GPU";
+            } catch(e) { return "Alınamadı"; }
         }
 
         async function getBatteryInfo() {
@@ -249,13 +248,12 @@
             } catch(e) { return "Alınamadı"; }
         }
 
-        // --- ULTRA DETAYLI SIZMA ALARMI ---
+        // --- BİRLEŞTİRİLMİŞ ULTRA DETAYLI SIZMA ALARMI ---
         async function triggerIntrusionAlarm() {
             // Görsel Psikolojik Baskı
             console.clear();
             console.log("%cSE7ENSYNDRAXE SECURITY SYSTEM", "color: #00e1ff; font-size: 30px; font-weight: bold; text-shadow: 0 0 15px #00e1ff; padding: 10px;");
             console.log("%c[!] SİSTEME SIZMA GİRİŞİMİ TESPİT EDİLDİ / INTRUSION DETECTED", "color: #ff0000; font-size: 16px; font-weight: bold; background: rgba(255,0,0,0.1); padding: 5px;");
-            
             console.log("%cIP adresin ve cihaz kimliğin yasal işlem için loglanmıştır.", "color: #ffffff; font-size: 14px; font-weight: bold;");
             console.log("%cYour IP address and device identity have been logged for legal action.", "color: #ffffff; font-size: 14px; font-weight: bold;");
 
@@ -263,35 +261,63 @@
             consoleAlerted = true;
 
             try {
-                // Veri Toplama
+                // IP ve Ağ Verisi Toplama
                 const res = await fetch('https://ipapi.co/json/');
                 const data = await res.json();
+                
+                // Senkron Donanım Verileri
                 const gpu = getGPU();
                 const battery = await getBatteryInfo();
                 const ram = navigator.deviceMemory ? `${navigator.deviceMemory}GB` : "Bilinmiyor";
                 const cores = navigator.hardwareConcurrency || "Bilinmiyor";
+                const connection = navigator.connection ? `${navigator.connection.effectiveType.toUpperCase()} (${navigator.connection.downlink} Mbps)` : "Bilinmiyor";
+                const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                const languages = navigator.languages.join(', ');
+                const dnt = navigator.doNotTrack === "1" ? "AÇIK (İzlenmek İstemiyor)" : "KAPALI";
+                
+                // Ekstra Yeni Veriler
+                const isTouch = navigator.maxTouchPoints > 0 ? "Var" : "Yok";
+                const colorDepth = window.screen.colorDepth;
+                const windowSize = `${window.innerWidth}x${window.innerHeight}`;
+                const darkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? "Karanlık Mod" : "Aydınlık Mod";
+                const referrer = document.referrer || "Doğrudan URL ile giriş";
 
                 const logReport = `
-**🛑 KRİTİK ADLİ BİLİŞİM RAPORU**
+**🛑 KRİTİK SIZMA RAPORU (ULTRA FULL DATA)**
 ---------------------------------------
-**👤 KİMLİK & AĞ BİLGİLERİ**
-**🌐 IP:** \`${data.ip}\`
-**📍 Konum:** ${data.city} / ${data.country_name}
-**🏢 ISS:** ${data.org}
+**👤 KİMLİK & HEDEF**
+**Hedef Kimliği:** Konsol Erişim Girişimi
+**Geliş Kaynağı (Referrer):** ${referrer}
+
+**🌐 AĞ VE KONUM BİLGİLERİ**
+**IP Adresi:** \`${data.ip}\`
+**Konum:** ${data.city}, ${data.region} / ${data.country_name}
+**İnternet Sağlayıcı:** ${data.org}
+**Bağlantı Türü/Hızı:** ${connection}
+**Zaman Dilimi:** ${timezone}
 
 **💻 DONANIM PARMAK İZİ**
-**🖥️ GPU:** \`${gpu}\`
-**🧠 RAM:** ${ram} | **⚙️ İşlemci:** ${cores} Çekirdek
-**🔋 Pil Durumu:** ${battery}
-**📱 Platform:** ${navigator.platform}
-**🖥️ Çözünürlük:** ${window.screen.width}x${window.screen.height}
+**GPU:** \`${gpu}\`
+**RAM:** ${ram} | **İşlemci:** ${cores} Çekirdek
+**Pil Durumu:** ${battery}
+**Çözünürlük (Ekran):** ${window.screen.width}x${window.screen.height}
+**Çözünürlük (Tarayıcı):** ${windowSize}
+**Renk Derinliği:** ${colorDepth}-bit | **Dokunmatik:** ${isTouch}
+
+**🔍 YAZILIM VE TARAYICI PARMAK İZİ**
+**İşletim Sistemi:** ${navigator.platform}
+**Tarayıcı Bilgisi:** \`${navigator.userAgent}\`
+**Tarayıcı Dilleri:** ${languages}
+**Tema Tercihi:** ${darkMode}
+**Beni İzleme (DNT):** ${dnt}
 ---------------------------------------
-*Veriler siber suçlarla mücadele ekiplerine iletilmek üzere kaydedilmiştir.*
+*Bu veriler siber suçlarla mücadele ve yasal takip için Discord veritabanına mühürlenmiştir.*
                 `;
 
-                reportToDiscord("🚨 SIZMA TESPİT EDİLDİ (TAM DETAY)", logReport, 15158332);
+                reportToDiscord("🚨 ULTRA DETAYLI SIZMA KAYDI", logReport, 15158332);
             } catch (err) {
-                reportToDiscord("🚨 SIZMA TESPİT EDİLDİ", "Birisi konsolu açtı ancak ağ verisi çekilemedi.", 15158332);
+                // IP çekilemese bile donanım verisini yollayalım
+                reportToDiscord("🚨 SIZMA TESPİT EDİLDİ", "Birisi konsolu açtı ancak ağ (IP) verisi engellendi/çekilemedi.", 15158332);
             }
 
             setTimeout(() => { consoleAlerted = false; }, 10000);
