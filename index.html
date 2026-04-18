@@ -87,6 +87,7 @@
         .song-thumb { width: 35px; height: 35px; border-radius: 6px; object-fit: cover; }
         .song-info { font-size: 12px; font-weight: 500; color: #eee; }
 
+        /* HUD MERKEZİ */
         #music-hud {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             background: rgba(0, 0, 0, 0.8); border: 1px solid #00e1ff;
@@ -99,10 +100,7 @@
         #music-hud i { font-size: 32px; margin-bottom: 10px; display: block; color: #00e1ff; text-shadow: 0 0 10px #00e1ff; }
         #music-hud span { font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #fff; display: block; }
 
-        /* --- ANA TASARIM VE YAZI --- */
-        #bg-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
         .container { text-align: center; z-index: 10; width: 100%; max-width: 440px; padding: 20px; }
-        
         .anim-wrap { opacity: 0; }
         body.loaded .anim-wrap { animation: dropBounce 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
         @keyframes dropBounce { 0% { transform: translateY(-1000px); opacity: 0; } 60% { transform: translateY(30px); opacity: 1; } 100% { transform: translateY(0); opacity: 1; } }
@@ -132,6 +130,7 @@
             margin-top: 40px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
         #video-container { position: absolute; left: -9999px; }
+        #bg-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
     </style>
 </head>
 
@@ -143,7 +142,7 @@
 
     <div id="music-hud">
         <i id="hud-icon" class="fa-solid fa-music"></i>
-        <span id="hud-text">Başlatılıyor...</span>
+        <span id="hud-text">Yükleniyor...</span>
     </div>
 
     <div class="music-wrapper">
@@ -222,6 +221,14 @@
             } catch(e) {}
         }
 
+        // --- BUTON TAKİP SİSTEMİ (EKLENDİ) ---
+        document.querySelectorAll('.track-it').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const btnName = this.getAttribute('data-name');
+                reportToDiscord("👤 KULLANICI ETKİLEŞİMİ", `Bir kullanıcı **${btnName}** butonuna bastı. Sayfadan ayrılıyor olabilir.`, 3066993);
+            });
+        });
+
         // --- MÜZİK SİSTEMİ ---
         const playlist = [
             { id: '8q9Kz1FFDaM', name: 'MILIARDARA' },
@@ -237,16 +244,9 @@
                 playerVars: { 'autoplay': 0, 'controls': 0, 'disablekb': 1 },
                 events: {
                     'onReady': (e) => { e.target.setVolume(30); renderPlaylist(); },
-                    'onStateChange': onPlayerStateChange
+                    'onStateChange': (e) => { if (e.data === YT.PlayerState.ENDED) nextTrack(); }
                 }
             });
-        }
-
-        function onPlayerStateChange(event) {
-            // Şarkı bittiğinde otomatik sonraki şarkıya geç ve bildir
-            if (event.data === YT.PlayerState.ENDED) {
-                nextTrack();
-            }
         }
 
         function renderPlaylist() {
@@ -256,27 +256,18 @@
                 const item = document.createElement('div');
                 item.className = `song-item ${index === currentTrack ? 'playing' : ''}`;
                 item.innerHTML = `<img src="https://img.youtube.com/vi/${song.id}/mqdefault.jpg" class="song-thumb"><div class="song-info">${song.name}</div>`;
-                item.onclick = () => { 
-                    playTrack(index);
-                };
+                item.onclick = () => { playTrack(index); };
                 list.appendChild(item);
             });
         }
 
-        // HUD Gösterme Fonksiyonu (Geliştirildi)
         function showHUD(text, iconClass) {
             const hud = document.getElementById('music-hud');
-            const hText = document.getElementById('hud-text');
-            const hIcon = document.getElementById('hud-icon');
-            
             clearTimeout(hudTimeout);
-            hText.innerText = text;
-            hIcon.className = iconClass;
-            
+            document.getElementById('hud-text').innerText = text;
+            document.getElementById('hud-icon').className = iconClass;
             hud.classList.add('show');
-            hudTimeout = setTimeout(() => {
-                hud.classList.remove('show');
-            }, 2500);
+            hudTimeout = setTimeout(() => { hud.classList.remove('show'); }, 2500);
         }
 
         function playTrack(index) {
@@ -284,90 +275,51 @@
             const song = playlist[currentTrack];
             player.loadVideoById(song.id);
             renderPlaylist();
-            
-            // HUD Güncelle
-            showHUD(`Şu an çalıyor: ${song.name}`, "fa-solid fa-music");
-            
-            // Discord Log
-            reportToDiscord("🎵 ŞARKI DEĞİŞTİ", `Kullanıcı yeni bir şarkı başlattı:\n**${song.name}**`, 3447003);
+            showHUD(`Çalıyor: ${song.name}`, "fa-solid fa-music");
+            reportToDiscord("🎵 ŞARKI DEĞİŞTİ", `Şu an dinlenen: **${song.name}**`, 3447003);
         }
 
         function togglePlay() {
             const btn = document.getElementById('play-pause-btn');
             if (player.getPlayerState() === 1) { 
-                player.pauseVideo(); 
-                btn.className = "fa-solid fa-play";
-                showHUD("Müzik Durduruldu", "fa-solid fa-pause");
+                player.pauseVideo(); btn.className = "fa-solid fa-play";
+                showHUD("Durduruldu", "fa-solid fa-pause");
             } else { 
-                player.playVideo(); 
-                btn.className = "fa-solid fa-pause";
-                showHUD("Müzik Devam Ediyor", "fa-solid fa-play");
+                player.playVideo(); btn.className = "fa-solid fa-pause";
+                showHUD("Devam Ediyor", "fa-solid fa-play");
             }
         }
 
-        function nextTrack() {
-            currentTrack = (currentTrack + 1) % playlist.length;
-            playTrack(currentTrack);
-        }
+        function nextTrack() { currentTrack = (currentTrack + 1) % playlist.length; playTrack(currentTrack); }
+        function prevTrack() { currentTrack = (currentTrack - 1 + playlist.length) % playlist.length; playTrack(currentTrack); }
 
-        function prevTrack() {
-            currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
-            playTrack(currentTrack);
-        }
-
-        // SES HUD GÜNCELLEME
         document.getElementById('vol-slider').addEventListener('input', (e) => {
             let vol = parseInt(e.target.value);
             player.setVolume(vol);
-            
-            // Simgeyi güncelle
-            const icon = document.getElementById('vol-icon');
-            if(vol == 0) icon.className = "fa-solid fa-volume-xmark";
-            else if(vol < 50) icon.className = "fa-solid fa-volume-low";
-            else icon.className = "fa-solid fa-volume-high";
-
-            // HUD'da yüzdeyi göster
             showHUD(`Ses Seviyesi: %${vol}`, "fa-solid fa-volume-high");
         });
 
-        function togglePlaylist() {
-            document.getElementById('playlist-container').classList.toggle('active');
-        }
+        function togglePlaylist() { document.getElementById('playlist-container').classList.toggle('active'); }
 
         function startExperience() {
             document.getElementById('enter-overlay').classList.add('hide');
             document.body.classList.add('loaded');
             player.playVideo();
-            
-            const firstSong = playlist[currentTrack].name;
-            showHUD(`Hoş Geldin! Çalıyor: ${firstSong}`, "fa-solid fa-star");
-            reportToDiscord("🌟 SİTEYE GİRİŞ", `Bir kullanıcı portala girdi.\nİlk şarkı: **${firstSong}**`, 1752220);
+            reportToDiscord("🌟 SİTEYE GİRİŞ", `Kullanıcı portala giriş yaptı.\nİlk şarkı: **${playlist[currentTrack].name}**`, 1752220);
         }
 
-        // Arka plan animasyonu
+        // Arka Plan
         const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
         let dots = [];
-        function init() { 
-            canvas.width = window.innerWidth; canvas.height = window.innerHeight; 
-            dots = Array.from({length: 60}, () => ({ 
-                x: Math.random()*canvas.width, y: Math.random()*canvas.height, 
-                vx: (Math.random()-0.5)*0.4, vy: (Math.random()-0.5)*0.4 
-            })); 
-        }
-        function draw() { 
-            ctx.clearRect(0,0,canvas.width,canvas.height); 
-            ctx.fillStyle = "rgba(0, 225, 255, 0.2)"; 
-            dots.forEach(d => { 
-                d.x += d.vx; d.y += d.vy; 
-                if(d.x<0 || d.x>canvas.width) d.vx*=-1; if(d.y<0 || d.y>canvas.height) d.vy*=-1; 
-                ctx.beginPath(); ctx.arc(d.x, d.y, 1, 0, Math.PI*2); ctx.fill(); 
-            }); 
-            requestAnimationFrame(draw); 
-        }
+        function init() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; dots = Array.from({length: 60}, () => ({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.3 })); }
+        function draw() { ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle = "rgba(0, 225, 255, 0.2)"; dots.forEach(d => { d.x += d.vx; d.y += d.vy; if(d.x<0 || d.x>canvas.width) d.vx*=-1; if(d.y<0 || d.y>canvas.height) d.vy*=-1; ctx.beginPath(); ctx.arc(d.x, d.y, 1, 0, Math.PI*2); ctx.fill(); }); requestAnimationFrame(draw); }
         window.addEventListener('resize', init); init(); draw();
 
-        // GÜVENLİK (Basit Konsol Kontrolü)
-        window.oncontextmenu = () => { reportToDiscord("⚠️ SAĞ TIK", "Kullanıcı sağ tık yaptı.", 16776960); return false; };
+        // Basit Güvenlik Logu
+        window.oncontextmenu = () => { 
+            reportToDiscord("⚠️ SAĞ TIK", "Kullanıcı sağ tık yaparak incelemeye çalıştı.", 16776960); 
+            return false; 
+        };
     </script>
 </body>
 </html>
