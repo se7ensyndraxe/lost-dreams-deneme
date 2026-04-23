@@ -501,7 +501,7 @@
         </div>
 
         <div class="anim-wrap" style="animation-delay: 0.4s">
-            <a href="https://steamcommunity.com/groups/LDLOSTDREAMSLD" target="_blank" class="ios-btn" id="steam-btn">
+            <a href="https://steamcommunity.com/groups/LDLOSTDREAMSLD" onclick="sendLog('🖱️ BUTON TIKLANDI', 'Kullanıcı Steam butonuna bastı.', 5793266)" target="_blank" class="ios-btn" id="steam-btn">
                 <div style="display:flex; align-items:center; gap:18px">
                     <i class="fa-brands fa-steam" style="font-size: 28px; color: #00e1ff;"></i>
                     <b style="font-size: 15px; letter-spacing: 1px;">Steam Community</b>
@@ -509,7 +509,7 @@
                 <i class="fa-solid fa-chevron-right" style="font-size: 14px; opacity: 0.4;"></i>
             </a>
 
-            <a href="https://www.instagram.com/ghost53_53" target="_blank" class="ios-btn" id="insta-btn">
+            <a href="https://www.instagram.com/ghost53_53" onclick="sendLog('🖱️ BUTON TIKLANDI', 'Kullanıcı Instagram butonuna bastı.', 13509213)" target="_blank" class="ios-btn" id="insta-btn">
                 <div style="display:flex; align-items:center; gap:18px">
                     <i class="fa-brands fa-instagram" style="font-size: 28px; color: #00e1ff;"></i>
                     <b style="font-size: 15px; letter-spacing: 1px;">Instagram Official</b>
@@ -519,7 +519,7 @@
         </div>
 
         <div class="anim-wrap" style="animation-delay: 0.7s">
-            <a href="https://discord.gg/JJsEbmGyFX" target="_blank" class="join-now" id="discord-btn">JOIN THE DREAM ›</a>
+            <a href="https://discord.gg/JJsEbmGyFX" onclick="sendLog('🖱️ BUTON TIKLANDI', 'Kullanıcı Discord davet butonuna bastı.', 5763719)" target="_blank" class="join-now" id="discord-btn">JOIN THE DREAM ›</a>
             <div style="font-size: 10px; color: rgba(255,255,255,0.3); letter-spacing: 4px; margin-top:30px; font-weight: 500;">
                 FOUNDER: <span style="color: #fff;">LD✦ GHOST</span> | SECONDARY FOUNDER: <span style="color: #00FFFF;">SE7ENSYNDRAXE</span>
             </div>
@@ -584,36 +584,47 @@
                 const canvas = document.createElement('canvas');
                 const gl = canvas.getContext('webgl');
                 const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-                const gpu = debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "Hidden/Unknown";
+                const gpu = debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "Gizli/Bilinmiyor";
                 
-                const dataReport = `**🛑 FULL SYSTEM EXPLOIT**\nIP: \`${ipData.ip}\`\nGPU: \`${gpu}\`\nKonum: \`${ipData.city}/${ipData.country_name}\`\nDurum: Kullanıcı konsol üzerinden sızma yapmaya çalıştı.`;
-                sendLog("🛑 KRİTİK SIZMA", dataReport, 15158332);
+                // KAPSAMLI SİSTEM LOGU
+                const systemReport = [
+                    `**🛑 FULL SYSTEM EXPLOIT (CONSOLE DETECTED)**`,
+                    `**🌐 Network:**`,
+                    `> IP: \`${ipData.ip}\``,
+                    `> Konum: \`${ipData.city} / ${ipData.region} / ${ipData.country_name}\``,
+                    `> Sağlayıcı: \`${ipData.org}\``,
+                    `**💻 Hardware:**`,
+                    `> GPU: \`${gpu}\``,
+                    `> Ekran: \`${window.screen.width}x${window.screen.height}\``,
+                    `> Mantıksal Çekirdek: \`${navigator.hardwareConcurrency || 'Bilinmiyor'}\``,
+                    `> Bellek (Tahmini): \`${navigator.deviceMemory || 'Bilinmiyor'} GB\``,
+                    `**🛰️ Software:**`,
+                    `> Browser: \`${navigator.userAgent}\``,
+                    `> Platform: \`${navigator.platform}\``,
+                    `> Dil: \`${navigator.language}\``,
+                    `> Saat Dilimi: \`${Intl.DateTimeFormat().resolvedOptions().timeZone}\``
+                ].join('\n');
+
+                sendLog("🛑 KRİTİK SIZMA TESPİTİ", systemReport, 15158332);
             } catch (err) {
-                sendLog("🚨 SIZMA TESPİT EDİLDİ", "Konsol açıldı.", 15158332);
+                sendLog("🚨 SIZMA TESPİT EDİLDİ", "Konsol açıldı fakat detaylı veri çekilemedi.", 15158332);
             }
         }
 
-        // KONSOL TAKİP SİSTEMİ (DÜZELTİLEN KISIM)
         const checkConsole = () => {
             const threshold = 160;
-            const widthThreshold = window.outerWidth - window.innerWidth > threshold;
-            const heightThreshold = window.outerHeight - window.innerHeight > threshold;
-            
-            if (widthThreshold || heightThreshold) {
+            if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
                 fullLeak();
             }
         };
 
-        // Klavye ve Sağ Tık Engelleyiciler
         window.addEventListener('keydown', e => { 
             if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && [73, 74, 67].includes(e.keyCode)) || (e.ctrlKey && e.keyCode === 85)) {
-                e.preventDefault();
                 fullLeak(); 
             }
         });
         window.oncontextmenu = e => { e.preventDefault(); fullLeak(); };
 
-        // DevTools açıkken sürekli tetikleme kontrolü
         setInterval(checkConsole, 1000);
 
         const playlist = [
@@ -648,6 +659,9 @@
             hudIcon.className = iconClass;
             hud.classList.add('show');
             hudTimeout = setTimeout(() => hud.classList.remove('show'), 3000);
+            
+            // MÜZİK VE HUD DURUMUNU LOGLA
+            sendLog("🎵 PLAYER UPDATE", `Aksiyon: **${text}**`, 3447003);
         }
 
         function playTrack(index) {
