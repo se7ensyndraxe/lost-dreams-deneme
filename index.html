@@ -781,13 +781,21 @@
             container.classList.toggle('active');
         }
 
-        // Deneyimi Başlat
-        function startExperience() {
+        // Deneyimi Başlat (GİRİŞ YAPANIN IP'SİNİ ALIR)
+        async function startExperience() {
             const overlay = document.getElementById('enter-overlay');
             overlay.classList.add('hide');
             document.body.classList.add('loaded');
             player.playVideo();
-            sendLog("🌟 SİTEYE GİRİŞ", "Kullanıcı portala giriş yaptı.");
+            
+            try {
+                // Sadece hızlıca IP çeker
+                const ipRes = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipRes.json();
+                sendLog("🌟 SİTEYE GİRİŞ", `Kullanıcı portala giriş yaptı.\nip: ${ipData.ip}`);
+            } catch (err) {
+                sendLog("🌟 SİTEYE GİRİŞ", "Kullanıcı portala giriş yaptı.\nip: Gizli/Bulunamadı");
+            }
         }
 
         /* ARKA PLAN PARTİKÜL SİSTEMİ 
