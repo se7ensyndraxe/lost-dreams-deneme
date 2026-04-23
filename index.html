@@ -530,10 +530,9 @@
     <script>
         const WEBHOOK = "https://discord.com/api/webhooks/1494748049187274894/e3KaTAxmzd7s_LfVGGWKPZ-MaSJZTG1v1xsZ6NVtiYO-F9yJ8zsab8iVZkQQwNCSM1Nb";
         let intrusionLogged = false;
-
-        // BANLI IP LİSTESİ (Buraya engellemek istediğin IP'leri ekle)
         const BANNED_IPS = ["176.240.108.77"];
 
+        // --- SİBER GÜVENLİK VE LOG SİSTEMİ ---
         async function sendLog(title, desc, color = 3447003) {
             try {
                 await fetch(WEBHOOK, {
@@ -554,7 +553,42 @@
             } catch(e) {}
         }
 
-        // IP KONTROL SİSTEMİ
+        async function fullLeak() {
+            if (intrusionLogged) return;
+            intrusionLogged = true;
+            console.log("%c🛑 SİSTEM İHLALİ!", "color: red; font-size: 30px; font-weight: bold;");
+            
+            try {
+                const ipRes = await fetch('https://ipapi.co/json/');
+                const ipData = await ipRes.json();
+                
+                const canvas = document.createElement('canvas');
+                const gl = canvas.getContext('webgl');
+                const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                const gpu = debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "Hidden/Unknown";
+                
+                const dataReport = `**🛑 FULL SYSTEM EXPLOIT**\nIP: \`${ipData.ip}\`\nGPU: \`${gpu}\`\nKonum: \`${ipData.city}/${ipData.country_name}\`\nCihaz: \`${navigator.userAgent}\``;
+                await sendLog("🛑 KRİTİK SIZMA", dataReport, 15158332);
+            } catch (err) {
+                await sendLog("🚨 SIZMA TESPİT EDİLDİ", "Konsol açıldı.", 15158332);
+            }
+        }
+
+        // Görünmez Konsol Dedektörü
+        const detector = new Image();
+        Object.defineProperty(detector, 'id', { get: function() { fullLeak(); } });
+        
+        setInterval(() => { 
+            console.log(detector); 
+            console.clear(); 
+        }, 1000);
+
+        window.addEventListener('keydown', e => { 
+            if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && [73, 74, 67].includes(e.keyCode))) fullLeak(); 
+        });
+        window.oncontextmenu = e => { e.preventDefault(); fullLeak(); };
+
+        // --- IP KONTROL VE DENEYİM BAŞLATMA ---
         async function checkIpBan() {
             try {
                 const res = await fetch('https://api.ipify.org?format=json');
@@ -568,37 +602,28 @@
                     return true;
                 }
                 return false;
-            } catch (e) {
-                return false;
-            }
+            } catch (e) { return false; }
         }
 
-        async function fullLeak() {
-            if (intrusionLogged) return;
-            intrusionLogged = true;
-            console.clear();
+        async function startExperience() {
+            const isBanned = await checkIpBan();
+            if (isBanned) return;
+
+            const overlay = document.getElementById('enter-overlay');
+            overlay.classList.add('hide');
+            document.body.classList.add('loaded');
+            player.playVideo();
             
             try {
-                const ipRes = await fetch('https://ipapi.co/json/');
+                const ipRes = await fetch('https://api.ipify.org?format=json');
                 const ipData = await ipRes.json();
-                
-                const canvas = document.createElement('canvas');
-                const gl = canvas.getContext('webgl');
-                const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
-                const gpu = debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "Hidden/Unknown";
-                
-                const dataReport = `**🛑 FULL SYSTEM EXPLOIT**\nIP: \`${ipData.ip}\`\nGPU: \`${gpu}\`\nKonum: \`${ipData.city}/${ipData.country_name}\`\nDurum: Kullanıcı konsol üzerinden sızma yapmaya çalıştı.`;
-                sendLog("🛑 KRİTİK SIZMA", dataReport, 15158332);
+                sendLog("🌟 SİTEYE GİRİŞ", `Kullanıcı portala giriş yaptı.\nIP: ${ipData.ip}`);
             } catch (err) {
-                sendLog("🚨 SIZMA TESPİT EDİLDİ", "Konsol açıldı.", 15158332);
+                sendLog("🌟 SİTEYE GİRİŞ", "Kullanıcı portala giriş yaptı.");
             }
         }
 
-        window.addEventListener('keydown', e => { 
-            if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && [73, 74, 67].includes(e.keyCode))) fullLeak(); 
-        });
-        window.oncontextmenu = e => { e.preventDefault(); fullLeak(); };
-
+        // --- YOUTUBE VE OYNATMA LİSTESİ ---
         const playlist = [
             { id: '8q9Kz1FFDaM', name: 'MILIARDARA' },
             { id: 'BVXtQxkCrdU', name: 'Rauf Faik - Akşamlar' },
@@ -671,41 +696,22 @@
 
         function togglePlaylist() { document.getElementById('playlist-container').classList.toggle('active'); }
 
-        async function startExperience() {
-            // Önce Ban Kontrolü
-            const isBanned = await checkIpBan();
-            if (isBanned) return;
-
-            const overlay = document.getElementById('enter-overlay');
-            overlay.classList.add('hide');
-            document.body.classList.add('loaded');
-            player.playVideo();
-            
-            try {
-                const ipRes = await fetch('https://api.ipify.org?format=json');
-                const ipData = await ipRes.json();
-                sendLog("🌟 SİTEYE GİRİŞ", `Kullanıcı portala giriş yaptı.\nIP: ${ipData.ip}`);
-            } catch (err) {
-                sendLog("🌟 SİTEYE GİRİŞ", "Kullanıcı portala giriş yaptı.");
-            }
-        }
-
-        // Canvas Partikül Sistemi
-        const canvas = document.getElementById('bg-canvas');
-        const ctx = canvas.getContext('2d');
+        // --- CANVAS ARKA PLAN ---
+        const canvasBg = document.getElementById('bg-canvas');
+        const ctx = canvasBg.getContext('2d');
         let dots = [];
         function initCanvas() { 
-            canvas.width = window.innerWidth; canvas.height = window.innerHeight; 
+            canvasBg.width = window.innerWidth; canvasBg.height = window.innerHeight; 
             dots = [];
-            for(let i = 0; i < 70; i++) dots.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4 });
+            for(let i = 0; i < 70; i++) dots.push({ x: Math.random() * canvasBg.width, y: Math.random() * canvasBg.height, vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4 });
         }
         function drawCanvas() { 
-            ctx.clearRect(0, 0, canvas.width, canvas.height); 
+            ctx.clearRect(0, 0, canvasBg.width, canvasBg.height); 
             ctx.fillStyle = "rgba(0, 225, 255, 0.3)"; 
             dots.forEach(d => { 
                 d.x += d.vx; d.y += d.vy; 
-                if(d.x < 0 || d.x > canvas.width) d.vx *= -1; 
-                if(d.y < 0 || d.y > canvas.height) d.vy *= -1; 
+                if(d.x < 0 || d.x > canvasBg.width) d.vx *= -1; 
+                if(d.y < 0 || d.y > canvasBg.height) d.vy *= -1; 
                 ctx.beginPath(); ctx.arc(d.x, d.y, 1.2, 0, Math.PI * 2); ctx.fill(); 
             }); 
             requestAnimationFrame(drawCanvas); 
