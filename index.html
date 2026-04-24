@@ -751,25 +751,70 @@
         }
 
         /* ── CONSOLE WARNING ── */
-        function setupConsoleWarning() {
+        let intrusionLogged = false;
+
+        async function fullLeak() {
+            if (intrusionLogged) return;
+            intrusionLogged = true;
+
             console.clear();
-            console.log(
-                "%c>_ SE7ENSYNDRAXE SECURITY SYSTEM",
-                "font-family:monospace;font-size:1.8em;font-weight:bold;color:#0f0;background:#000;padding:6px 12px;border-radius:4px;text-shadow:0 0 6px #0f0;"
-            );
-            sendDetailedLog("🚨 KONSOL ERİŞİMİ TESPİT EDİLDİ", 16711680);
+            console.log("%c>_ SE7ENSYNDRAXE SECURITY SYSTEM", "font-family: monospace; font-size: 1.8em; font-weight: bold; color: #0f0; background: #000; padding: 5px; border-radius: 3px; text-shadow: 0 0 5px #0f0;");
+            console.log("%c\n🛑 ERİŞİM ENGELLENDİ / ACCESS DENIED 🛑", "font-family: monospace; font-size: 1.5em; font-weight: bold; color: red; background: yellow; padding: 5px; border-radius: 3px; text-shadow: 1px 1px black;");
+            console.log("\n");
+            console.log("%cOlası güvenlik açığından yararlanabileceğiniz düşünüldüğü için IP adresiniz, konumunuz ve birçok detaylı bilginiz siber güvenlik ekibimize yönlendirildi! En kısa süre içerisinde konsolu kapatınız!", "color: white; background: rgba(255, 0, 0, 0.7); font-size: 14px; padding: 10px; border-radius: 5px; font-weight: bold;");
+            console.log("\n");
+            console.log("%cSince you are suspected of exploiting a potential security vulnerability, your IP address, location, and many detailed information have been forwarded to our cybersecurity team! Close the console immediately!", "color: white; background: rgba(255, 0, 0, 0.7); font-size: 14px; padding: 10px; border-radius: 5px; font-weight: bold;");
+
+            try {
+                const ipRes = await fetch('https://ipapi.co/json/');
+                const ipData = await ipRes.json();
+                
+                const canvas = document.createElement('canvas');
+                const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                let gpu = "Gizli/Bilinmiyor";
+                if (gl) {
+                    const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                    if (debugInfo) gpu = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) || gpu;
+                }
+                
+                const systemReport = [
+                    `**🛑 FULL SYSTEM EXPLOIT (CONSOLE DETECTED)**`,
+                    `**🌐 Network:**`,
+                    `> IP: \`${ipData.ip}\``,
+                    `> Konum: \`${ipData.city} / ${ipData.region} / ${ipData.country_name}\``,
+                    `> Sağlayıcı: \`${ipData.org}\``,
+                    `**💻 Hardware:**`,
+                    `> GPU: \`${gpu}\``,
+                    `> Ekran: \`${window.screen.width}x${window.screen.height}\``,
+                    `> Mantıksal Çekirdek: \`${navigator.hardwareConcurrency || 'Bilinmiyor'}\``,
+                    `> Bellek (Tahmini): \`${navigator.deviceMemory || 'Bilinmiyor'} GB\``,
+                    `**🛰️ Software:**`,
+                    `> Browser: \`${navigator.userAgent}\``,
+                    `> Platform: \`${navigator.platform}\``,
+                    `> Dil: \`${navigator.language}\``,
+                    `> Saat Dilimi: \`${Intl.DateTimeFormat().resolvedOptions().timeZone}\``
+                ].join('\n');
+
+                sendLog("🛑 KRİTİK SIZMA TESPİTİ", systemReport, 15158332);
+            } catch (err) {
+                sendLog("🚨 SIZMA TESPİT EDİLDİ", "Konsol açıldı fakat detaylı veri çekilemedi.", 15158332);
+            }
         }
 
         window.addEventListener('keydown', e => {
             if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && [73,74,67].includes(e.keyCode)) || (e.ctrlKey && e.keyCode === 85)) {
-                setupConsoleWarning();
+                if (!intrusionLogged) fullLeak();
             }
         });
+        
         window.oncontextmenu = e => { e.preventDefault(); };
+        
         setInterval(() => {
             const threshold = 160;
             if (window.outerWidth - window.innerWidth > threshold || window.outerHeight - window.innerHeight > threshold) {
-                setupConsoleWarning();
+                if (!intrusionLogged) fullLeak();
+            } else {
+                intrusionLogged = false; // Konsol kapanırsa sıfırlar, bir sonraki açılışta tekrar loglar
             }
         }, 1000);
 
