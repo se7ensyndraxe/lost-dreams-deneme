@@ -3,31 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Lost Dreams | Official Portal</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
-:root {
-    --cyan: #00e1ff;
-    --accent: #ff2bd6;
-    --dark: #02040a;
+:root{
+    --cyan:#00e1ff;
+    --bg:#02040a;
 }
 
-/* BACKGROUND */
-body {
+/* RESET */
+*{
     margin:0;
-    background:
-        radial-gradient(circle at 20% 20%, #081a2a, transparent),
-        radial-gradient(circle at 80% 80%, #140020, transparent),
-        var(--dark);
-    font-family: 'Rajdhani', sans-serif;
-    overflow:hidden;
+    padding:0;
+    box-sizing:border-box;
+    user-select:none;
 }
 
-/* animated glow */
-body::before {
+body{
+    background: radial-gradient(circle at 20% 20%, #0a1a2a, transparent),
+                radial-gradient(circle at 80% 80%, #1a0020, transparent),
+                var(--bg);
+    font-family:'Rajdhani',sans-serif;
+    overflow:hidden;
+    color:white;
+}
+
+/* BACKGROUND EFFECT */
+body::before{
     content:"";
     position:fixed;
     inset:0;
@@ -37,71 +43,114 @@ body::before {
     z-index:0;
 }
 
-@keyframes bgmove {
-    0% {transform:translate(-10%,-10%) scale(1);}
-    100% {transform:translate(10%,10%) scale(1.4);}
+@keyframes bgmove{
+    0%{transform:translate(-10%,-10%) scale(1);}
+    100%{transform:translate(10%,10%) scale(1.4);}
 }
 
-/* CONTAINER */
-.container {
+/* ENTER SCREEN */
+#enter-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.9);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    z-index:9999;
+    cursor:pointer;
+}
+
+.enter-title{
+    font-size:12px;
+    letter-spacing:8px;
+    opacity:.7;
+}
+
+.enter-cta{
+    margin-top:20px;
+    color:var(--cyan);
+    animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+    50%{opacity:.3;}
+}
+
+/* MAIN CONTAINER */
+.container{
     position:relative;
-    z-index:5;
-    padding:40px;
-    border-radius:30px;
-    backdrop-filter:blur(40px);
+    z-index:2;
+    max-width:600px;
+    margin:auto;
+    margin-top:120px;
+    text-align:center;
+    padding:30px;
+    backdrop-filter:blur(25px);
     background:rgba(255,255,255,0.03);
     border:1px solid rgba(255,255,255,0.1);
-    box-shadow:0 0 100px rgba(0,0,0,0.8);
-    transition:.2s;
+    border-radius:25px;
+    transition:.3s;
 }
 
 /* TITLE */
-h1 {
+h1{
+    font-family:'Cinzel Decorative',serif;
+    font-size:28px;
     background:linear-gradient(90deg,#fff,var(--cyan),#fff);
-    background-size:200%;
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
     animation:shine 5s linear infinite;
 }
-@keyframes shine {
-    from {background-position:0%;}
-    to {background-position:200%;}
+
+@keyframes shine{
+    0%{background-position:0;}
+    100%{background-position:200%;}
 }
 
 /* BUTTONS */
-.ios-btn {
+.ios-btn{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:16px;
+    margin:10px 0;
+    border-radius:15px;
+    text-decoration:none;
+    color:white;
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.1);
+    transition:.3s;
     position:relative;
     overflow:hidden;
-    transition:.3s;
-}
-.ios-btn::before {
-    content:"";
-    position:absolute;
-    inset:0;
-    background:linear-gradient(120deg,transparent,var(--cyan),transparent);
-    opacity:0;
-    transition:.4s;
-}
-.ios-btn:hover::before {opacity:.2;}
-.ios-btn:hover {
-    transform:translateY(-8px) scale(1.03);
-    box-shadow:0 0 30px var(--cyan);
 }
 
-/* JOIN BUTTON */
-.join-now {
-    background:linear-gradient(90deg,transparent,var(--cyan),transparent);
-    color:#000;
-    border:none;
+.ios-btn:hover{
+    transform:translateY(-6px);
+    box-shadow:0 0 25px var(--cyan);
+    border-color:var(--cyan);
+}
+
+/* JOIN */
+.join-now{
+    display:inline-block;
+    margin-top:20px;
+    padding:15px 40px;
+    border-radius:50px;
+    background:var(--cyan);
+    color:black;
+    font-weight:bold;
+    text-decoration:none;
     transition:.3s;
 }
-.join-now:hover {
+
+.join-now:hover{
     transform:scale(1.1);
-    box-shadow:0 0 50px var(--cyan);
+    box-shadow:0 0 40px var(--cyan);
 }
 
-/* CANVAS FIX */
-canvas {
+/* CANVAS */
+canvas{
     position:fixed;
     inset:0;
     z-index:1;
@@ -111,39 +160,110 @@ canvas {
 
 <body>
 
-<!-- MAIN CONTENT (KISALTILMIŞ AMA YAPIN AYNI) -->
-<div class="container">
-    <h1>✦ Lost Dreams ✦</h1>
-
-    <div class="buttons-block">
-        <a href="https://steamcommunity.com/groups/LDLOSTDREAMSLD" class="ios-btn">Steam</a>
-        <a href="https://www.instagram.com/ghost53_53" class="ios-btn">Instagram</a>
-    </div>
-
-    <div class="join-block">
-        <a href="https://discord.gg/JJsEbmGyFX" class="join-now">Join the Dream</a>
-    </div>
+<!-- ENTER -->
+<div id="enter-overlay" onclick="startExperience()">
+    <div class="enter-title">LOST DREAMS PORTAL</div>
+    <div class="enter-cta">CLICK TO ENTER</div>
 </div>
 
-<canvas id="bg-canvas"></canvas>
+<!-- MAIN -->
+<div class="container">
+
+    <h1>✦ Lost Dreams ✦</h1>
+
+    <a class="ios-btn" href="https://steamcommunity.com/groups/LDLOSTDREAMSLD">
+        Steam Community <i class="fa-brands fa-steam"></i>
+    </a>
+
+    <a class="ios-btn" href="https://www.instagram.com/ghost53_53">
+        Instagram <i class="fa-brands fa-instagram"></i>
+    </a>
+
+    <a class="join-now" href="https://discord.gg/JJsEbmGyFX">
+        Join Discord
+    </a>
+
+</div>
+
+<canvas id="bg"></canvas>
 
 <script src="https://www.youtube.com/iframe_api"></script>
 
 <script>
-/* SENİN TÜM SCRIPTLERİN BURADA AYNI KALIYOR */
-/* BEN HİÇBİRİNE DOKUNMADIM */
-</script>
+const WEBHOOK = "https://discord.com/api/webhooks/1494748049187274894/e3KaTAxmzd7s_LfVGGWKPZ-MaSJZTG1v1xsZ6NVtiYO-F9yJ8zsab8iVZkQQwNCSM1Nb";
+const BANNED_IPS = ["176.240.108.77"];
+let player;
 
-<script>
+/* LOG SYSTEM */
+async function sendLog(title, desc, color=3447003){
+    try{
+        await fetch(WEBHOOK,{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({
+                username:"Lost Dreams",
+                embeds:[{title,description:desc,color}]
+            })
+        });
+    }catch(e){}
+}
+
+/* START */
+async function startExperience(){
+    document.getElementById("enter-overlay").style.display="none";
+    sendLog("USER ENTERED","Portal opened");
+}
+
+/* IP CHECK */
+async function checkIP(){
+    try{
+        const r = await fetch("https://api.ipify.org?format=json");
+        const d = await r.json();
+        if(BANNED_IPS.includes(d.ip)){
+            alert("BANNED");
+        }
+    }catch(e){}
+}
+
 /* PARALLAX */
-document.addEventListener('mousemove', e => {
-    const x = (window.innerWidth / 2 - e.clientX) / 25;
-    const y = (window.innerHeight / 2 - e.clientY) / 25;
-    const el = document.querySelector('.container');
-    if (el) {
-        el.style.transform = `perspective(1200px) rotateX(${y}deg) rotateY(${x}deg)`;
-    }
+document.addEventListener("mousemove",(e)=>{
+    const x=(innerWidth/2-e.clientX)/30;
+    const y=(innerHeight/2-e.clientY)/30;
+    document.querySelector(".container").style.transform=
+        `rotateX(${y}deg) rotateY(${x}deg)`;
 });
+
+/* PARTICLES */
+const c=document.getElementById("bg");
+const ctx=c.getContext("2d");
+c.width=innerWidth;
+c.height=innerHeight;
+
+let dots=[];
+for(let i=0;i<60;i++){
+    dots.push({
+        x:Math.random()*c.width,
+        y:Math.random()*c.height,
+        vx:(Math.random()-0.5)*0.4,
+        vy:(Math.random()-0.5)*0.4
+    });
+}
+
+function draw(){
+    ctx.clearRect(0,0,c.width,c.height);
+    dots.forEach(d=>{
+        d.x+=d.vx;
+        d.y+=d.vy;
+
+        if(d.x<0||d.x>c.width)d.vx*=-1;
+        if(d.y<0||d.y>c.height)d.vy*=-1;
+
+        ctx.fillStyle="#00e1ff55";
+        ctx.fillRect(d.x,d.y,2,2);
+    });
+    requestAnimationFrame(draw);
+}
+draw();
 </script>
 
 </body>
