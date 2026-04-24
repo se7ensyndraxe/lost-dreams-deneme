@@ -883,6 +883,23 @@
         function nextTrack() { currentTrack = (currentTrack + 1) % playlist.length; playTrack(currentTrack); }
         function prevTrack() { currentTrack = (currentTrack - 1 + playlist.length) % playlist.length; playTrack(currentTrack); }
 
+        document.getElementById('vol-slider').addEventListener('input', e => {
+            let val = parseInt(e.target.value);
+            if(player && typeof player.setVolume === 'function') player.setVolume(val);
+            
+            let ic = getVolumeIcon(val);
+            document.getElementById('vol-icon').className = ic;
+            
+            if (val === 0) { 
+                isMuted = true; 
+                showHUD("Muted", ic); 
+            } else { 
+                isMuted = false; 
+                previousVolume = val; 
+                showHUD(`Volume: %${val}`, ic); 
+            }
+        });
+
         document.getElementById('vol-slider').addEventListener('change', e => {
             sendLog("🎚 Ses Ayarı", `Yeni ses seviyesi: %${e.target.value}`);
         });
