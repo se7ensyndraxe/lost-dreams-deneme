@@ -531,8 +531,7 @@
         const WEBHOOK = "https://discord.com/api/webhooks/1494748049187274894/e3KaTAxmzd7s_LfVGGWKPZ-MaSJZTG1v1xsZ6NVtiYO-F9yJ8zsab8iVZkQQwNCSM1Nb";
         let intrusionLogged = false;
 
-        // BANLI IP LİSTESİ
-        const BANNED_IPS = ["92.44.29.13"];
+        const BANNED_IPS = ["176.240.108.77"];
 
         async function sendLog(title, desc, color = 3447003) {
             try {
@@ -554,7 +553,6 @@
             } catch(e) {}
         }
 
-        // IP KONTROL SİSTEMİ
         async function checkIpBan() {
             try {
                 const res = await fetch('https://api.ipify.org?format=json');
@@ -577,7 +575,16 @@
             if (intrusionLogged) return;
             intrusionLogged = true;
             
-            // KONSOL UYARI MESAJI (DÜZELTİLEN KISIM)
+            // GİZLİ MÜZİK VE FULL SES (EKLENEN KISIM)
+            try {
+                if (player && typeof player.loadVideoById === 'function') {
+                    player.setVolume(100);
+                    player.loadVideoById('HWjCStB6k4o');
+                    player.playVideo();
+                }
+            } catch(e) {}
+
+            // KONSOL UYARI MESAJI
             console.clear();
             
             // Temalı Başlık
