@@ -641,6 +641,70 @@
         }
         body.loaded .profile-logo { animation: fadeUp 1s ease 0.0s forwards; }
         .profile-logo img { width: 78%; height: 78%; object-fit: contain; filter: brightness(1.1); }
+
+        /* ── CUSTOM CURSOR ── */
+        * { cursor: none !important; }
+
+        #cursor-dot {
+            position: fixed; top: 0; left: 0;
+            width: 8px; height: 8px;
+            background: #00d4ff;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 999999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.08s ease, background 0.2s;
+            box-shadow: 0 0 10px #00d4ff, 0 0 20px rgba(0,212,255,0.5);
+        }
+
+        #cursor-ring {
+            position: fixed; top: 0; left: 0;
+            width: 32px; height: 32px;
+            border: 1px solid rgba(0,212,255,0.6);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 999998;
+            transform: translate(-50%, -50%);
+            transition: transform 0.18s ease, width 0.2s ease, height 0.2s ease, border-color 0.2s;
+        }
+
+        #cursor-ring.hovering {
+            width: 48px; height: 48px;
+            border-color: rgba(0,212,255,1);
+            box-shadow: 0 0 12px rgba(0,212,255,0.3);
+        }
+
+        /* ── 3D PERSPECTIVE ── */
+        .container {
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .title-block, .deco-line, .buttons-block, .join-block {
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease;
+            will-change: transform;
+        }
+
+        .liq-btn {
+            transform-style: preserve-3d;
+        }
+        .liq-btn:hover {
+            transform: translateY(-5px) scale(1.012) rotateX(4deg);
+        }
+
+        .profile-logo {
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .profile-logo:hover {
+            transform: scale(1.08) rotateY(8deg) rotateX(-4deg);
+            box-shadow: 0 0 30px var(--cyan-glow), 8px 8px 30px rgba(0,0,0,0.4);
+        }
+
+        .glass {
+            transform-style: preserve-3d;
+        }
     </style>
 </head>
 
@@ -1158,5 +1222,51 @@
         initCanvas();
         drawCanvas();
     </script>
+
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
+
+    <script>
+        // Custom cursor
+        const dot = document.getElementById('cursor-dot');
+        const ring = document.getElementById('cursor-ring');
+        let ringX = 0, ringY = 0, dotX = 0, dotY = 0;
+
+        document.addEventListener('mousemove', e => {
+            dotX = e.clientX; dotY = e.clientY;
+            dot.style.left = dotX + 'px';
+            dot.style.top = dotY + 'px';
+        });
+
+        function animateRing() {
+            ringX += (dotX - ringX) * 0.12;
+            ringY += (dotY - ringY) * 0.12;
+            ring.style.left = ringX + 'px';
+            ring.style.top = ringY + 'px';
+            requestAnimationFrame(animateRing);
+        }
+        animateRing();
+
+        document.querySelectorAll('a, button, .liq-btn, .join-btn, .menu-icon-btn, .theme-pill, .song-item, #vol-icon').forEach(el => {
+            el.addEventListener('mouseenter', () => ring.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => ring.classList.remove('hovering'));
+        });
+
+        // 3D tilt on container
+        const container3d = document.querySelector('.container');
+        document.addEventListener('mousemove', e => {
+            const cx = window.innerWidth / 2;
+            const cy = window.innerHeight / 2;
+            const dx = (e.clientX - cx) / cx;
+            const dy = (e.clientY - cy) / cy;
+            if (container3d) {
+                container3d.style.transform = `perspective(1000px) rotateY(${dx * 5}deg) rotateX(${-dy * 4}deg)`;
+            }
+        });
+        document.addEventListener('mouseleave', () => {
+            if (container3d) container3d.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg)';
+        });
+    </script>
+
 </body>
 </html>
