@@ -653,13 +653,13 @@
             background: linear-gradient(
                 90deg,
                 #ffffff 0%,
-                #c0eeff 18%,
-                #00d4ff 32%,
+                #ffffff 18%,
+                #00ffff 32%,
                 #ffffff 48%,
-                #a8e8ff 62%,
-                #00cfff 76%,
+                #ffffff 62%,
+                #00ffff 76%,
                 #ffffff 90%,
-                #c0eeff 100%
+                #ffffff 100%
             );
             background-size: 250% auto;
             -webkit-background-clip: text;
@@ -668,6 +668,7 @@
             animation:
                 bylineNeonShimmer 2.8s ease infinite,
                 bylineGlowPulse 2.8s ease infinite;
+            filter: brightness(1.8) drop-shadow(0 0 12px rgba(0,255,255,0.6));
         }
 
         /* "SE7ENSYNDRAXE" — electric blue */
@@ -1112,6 +1113,12 @@
         .easter-sep {
             color: rgba(0,212,255,0.4);
             -webkit-text-fill-color: rgba(0,212,255,0.4);
+        }
+
+        .easter-label.active-users { margin-top: 18px; }
+        .easter-names.active-users-row {
+            color: rgba(200,220,255,0.75);
+            font-size: 12px;
         }
 
         /* h1 hover easter egg hint */
@@ -1637,6 +1644,10 @@
             <div class="easter-label co">CO-FOUNDERS</div>
             <div class="easter-names co-row">
                 𝐋𝐃✦ 𝐉𝐚𝐬𝐢𝐮𝐬𝐬&nbsp;&nbsp;<span class="easter-sep">|</span>&nbsp;&nbsp;𝐋𝐃✦ BlooDYEmiR01&nbsp;&nbsp;<span class="easter-sep">|</span>&nbsp;&nbsp;𝐋𝐃✦ r✵chel
+            </div>
+            <div class="easter-label active-users">MOST ACTIVE USERS</div>
+            <div class="easter-names active-users-row">
+                [✦ Melek | 15]&nbsp;&nbsp;<span class="easter-sep">|</span>&nbsp;&nbsp;[✦ Ali | 17]
             </div>
         </div>
     </div>
