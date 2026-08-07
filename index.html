@@ -1483,14 +1483,14 @@
             gap: 12px;
             padding: 13px 20px;
             border-radius: 999px;
-            border: 1px solid rgba(255,255,255,0.28);
-            background: linear-gradient(135deg, rgba(255,255,255,0.22), rgba(255,255,255,0.08) 38%, rgba(0,212,255,0.10) 100%);
-            backdrop-filter: blur(36px) saturate(200%);
-            -webkit-backdrop-filter: blur(36px) saturate(200%);
-            box-shadow: 0 10px 24px rgba(0,0,0,0.16), inset 0 1px 1px rgba(255,255,255,0.48), inset 0 -8px 20px rgba(0,0,0,0.08), 0 0 0 1px rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.16);
+            background: linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04) 40%, rgba(0,212,255,0.05) 100%);
+            backdrop-filter: blur(30px) saturate(170%);
+            -webkit-backdrop-filter: blur(30px) saturate(170%);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.24), inset 0 -6px 14px rgba(0,0,0,0.04), 0 0 0 1px rgba(255,255,255,0.04);
             color: var(--text);
             cursor: pointer;
-            transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.2, 1), box-shadow 0.35s ease, border-color 0.35s ease, background 0.35s ease, filter 0.35s ease;
+            transition: transform 0.28s cubic-bezier(0.2, 0.9, 0.2, 1), box-shadow 0.28s ease, border-color 0.28s ease, background 0.28s ease, filter 0.28s ease;
             overflow: hidden;
             isolation: isolate;
             transform-style: preserve-3d;
@@ -1500,12 +1500,12 @@
             position: absolute;
             inset: 1px;
             border-radius: inherit;
-            background: linear-gradient(125deg, rgba(255,255,255,0.78) 0%, rgba(255,255,255,0.14) 24%, transparent 44%, rgba(0,212,255,0.16) 72%, transparent 100%);
+            background: linear-gradient(125deg, rgba(255,255,255,0.54) 0%, rgba(255,255,255,0.08) 24%, transparent 44%, rgba(0,212,255,0.10) 72%, transparent 100%);
             background-size: 260% 260%;
             background-position: 50% 50%;
             pointer-events: none;
-            opacity: 0.88;
-            filter: blur(0.25px);
+            opacity: 0.7;
+            filter: blur(0.2px);
             transition: background-position 0.16s ease, opacity 0.25s ease;
         }
         #partner-launcher::after {
@@ -1513,36 +1513,36 @@
             position: absolute;
             inset: -1px;
             border-radius: inherit;
-            background: radial-gradient(circle at var(--mx) var(--my), rgba(255,255,255,0.36) 0%, rgba(255,255,255,0.12) 20%, transparent 44%), radial-gradient(circle at 78% 20%, rgba(0,212,255,0.14), transparent 38%);
+            background: radial-gradient(circle at var(--mx) var(--my), rgba(255,255,255,0.24) 0%, rgba(255,255,255,0.08) 20%, transparent 44%), radial-gradient(circle at 78% 20%, rgba(0,212,255,0.08), transparent 38%);
             pointer-events: none;
             mix-blend-mode: screen;
-            opacity: 0.95;
+            opacity: 0.8;
             transition: opacity 0.25s ease;
         }
         #partner-launcher:hover,
         #partner-launcher.is-hovered {
-            transform: translateY(-5px) scale(1.04) rotateX(2deg) rotateY(2deg);
-            border-color: rgba(255,255,255,0.4);
-            box-shadow: 0 20px 52px rgba(0,0,0,0.24), inset 0 1px 1px rgba(255,255,255,0.6), inset 0 -8px 18px rgba(0,0,0,0.08), 0 0 0 1px rgba(255,255,255,0.10);
+            transform: translateY(-3px) scale(1.015);
+            border-color: rgba(255,255,255,0.22);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.18), inset 0 1px 0 rgba(255,255,255,0.28), inset 0 -6px 14px rgba(0,0,0,0.06), 0 0 0 1px rgba(255,255,255,0.06);
         }
         #partner-launcher:hover::before,
         #partner-launcher.is-hovered::before {
-            background-position: calc(50% + (var(--mx) - 50%) * 0.2) calc(50% + (var(--my) - 50%) * 0.2);
-            opacity: 1;
+            background-position: calc(50% + (var(--mx) - 50%) * 0.16) calc(50% + (var(--my) - 50%) * 0.16);
+            opacity: 0.9;
         }
         #partner-launcher:hover .partner-dot,
         #partner-launcher.is-hovered .partner-dot {
-            transform: scale(1.16);
-            box-shadow: 0 0 18px rgba(0,212,255,0.95), 0 0 30px rgba(255,255,255,0.3);
+            transform: scale(1.08);
+            box-shadow: 0 0 14px rgba(0,212,255,0.78), 0 0 22px rgba(255,255,255,0.2);
         }
         #partner-launcher:hover .partner-chevron,
         #partner-launcher.is-hovered .partner-chevron {
-            transform: translateY(1px) translateX(2px);
+            transform: translateY(1px) translateX(1px);
             color: rgba(255,255,255,0.95);
         }
         #partner-launcher:active {
-            transform: scale(0.97);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.17), inset 0 1px 1px rgba(255,255,255,0.42), inset 0 -4px 10px rgba(0,0,0,0.05);
+            transform: scale(0.98);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -3px 8px rgba(0,0,0,0.04);
         }
         .partner-dot {
             width: 8px; height: 8px; border-radius: 50%;
@@ -1641,21 +1641,25 @@
         .partner-panel::after {
             content: '';
             position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.18) 20%, transparent 45%, rgba(0,212,255,0.14) 70%, transparent 100%);
+            top: -30%;
+            left: -20%;
+            width: 40%;
+            height: 160%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.32), rgba(0,212,255,0.20), transparent);
+            transform: rotate(16deg) translateX(-140%);
+            filter: blur(8px);
             pointer-events: none;
-            background-size: 220% 220%;
-            animation: partnerFlow 7s linear infinite;
-            opacity: 0.8;
+            animation: partnerFlow 6s linear infinite;
+            opacity: 0.85;
         }
         @keyframes partnerAura {
             0%,100% { transform: translate3d(-4%, -3%, 0) scale(1); opacity: 0.7; }
             50% { transform: translate3d(4%, 3%, 0) scale(1.06); opacity: 1; }
         }
         @keyframes partnerFlow {
-            0% { background-position: -120% 0%; }
-            100% { background-position: 220% 0%; }
+            0% { transform: rotate(16deg) translateX(-140%); }
+            100% { transform: rotate(16deg) translateX(240%); }
         }
         .partner-close {
             position: absolute;
@@ -3211,9 +3215,13 @@
         function handleJoinServer(event) {
             event.preventDefault();
             playJoinSound();
+            const href = event.currentTarget.getAttribute('href');
+            try {
+                window.open(href, '_blank', 'noopener,noreferrer');
+            } catch (err) {}
             setTimeout(() => {
-                window.open(event.currentTarget.href, '_blank', 'noopener,noreferrer');
-            }, 220);
+                window.location.assign(href);
+            }, 160);
         }
 
         document.addEventListener('keydown', (event) => {
