@@ -1732,23 +1732,26 @@
         .partner-card::before {
             content: '';
             position: absolute;
-            inset: -25%;
-            background: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.26), transparent 42%), radial-gradient(circle at 80% 80%, rgba(0,212,255,0.16), transparent 38%);
-            filter: blur(18px);
-            opacity: 0.9;
-            animation: cardGlow 5.5s ease-in-out infinite;
+            inset: -20%;
+            background:
+                radial-gradient(circle at 22% 28%, rgba(255,255,255,0.34), transparent 32%),
+                radial-gradient(circle at 74% 76%, rgba(0,212,255,0.18), transparent 34%),
+                radial-gradient(ellipse at 50% 50%, rgba(255,255,255,0.10), transparent 64%);
+            filter: blur(24px);
+            opacity: 0.85;
+            animation: cardGlow 6.8s ease-in-out infinite;
             pointer-events: none;
             z-index: 0;
         }
         .partner-card::after {
             content: '';
             position: absolute;
-            inset: -20% -30%;
-            background: linear-gradient(115deg, transparent 0%, rgba(255,255,255,0.22) 24%, rgba(255,255,255,0.04) 44%, rgba(0,212,255,0.12) 70%, transparent 100%);
-            transform: translateX(-140%) rotate(8deg);
-            filter: blur(8px);
-            opacity: 0.8;
-            animation: cardSheen 6.8s cubic-bezier(0.2, 0.9, 0.2, 1) infinite;
+            inset: -18% -10%;
+            background: conic-gradient(from 180deg at 50% 50%, rgba(255,255,255,0) 0deg, rgba(255,255,255,0.16) 70deg, rgba(255,255,255,0) 140deg, rgba(0,212,255,0.12) 220deg, rgba(255,255,255,0) 320deg, rgba(255,255,255,0) 360deg);
+            filter: blur(16px);
+            opacity: 0.7;
+            transform: rotate(-8deg) scale(1.04);
+            animation: cardSpin 8.5s linear infinite;
             pointer-events: none;
             z-index: 0;
         }
@@ -1763,15 +1766,13 @@
             background: linear-gradient(135deg, rgba(255,255,255,0.14), rgba(255,255,255,0.06));
         }
         @keyframes cardGlow {
-            0%, 100% { transform: translate3d(-2%, -1%, 0) scale(1); opacity: 0.8; }
-            50% { transform: translate3d(2%, 2%, 0) scale(1.04); opacity: 1; }
+            0%, 100% { transform: translate3d(-1.5%, -1%, 0) scale(1); opacity: 0.78; }
+            50% { transform: translate3d(1.6%, 1.4%, 0) scale(1.05); opacity: 0.96; }
         }
-        @keyframes cardSheen {
-            0% { transform: translateX(-140%) rotate(8deg); opacity: 0; }
-            20% { opacity: 0.3; }
-            50% { opacity: 0.9; }
-            80% { opacity: 0.25; }
-            100% { transform: translateX(180%) rotate(8deg); opacity: 0; }
+        @keyframes cardSpin {
+            0% { transform: rotate(-8deg) scale(1.04); opacity: 0.4; }
+            50% { transform: rotate(8deg) scale(1.08); opacity: 0.76; }
+            100% { transform: rotate(24deg) scale(1.12); opacity: 0.4; }
         }
         .partner-avatar {
             width: 78px; height: 78px; border-radius: 20px; overflow: hidden;
