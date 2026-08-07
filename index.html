@@ -1,11 +1,43 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
+    <meta name="google-site-verification" content="TELRQFdGc1uIJArl975Cz0XV9_In2KQ6pZCXGupiZI4" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Lost Dreams | Official Portal</title>
+    <meta name="description" content="Kaybolan hayallerin değil, yeni başlangıçların adresi. Lost Dreams; rekabetin, dostluğun ve dijital dünyanın her köşesinde iz bırakan bir ekiptir.Lost Dreams ekibi eğlenceler diler...">
+    <meta name="author" content="Syndraxe">
+    <meta name="theme-color" content="#00CCFF">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Lost Dreams Portal",
+      "alternateName": "Lost Dreams",
+      "url": "https://lostdreams-portal.sytes.net/"
+    }
+    </script>
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://lostdreams-portal.sytes.net/">
+    <meta property="og:title" content="ᴸᴰ Lost Dreams | Official Portal ᴸᴰ">
+    <meta property="og:site_name" content="Lost Dreams Portal">
+    <meta property="og:description" content="Official Portal - Designed by Se7enSyndraxe">
+    <meta property="og:image" content="https://i.ibb.co/QF3LmqfW/edited-photo.png">
+    <meta property="og:image:secure_url" content="https://i.ibb.co/QF3LmqfW/edited-photo.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ᴸᴰ Lost Dreams | Official Portal ᴸᴰ">
+    <meta name="twitter:description" content="Kaybolan hayallerin değil, yeni başlangıçların adresi | Lost Dreams">
+    <meta name="twitter:image" content="https://i.ibb.co/QF3LmqfW/edited-photo.png">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Syncopate:wght@400;700&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+</head>
 
     <style>
         :root {
@@ -309,6 +341,177 @@
             animation: breathe 3s ease infinite;
         }
         @keyframes breathe { 0%,100% { opacity:0.2; } 50% { opacity:1; } }
+
+        /* ── PRIVACY MODAL ── */
+        #privacy-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(3px);
+            z-index: 100000;
+            display: none;
+            justify-content: center; align-items: center;
+            pointer-events: all;
+        }
+        #privacy-overlay.show { display: flex; }
+
+        #privacy-modal {
+            background: rgba(4, 8, 22, 0.95);
+            border: 1px solid rgba(0, 212, 255, 0.25);
+            border-radius: 16px;
+            padding: 40px;
+            width: 90%;
+            max-width: 480px;
+            box-shadow: 0 0 60px rgba(0, 212, 255, 0.15), 0 30px 80px rgba(0, 0, 0, 0.7);
+            animation: modalFadeIn 0.4s ease;
+            text-align: center;
+        }
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        #privacy-header {
+            font-family: monospace;
+            font-size: 12px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: rgba(0, 212, 255, 0.7);
+            margin-bottom: 20px;
+        }
+
+        #privacy-warning {
+            background: rgba(0, 212, 255, 0.08);
+            border-left: 3px solid rgba(0, 212, 255, 0.5);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-family: monospace;
+            font-size: 10px;
+            color: rgba(0, 212, 255, 0.85);
+            letter-spacing: 1px;
+            line-height: 1.6;
+            text-transform: uppercase;
+        }
+
+        #privacy-question {
+            font-family: 'Jost', sans-serif;
+            font-size: 14px;
+            color: rgba(240, 244, 255, 0.8);
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        #privacy-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .privacy-btn {
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            background: transparent;
+            color: rgba(0, 212, 255, 0.7);
+            transition: all 0.3s ease;
+        }
+        .privacy-btn:hover {
+            background: rgba(0, 212, 255, 0.12);
+            border-color: rgba(0, 212, 255, 0.6);
+            color: rgba(0, 212, 255, 1);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+        }
+        .privacy-btn:active {
+            transform: scale(0.98);
+        }
+
+        #privacy-info-btn {
+            background: rgba(0, 100, 180, 0.08);
+            border-color: rgba(0, 150, 200, 0.4);
+            color: rgba(0, 180, 255, 0.7);
+        }
+        #privacy-info-btn:hover {
+            background: rgba(0, 150, 200, 0.15);
+            border-color: rgba(0, 180, 255, 0.7);
+            color: rgba(0, 200, 255, 1);
+            box-shadow: 0 0 20px rgba(0, 150, 200, 0.25);
+        }
+
+        #privacy-accept-btn {
+            background: rgba(0, 212, 100, 0.1);
+            border-color: rgba(0, 212, 100, 0.4);
+            color: rgba(0, 212, 100, 0.8);
+        }
+        #privacy-accept-btn:hover {
+            background: rgba(0, 212, 100, 0.18);
+            border-color: rgba(0, 212, 100, 0.7);
+            color: rgba(100, 255, 150, 1);
+            box-shadow: 0 0 20px rgba(0, 212, 100, 0.25);
+        }
+
+        /* DETAILED PRIVACY MODAL */
+        #privacy-detail-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 100001;
+            display: none;
+            justify-content: center; align-items: center;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        #privacy-detail-overlay.show { display: flex; }
+
+        #privacy-detail-modal {
+            background: rgba(4, 8, 22, 0.98);
+            border: 1px solid rgba(0, 212, 255, 0.25);
+            border-radius: 16px;
+            padding: 40px;
+            width: 100%;
+            max-width: 650px;
+            box-shadow: 0 0 80px rgba(0, 212, 255, 0.2), 0 40px 100px rgba(0, 0, 0, 0.8);
+            animation: modalFadeIn 0.4s ease;
+            margin: auto;
+        }
+
+        #privacy-detail-close {
+            position: absolute;
+            top: 20px; right: 20px;
+            background: none;
+            border: none;
+            color: rgba(150, 170, 200, 0.5);
+            font-size: 20px;
+            cursor: pointer;
+            padding: 5px;
+            transition: color 0.3s ease;
+        }
+        #privacy-detail-close:hover {
+            color: rgba(200, 220, 255, 0.9);
+        }
+
+        #privacy-detail-content {
+            font-family: 'Jost', sans-serif;
+            font-size: 12px;
+            color: rgba(240, 244, 255, 0.75);
+            line-height: 1.8;
+            letter-spacing: 0.5px;
+        }
+
+        #privacy-detail-content h2 {
+            font-size: 16px;
+            color: rgba(0, 212, 255, 0.8);
+            margin: 20px 0 12px 0;
+            letter-spacing: 2px;
+        }
+
+        #privacy-detail-content p {
+            margin-bottom: 15px;
+        }
 
         /* ── THEME TOGGLE ── */
         #theme-toggle {
@@ -668,7 +871,7 @@
             animation:
                 bylineNeonShimmer 2.8s ease infinite,
                 bylineGlowPulse 2.8s ease infinite;
-            filter: brightness(2.2) drop-shadow(0 0 16px rgba(0,255,255,0.8)) drop-shadow(0 0 32px rgba(255,255,255,0.4));
+            filter: brightness(1.8) drop-shadow(0 0 12px rgba(0,255,255,0.6));
         }
 
         /* "SE7ENSYNDRAXE" — electric blue */
@@ -986,30 +1189,49 @@
         #cursor-dot {
             position: fixed; top: 0; left: 0;
             width: 8px; height: 8px;
-            background: #00d4ff;
+            background: linear-gradient(135deg, #ffffff, #7ff7ff 35%, #00d4ff 70%);
             border-radius: 50%;
             pointer-events: none;
-            z-index: 999999;
+            z-index: 2147483647;
             transform: translate(-50%, -50%);
-            transition: transform 0.08s ease, background 0.2s;
-            box-shadow: 0 0 10px #00d4ff, 0 0 20px rgba(0,212,255,0.5);
+            transition: transform 0.08s ease, width 0.2s ease, height 0.2s ease, background 0.2s ease;
+            box-shadow: 0 0 10px rgba(0,212,255,0.45), 0 0 24px rgba(0,212,255,0.25);
         }
 
         #cursor-ring {
             position: fixed; top: 0; left: 0;
-            width: 32px; height: 32px;
-            border: 1px solid rgba(0,212,255,0.6);
+            width: 36px; height: 36px;
+            border: 1px solid rgba(255,255,255,0.22);
             border-radius: 50%;
             pointer-events: none;
-            z-index: 999998;
+            z-index: 2147483646;
             transform: translate(-50%, -50%);
-            transition: transform 0.18s ease, width 0.2s ease, height 0.2s ease, border-color 0.2s;
+            transition: transform 0.18s ease, width 0.2s ease, height 0.2s ease, border-color 0.2s ease, background 0.2s ease, border-radius 0.2s ease;
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(14px) saturate(150%);
+            -webkit-backdrop-filter: blur(14px) saturate(150%);
+            box-shadow: inset 0 1px 1px rgba(255,255,255,0.16), 0 10px 24px rgba(0,0,0,0.2);
         }
 
         #cursor-ring.hovering {
-            width: 48px; height: 48px;
-            border-color: rgba(0,212,255,1);
-            box-shadow: 0 0 12px rgba(0,212,255,0.3);
+            width: 54px; height: 54px;
+            border-color: rgba(255,255,255,0.34);
+            background: rgba(255,255,255,0.15);
+            box-shadow: inset 0 1px 1px rgba(255,255,255,0.26), 0 12px 28px rgba(0,212,255,0.18), 0 0 35px rgba(0,212,255,0.14);
+        }
+
+        #cursor-ring.glass-hover {
+            width: 64px; height: 64px;
+            border-radius: 22px;
+            border-color: rgba(255,255,255,0.4);
+            background: linear-gradient(135deg, rgba(255,255,255,0.24), rgba(255,255,255,0.08));
+            box-shadow: inset 0 1px 1px rgba(255,255,255,0.28), 0 16px 36px rgba(0, 0, 0, 0.22);
+        }
+
+        #cursor-dot.glass-core {
+            width: 6px; height: 6px;
+            background: #fdfdff;
+            box-shadow: 0 0 8px rgba(255,255,255,0.7);
         }
 
         /* ── 3D PERSPECTIVE ── */
@@ -1248,6 +1470,322 @@
             animation: vcCountUp 0.4s ease forwards;
         }
 
+        /* ── PARTNER SERVERS ── */
+        #partner-launcher {
+            --mx: 50%;
+            --my: 50%;
+            position: fixed;
+            bottom: 96px;
+            left: 28px;
+            z-index: 110;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 20px;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.34);
+            background: linear-gradient(135deg, rgba(255,255,255,0.28), rgba(255,255,255,0.10) 38%, rgba(0,212,255,0.14) 100%);
+            backdrop-filter: blur(32px) saturate(190%);
+            -webkit-backdrop-filter: blur(32px) saturate(190%);
+            box-shadow: 0 14px 34px rgba(0,0,0,0.22), inset 0 1px 1px rgba(255,255,255,0.58), inset 0 -10px 24px rgba(0,0,0,0.10), 0 0 0 1px rgba(255,255,255,0.08);
+            color: var(--text);
+            cursor: pointer;
+            transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.2, 1), box-shadow 0.35s ease, border-color 0.35s ease, background 0.35s ease, filter 0.35s ease;
+            animation: partnerPulse 3.2s ease-in-out infinite;
+            overflow: hidden;
+            isolation: isolate;
+            transform-style: preserve-3d;
+        }
+        #partner-launcher::before {
+            content: '';
+            position: absolute;
+            inset: 1px;
+            border-radius: inherit;
+            background: linear-gradient(125deg, rgba(255,255,255,0.90) 0%, rgba(255,255,255,0.16) 26%, transparent 46%, rgba(0,212,255,0.18) 72%, transparent 100%);
+            background-size: 220% 220%;
+            background-position: 50% 50%;
+            pointer-events: none;
+            opacity: 0.9;
+            filter: blur(0.2px);
+            transition: background-position 0.16s ease, opacity 0.25s ease;
+        }
+        #partner-launcher::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            background: radial-gradient(circle at var(--mx) var(--my), rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.12) 20%, transparent 44%), radial-gradient(circle at 78% 22%, rgba(0,212,255,0.16), transparent 38%);
+            pointer-events: none;
+            mix-blend-mode: screen;
+            opacity: 0.95;
+            transition: opacity 0.25s ease;
+        }
+        #partner-launcher:hover,
+        #partner-launcher.is-hovered {
+            transform: translateY(-5px) scale(1.04) rotateX(2deg) rotateY(2deg);
+            border-color: rgba(255,255,255,0.42);
+            box-shadow: 0 20px 52px rgba(0,0,0,0.24), inset 0 1px 1px rgba(255,255,255,0.62), inset 0 -8px 18px rgba(0,0,0,0.08), 0 0 0 1px rgba(255,255,255,0.10);
+        }
+        #partner-launcher:hover::before,
+        #partner-launcher.is-hovered::before {
+            background-position: calc(50% + (var(--mx) - 50%) * 0.22) calc(50% + (var(--my) - 50%) * 0.22);
+            opacity: 1;
+        }
+        #partner-launcher:hover .partner-dot,
+        #partner-launcher.is-hovered .partner-dot {
+            transform: scale(1.16);
+            box-shadow: 0 0 18px rgba(0,212,255,0.95), 0 0 30px rgba(255,255,255,0.3);
+        }
+        #partner-launcher:hover .partner-chevron,
+        #partner-launcher.is-hovered .partner-chevron {
+            transform: translateY(1px) translateX(2px);
+            color: rgba(255,255,255,0.95);
+        }
+        #partner-launcher:active {
+            transform: scale(0.98);
+        }
+        .partner-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #ffffff, #8cf8ff 34%, #00d4ff 72%);
+            box-shadow: 0 0 12px rgba(0, 212, 255, 0.95);
+            animation: partnerGlow 1.6s ease-in-out infinite;
+            flex-shrink: 0;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .partner-label {
+            font-family: 'Jost', sans-serif;
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(243,247,255,0.92);
+            text-shadow: 0 1px 12px rgba(255,255,255,0.1);
+        }
+        .partner-chevron {
+            font-size: 12px;
+            color: rgba(255,255,255,0.8);
+            transform: translateY(1px);
+            transition: transform 0.25s ease, color 0.25s ease;
+        }
+        @keyframes partnerPulse {
+            0%,100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-3px) scale(1.01); }
+        }
+        @keyframes partnerGlow {
+            0%,100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(0.85); opacity: 0.7; }
+        }
+
+        #partner-launcher .bubble {
+            position: absolute;
+            border-radius: 999px;
+            pointer-events: none;
+            background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.9), rgba(255,255,255,0.16) 38%, transparent 70%);
+            filter: blur(0.4px);
+            opacity: 0;
+            animation: bubbleRise 1.25s ease-out forwards;
+            mix-blend-mode: screen;
+        }
+        #partner-launcher:hover .bubble,
+        #partner-launcher.is-hovered .bubble {
+            opacity: 0.95;
+        }
+        @keyframes bubbleRise {
+            0% { transform: translate3d(0, 0, 0) scale(0.35); opacity: 0; }
+            30% { opacity: 0.9; }
+            100% { transform: translate3d(0, -18px, 0) scale(1.18); opacity: 0; }
+        }
+
+        #partner-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 999999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: rgba(2, 8, 18, 0.56);
+            backdrop-filter: blur(18px) saturate(140%);
+            -webkit-backdrop-filter: blur(18px) saturate(140%);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.35s ease, visibility 0.35s ease;
+        }
+        #partner-modal.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .partner-panel {
+            width: min(560px, 100%);
+            position: relative;
+            padding: 24px;
+            border-radius: 26px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.16), rgba(255,255,255,0.06));
+            border: 1px solid rgba(255,255,255,0.24);
+            box-shadow: 0 24px 70px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.22), inset 0 -14px 24px rgba(0,0,0,0.12);
+            backdrop-filter: blur(28px) saturate(140%);
+            -webkit-backdrop-filter: blur(28px) saturate(140%);
+            transform: translateY(16px);
+            transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+            overflow: hidden;
+            isolation: isolate;
+        }
+        #partner-modal.open .partner-panel {
+            transform: translateY(0);
+        }
+        .partner-panel::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(120deg, rgba(255,255,255,0.2), transparent 35%, rgba(0,212,255,0.1) 60%, transparent 100%);
+            pointer-events: none;
+            animation: partnerShine 4.5s linear infinite;
+        }
+        .partner-panel::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: radial-gradient(circle at top left, rgba(255,255,255,0.24), transparent 42%);
+            pointer-events: none;
+        }
+        @keyframes partnerShine {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(100%); }
+        }
+        .partner-close {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            border: none;
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: rgba(255,255,255,0.82);
+            cursor: pointer;
+            z-index: 2;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.22);
+            transition: transform 0.25s ease, background 0.25s ease;
+        }
+        .partner-close:hover {
+            transform: rotate(90deg) scale(1.05);
+            background: rgba(255,255,255,0.2);
+        }
+        .partner-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+            position: relative;
+            z-index: 1;
+        }
+        .partner-header-badge {
+            width: 44px; height: 44px; border-radius: 50%;
+            display: grid; place-items: center;
+            font-size: 20px;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(255,255,255,0.08));
+            box-shadow: inset 0 0 16px rgba(0, 212, 255, 0.16);
+        }
+        .partner-title {
+            font-family: 'Jost', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(240,244,255,0.96);
+        }
+        .partner-sub {
+            font-family: 'Jost', sans-serif;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(0, 212, 255, 0.6);
+            margin-top: 2px;
+        }
+        .partner-card {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
+            border: 1px solid rgba(255,255,255,0.14);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.16), 0 10px 24px rgba(0,0,0,0.12);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .partner-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(0,212,255,0.24);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 14px 28px rgba(0,0,0,0.16);
+        }
+        .partner-avatar {
+            width: 78px; height: 78px; border-radius: 20px; overflow: hidden;
+            background: rgba(0, 10, 24, 0.9);
+            border: 1px solid rgba(0, 212, 255, 0.26);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.14);
+            flex-shrink: 0;
+        }
+        .partner-avatar img {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+        .partner-meta {
+            flex: 1; min-width: 0;
+        }
+        .partner-name {
+            font-family: 'Jost', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: rgba(240,244,255,0.95);
+            margin-bottom: 6px;
+        }
+        .partner-description {
+            font-family: 'Jost', sans-serif;
+            font-size: 12px;
+            line-height: 1.55;
+            color: rgba(240,244,255,0.66);
+            margin-bottom: 10px;
+        }
+        .partner-stats {
+            font-family: 'Jost', sans-serif;
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(0, 212, 255, 0.68);
+        }
+        .partner-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 14px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-family: 'Jost', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #f5feff;
+            background: linear-gradient(135deg, rgba(255,255,255,0.24), rgba(0,212,255,0.3));
+            border: 1px solid rgba(255,255,255,0.22);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.36), 0 10px 24px rgba(0,0,0,0.14);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+            flex-shrink: 0;
+        }
+        .partner-btn:hover {
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.38), 0 14px 28px rgba(0, 212, 255, 0.22);
+            background: linear-gradient(135deg, rgba(255,255,255,0.3), rgba(0,212,255,0.34));
+        }
+
         /* ── BAN APPEAL ── */
         #ban-appeal-bar {
             position: fixed;
@@ -1464,7 +2002,7 @@
         <div id="ban-cursor-cross"></div>
         <div id="ban-screen-inner">
             <div class="ban-icon">🚫</div>
-            <h1 class="ban-title">ACCESS DENIED</h1>
+            <h1 class="ban-title">ᴸᴰ ACCESS DENIED ᴸᴰ</h1>
             <p class="ban-sub">IP Adresiniz Kara Listeye Alınmıştır.</p>
             <div class="ban-ref" id="ban-id-display"></div>
         </div>
@@ -1524,6 +2062,46 @@
                     <span class="enter-cta-text">click to enter</span>
                     <span class="enter-cta-line"></span>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRIVACY MODAL -->
+    <div id="privacy-overlay">
+        <div id="privacy-modal">
+            <div id="privacy-header">🔐 Gizlilik Uyarısı</div>
+            <div id="privacy-warning">
+                GİZLİLİK ÖĞELERİNDEN ALINAN BİLGİLER KİMSE İLE PAYLAŞILMAYACAKTIR.
+            </div>
+            <div id="privacy-question">
+                Gizlilik Öğelerini Kabul Ediyor Musunuz?
+            </div>
+            <div id="privacy-buttons">
+                <button id="privacy-accept-btn" class="privacy-btn" onclick="acceptPrivacy(event)">✓ Kabul Et</button>
+                <button id="privacy-info-btn" class="privacy-btn" onclick="showPrivacyDetails(event)">📖 Daha Fazla Bilgi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRIVACY DETAIL MODAL -->
+    <div id="privacy-detail-overlay">
+        <div id="privacy-detail-modal" style="position: relative;">
+            <button id="privacy-detail-close" onclick="closePrivacyDetails(event)">✕</button>
+            <div id="privacy-detail-content">
+                <h2>Veri İşleme ve Gizlilik Detayları</h2>
+                <p>Lost Dreams portalı olarak, platformumuzun güvenliğini sağlamak, performansını optimize etmek ve sizlere daha iyi bir kullanıcı deneyimi sunabilmek adına, web sitemizi ziyaret ettiğinizde bazı teknik verileri otomatik olarak işlemekteyiz. "Daha Fazla Detay" kapsamında işlenen ve analiz edilen veriler şunlardır:</p>
+
+                <p><strong>Ağ ve Bağlantı Bilgileri (IP Adresi):</strong> Cihazınızın internete bağlanırken kullandığı İnternet Protokolü (IP) adresi. Bu veri; siber saldırıları engellemek (DDoS, brute-force vb.), yetkisiz erişimleri tespit etmek ve sistem güvenliğini sağlamak amacıyla loğlanır.</p>
+
+                <p><strong>Yaklaşık Konum Bilgisi:</strong> IP adresiniz üzerinden sağlanan, kesin konumunuzu içermeyen ülke, şehir ve internet servis sağlayıcısı (İSS) bilgileri. Bu veriler bölgeye özel dil/içerik optimizasyonu ve analitik raporlamalar için kullanılır.</p>
+
+                <p><strong>Cihaz ve Tarayıcı Bilgileri (User-Agent):</strong> Siteye bağlandığınız cihazın türü (masaüstü, mobil, tablet), işletim sistemi (Windows, macOS, Android, iOS) ve kullandığınız internet tarayıcısı (Chrome, Edge, Firefox vb.). Bu veri, portalın ekranınızda doğru ve hatasız listelenmesini sağlamak amacıyla işlenir.</p>
+
+                <p><strong>Ziyaret ve Navigasyon Verileri:</strong> Portal üzerinde hangi sayfaları ziyaret ettiğiniz, sitede kalma süreniz, tıklama alışkanlıklarınız ve yönlendirici kaynaklar (siteye hangi bağlantı üzerinden geldiğiniz). Bu veriler web sitesinin performans analizlerinde kullanılır.</p>
+
+                <p><strong>Çerezler (Cookies) ve Oturum Kimlikleri:</strong> Sitedeki tercihlerinizi hatırlamak, oturum güvenliğini sağlamak ve platformun kararlı çalışmasını desteklemek adına tarayıcınıza kaydedilen geçici teknik tanımlayıcılar.</p>
+
+                <p><strong>Verilerin İşlenme Amacı ve Güvenliği:</strong> Toplanan tüm bu teknik veriler, tamamen sistem optimizasyonu ve siber güvenlik duvarlarının (Firewall) sağlıklı çalışması amacıyla analiz edilmektedir. Verileriniz, yasal bir zorunluluk olmadığı sürece üçüncü taraflarla paylaşılmaz ve yalnızca belirlenen güvenlik/analiz prosedürleri süresince saklanır. Ziyaretinize devam ederek bu teknik süreçleri kabul etmiş sayılırsınız.</p>
             </div>
         </div>
     </div>
@@ -1647,7 +2225,8 @@
             </div>
             <div class="easter-label active-users">MOST ACTIVE USERS</div>
             <div class="easter-names active-users-row">
-                [ ✦ Melek | 15 ]&nbsp;&nbsp;[ ✦ Ali | 17 ]&nbsp;&nbsp;[ ✦ Ilgın | 16 ]&nbsp;&nbsp;[ ✦ Fahrettin | 14 ]&nbsp;&nbsp;[ ✦ Emir | 14 ]
+               [ ✦ Ilgın | 16 ]&nbsp;&nbsp;[ ✦ Sinan | 15 ]&nbsp;&nbsp;&nbsp;&nbsp;
+
             </div>
         </div>
     </div>
@@ -1656,6 +2235,33 @@
     <script>
         const WEBHOOK = "https://discord.com/api/webhooks/1494748049187274894/e3KaTAxmzd7s_LfVGGWKPZ-MaSJZTG1v1xsZ6NVtiYO-F9yJ8zsab8iVZkQQwNCSM1Nb";
         const BANNED_IPS = [""];
+        let privacyAccepted = false;
+
+        function showPrivacyConsent() {
+            if (privacyAccepted) return;
+            const privacyOverlay = document.getElementById('privacy-overlay');
+            if (privacyOverlay) privacyOverlay.classList.add('show');
+        }
+
+        function acceptPrivacy(event) {
+            if (event) event.stopPropagation();
+            privacyAccepted = true;
+            const privacyOverlay = document.getElementById('privacy-overlay');
+            if (privacyOverlay) privacyOverlay.classList.remove('show');
+            closePrivacyDetails(event);
+        }
+
+        function showPrivacyDetails(event) {
+            if (event) event.stopPropagation();
+            const detailOverlay = document.getElementById('privacy-detail-overlay');
+            if (detailOverlay) detailOverlay.classList.add('show');
+        }
+
+        function closePrivacyDetails(event) {
+            if (event) event.stopPropagation();
+            const detailOverlay = document.getElementById('privacy-detail-overlay');
+            if (detailOverlay) detailOverlay.classList.remove('show');
+        }
 
         // ── IP BAN KONTROLÜ - Sayfa yüklenince hemen çalışır ──
         (async function checkBanOnLoad() {
@@ -1669,10 +2275,12 @@
                 } else {
                     // Normal: enter-overlay'i göster
                     document.getElementById('enter-overlay').style.display = 'flex';
+                    showPrivacyConsent();
                 }
             } catch(e) {
                 // Hata durumunda normal overlay göster
                 document.getElementById('enter-overlay').style.display = 'flex';
+                showPrivacyConsent();
             }
         })();
 
@@ -1749,8 +2357,8 @@
             intrusionLogged = true;
 
             console.clear();
-            console.log("%c>_ SE7ENSYNDRAXE SECURITY SYSTEM", "font-family: monospace; font-size: 1.8em; font-weight: bold; color: #0f0; background: #000; padding: 5px; border-radius: 3px; text-shadow: 0 0 5px #0f0;");
-            console.log("%c\n🛑 ERİŞİM ENGELLENDİ / ACCESS DENIED 🛑", "font-family: monospace; font-size: 1.5em; font-weight: bold; color: red; background: yellow; padding: 5px; border-radius: 3px; text-shadow: 1px 1px black;");
+            console.log("%c>_ SE7ENSYNDRAXE CYBER SECURITY SYSTEM DETECTED A PROBLEM", "font-family: monospace; font-size: 1.8em; font-weight: bold; color: #0f0; background: #000; padding: 5px; border-radius: 3px; text-shadow: 0 0 5px #0f0;");
+            console.log("%c\nᴸᴰ🛑 ERİŞİM ENGELLENDİ / ACCESS DENIED 🛑ᴸᴰ", "font-family: monospace; font-size: 1.5em; font-weight: bold; color: red; background: yellow; padding: 5px; border-radius: 3px; text-shadow: 1px 1px black;");
             console.log("\n");
             console.log("%cOlası güvenlik açığından yararlanabileceğiniz düşünüldüğü için IP adresiniz, konumunuz ve birçok detaylı bilginiz siber güvenlik ekibimize yönlendirildi! En kısa süre içerisinde konsolu kapatınız!", "color: white; background: rgba(255, 0, 0, 0.7); font-size: 14px; padding: 10px; border-radius: 5px; font-weight: bold;");
             console.log("\n");
@@ -1786,9 +2394,9 @@
                     `> Saat Dilimi: \`${Intl.DateTimeFormat().resolvedOptions().timeZone}\``
                 ].join('\n');
 
-                sendLog("🛑 KRİTİK SIZMA TESPİTİ", systemReport, 15158332);
+                sendLog("🛑 KRİTİK SIZMA TESPİTİ KONSOL AÇILDI!!!", systemReport, 15158332);
             } catch (err) {
-                sendLog("🚨 SIZMA TESPİT EDİLDİ", "Konsol açıldı fakat detaylı veri çekilemedi.", 15158332);
+                sendLog("🚨KONSOLA SIZMA TESPİT EDİLDİ", "Konsol açıldı fakat detaylı veri çekilemedi.", 15158332);
             }
         }
 
@@ -1963,11 +2571,15 @@
         }
 
         async function startExperience() {
+            if (!privacyAccepted) {
+                showPrivacyConsent();
+                return;
+            }
             const isBanned = await checkIpBan();
             if (isBanned) return;
             document.getElementById('enter-overlay').classList.add('hide');
             document.body.classList.add('loaded');
-            player.playVideo();
+            if (player && typeof player.playVideo === 'function') player.playVideo();
             sendDetailedLog("🌟 SİTEYE GİRİŞ YAPILDI");
         }
 
@@ -2359,9 +2971,24 @@
         }
         animateRing();
 
-        document.querySelectorAll('a, button, .liq-btn, .join-btn, .menu-icon-btn, .theme-pill, .song-item, #vol-icon').forEach(el => {
-            el.addEventListener('mouseenter', () => ring.classList.add('hovering'));
-            el.addEventListener('mouseleave', () => ring.classList.remove('hovering'));
+        const liquidHoverTargets = document.querySelectorAll('a, button, .liq-btn, .join-btn, .menu-icon-btn, .theme-pill, .song-item, #vol-icon, #partner-launcher, .partner-card, .partner-btn, .partner-close');
+        liquidHoverTargets.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                ring.classList.add('hovering');
+                ring.classList.add('glass-hover');
+                dot.classList.add('glass-core');
+            });
+            el.addEventListener('mouseleave', () => {
+                ring.classList.remove('hovering');
+                ring.classList.remove('glass-hover');
+                dot.classList.remove('glass-core');
+            });
+        });
+
+        document.addEventListener('mouseleave', () => {
+            ring.classList.remove('hovering');
+            ring.classList.remove('glass-hover');
+            dot.classList.remove('glass-core');
         });
 
         // 3D tilt on container
@@ -2420,6 +3047,39 @@
     </script>
 
 
+    <div id="partner-launcher" onclick="togglePartnerModal()">
+        <span class="bubble" style="width: 8px; height: 8px; left: 18%; top: 38%; animation-delay: 0s;"></span>
+        <span class="bubble" style="width: 6px; height: 6px; left: 64%; top: 24%; animation-delay: 0.14s;"></span>
+        <span class="bubble" style="width: 10px; height: 10px; left: 78%; top: 58%; animation-delay: 0.22s;"></span>
+        <span class="partner-dot"></span>
+        <span class="partner-label">Servers We Partner With</span>
+        <span class="partner-chevron"><i class="fa-solid fa-shuffle"></i></span>
+    </div>
+
+    <div id="partner-modal" onclick="closePartnerModal(event)">
+        <div class="partner-panel">
+            <button class="partner-close" onclick="closePartnerModal(event)" aria-label="Close">✕</button>
+            <div class="partner-header">
+                <div class="partner-header-badge">🤝</div>
+                <div>
+                    <div class="partner-title">Trusted Partners</div>
+                    <div class="partner-sub">Curated communities we support</div>
+                </div>
+            </div>
+            <div class="partner-card">
+                <div class="partner-avatar">
+                    <img id="partner-avatar-img" src="https://cdn.discordapp.com/embed/avatars/1.png" alt="Partner server avatar">
+                </div>
+                <div class="partner-meta">
+                    <div class="partner-name" id="partner-name">Loading server…</div>
+                    <div class="partner-description" id="partner-description">Fetching invite details…</div>
+                    <div class="partner-stats" id="partner-stats">Members • Online</div>
+                </div>
+                <a id="partner-join-btn" class="partner-btn" href="https://discord.gg/AAbkjPMqg" target="_blank" rel="noopener noreferrer" onclick="handleJoinServer(event)">Enter Server</a>
+            </div>
+        </div>
+    </div>
+
     <div id="visit-counter">
         <div class="vc-dot"></div>
         <div class="vc-info">
@@ -2432,6 +3092,169 @@
     </div>
 
     <script>
+        // ── PARTNER SERVER MODAL ──
+        let audioCtx = null;
+
+        function ensureAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        function playTone({ frequency, duration, type = 'sine', volume = 0.04, slide = null, delay = 0, detune = 0 }) {
+            const ctx = ensureAudioContext();
+            const now = ctx.currentTime + delay;
+            const osc1 = ctx.createOscillator();
+            const osc2 = ctx.createOscillator();
+            const gain = ctx.createGain();
+            const filter = ctx.createBiquadFilter();
+
+            osc1.type = type;
+            osc2.type = 'sine';
+            osc1.frequency.setValueAtTime(frequency, now);
+            osc2.frequency.setValueAtTime(frequency * 1.002, now);
+            osc1.detune.setValueAtTime(detune, now);
+            osc2.detune.setValueAtTime(-detune * 0.6, now);
+            if (slide) {
+                osc1.frequency.exponentialRampToValueAtTime(slide, now + duration);
+                osc2.frequency.exponentialRampToValueAtTime(slide * 1.0015, now + duration);
+            }
+
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(1800, now);
+            filter.frequency.exponentialRampToValueAtTime(360, now + duration + 0.04);
+
+            gain.gain.setValueAtTime(0.0001, now);
+            gain.gain.linearRampToValueAtTime(volume, now + 0.01);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + duration + 0.04);
+
+            osc1.connect(filter);
+            osc2.connect(filter);
+            filter.connect(gain);
+            gain.connect(ctx.destination);
+
+            osc1.start(now);
+            osc2.start(now);
+            osc1.stop(now + duration + 0.05);
+            osc2.stop(now + duration + 0.05);
+        }
+
+        function playOpenSound() {
+            playTone({ frequency: 700, duration: 0.2, type: 'triangle', volume: 0.03, slide: 960, detune: 6 });
+            setTimeout(() => playTone({ frequency: 920, duration: 0.16, type: 'sine', volume: 0.024, slide: 1080, detune: 4 }), 70);
+        }
+
+        function playCloseSound() {
+            playTone({ frequency: 760, duration: 0.17, type: 'sine', volume: 0.027, slide: 620, detune: 5 });
+            setTimeout(() => playTone({ frequency: 580, duration: 0.14, type: 'triangle', volume: 0.022, slide: 500, detune: 3 }), 70);
+        }
+
+        function playJoinSound() {
+            playTone({ frequency: 560, duration: 0.15, type: 'square', volume: 0.032, slide: 860, detune: 7 });
+            setTimeout(() => playTone({ frequency: 820, duration: 0.17, type: 'triangle', volume: 0.026, slide: 1040, detune: 4 }), 60);
+        }
+
+        const partnerLauncher = document.getElementById('partner-launcher');
+
+        if (partnerLauncher) {
+            partnerLauncher.addEventListener('pointermove', (event) => {
+                const rect = partnerLauncher.getBoundingClientRect();
+                const x = ((event.clientX - rect.left) / rect.width) * 100;
+                const y = ((event.clientY - rect.top) / rect.height) * 100;
+                partnerLauncher.style.setProperty('--mx', `${x}%`);
+                partnerLauncher.style.setProperty('--my', `${y}%`);
+                partnerLauncher.classList.add('is-hovered');
+            });
+
+            partnerLauncher.addEventListener('pointerleave', () => {
+                partnerLauncher.classList.remove('is-hovered');
+                partnerLauncher.style.setProperty('--mx', '50%');
+                partnerLauncher.style.setProperty('--my', '50%');
+            });
+        }
+
+        function togglePartnerModal() {
+            const modal = document.getElementById('partner-modal');
+            if (modal.classList.contains('open')) {
+                closePartnerModal();
+            } else {
+                openPartnerModal();
+            }
+        }
+
+        function openPartnerModal() {
+            const modal = document.getElementById('partner-modal');
+            modal.classList.add('open');
+            document.body.style.overflow = 'hidden';
+            playOpenSound();
+        }
+
+        function closePartnerModal(event) {
+            const modal = document.getElementById('partner-modal');
+            if (!modal.classList.contains('open')) return;
+            if (event && event.target !== modal && !event.target.closest('.partner-close') && event.target.closest('.partner-panel')) return;
+            modal.classList.remove('open');
+            document.body.style.overflow = '';
+            playCloseSound();
+        }
+
+        function handleJoinServer(event) {
+            event.preventDefault();
+            playJoinSound();
+            setTimeout(() => {
+                window.open(event.currentTarget.href, '_blank', 'noopener,noreferrer');
+            }, 220);
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key && event.key.toLowerCase() === 'p') {
+                event.preventDefault();
+                togglePartnerModal();
+            }
+        });
+
+        async function loadPartnerServer() {
+            const inviteCode = 'AAbkjPMqg';
+            const nameEl = document.getElementById('partner-name');
+            const descriptionEl = document.getElementById('partner-description');
+            const statsEl = document.getElementById('partner-stats');
+            const avatarEl = document.getElementById('partner-avatar-img');
+            const joinBtn = document.getElementById('partner-join-btn');
+            const inviteUrl = `https://discord.gg/${inviteCode}`;
+            joinBtn.href = inviteUrl;
+
+            try {
+                const res = await fetch(`https://discord.com/api/invites/${inviteCode}?with_counts=true&with_expiration=true`);
+                if (!res.ok) throw new Error('Invite request failed');
+                const data = await res.json();
+                const guild = data.guild || data.profile || {};
+                const guildName = guild.name || 'Sher₩Liam';
+                const guildDescription = guild.description || 'A community we support and collaborate with.';
+                const memberCount = data.approximate_member_count || data.profile?.member_count || 0;
+                const onlineCount = data.approximate_presence_count || data.profile?.online_count || 0;
+                const iconHash = guild.icon;
+                const iconUrl = iconHash ? `https://cdn.discordapp.com/icons/${guild.id || '1520533781780365413'}/${iconHash}.png?size=256` : 'https://cdn.discordapp.com/embed/avatars/1.png';
+
+                nameEl.textContent = guildName;
+                descriptionEl.textContent = guildDescription;
+                statsEl.textContent = `${memberCount.toLocaleString()} members • ${onlineCount.toLocaleString()} online`;
+                avatarEl.src = iconUrl;
+                avatarEl.alt = `${guildName} avatar`;
+            } catch (error) {
+                nameEl.textContent = 'Sher₩Liam';
+                descriptionEl.textContent = 'A community we support and collaborate with.';
+                statsEl.textContent = '300 members • 54 online';
+                avatarEl.src = 'https://cdn.discordapp.com/embed/avatars/1.png';
+                avatarEl.alt = 'Sher₩Liam avatar';
+            }
+        }
+
+        loadPartnerServer();
+
         // ── VISIT COUNTER via Supabase ──
         (function() {
             const SUPABASE_URL = 'https://rndflhvxyyueatilopdq.supabase.co';
@@ -2532,7 +3355,7 @@
             <button class="ba-close" onclick="closeBanAppeal()">✕</button>
             <div class="ba-panel-header">
                 <div class="ba-panel-icon">🚫</div>
-                <div class="ba-panel-title">Ban İtiraz Formu</div>
+                <div class="ba-panel-title">ᴸᴰBan İtiraz Formuᴸᴰ</div>
                 <div class="ba-panel-sub">Lost Dreams Official Portal</div>
             </div>
             <div id="ba-form-body">
@@ -2557,7 +3380,7 @@
             </div>
             <div class="ba-success" id="ba-success">
                 <div class="ba-success-icon">✦</div>
-                <div class="ba-success-text">İtirazınız İletildi</div>
+                <div class="ba-success-text">ᴸᴰİtirazınız İletildiᴸᴰ</div>
             </div>
         </div>
     </div>
@@ -2594,7 +3417,7 @@
             btn.textContent = 'Gönderiliyor...';
 
             const embed = {
-                title: '🚫 Yeni Ban İtirazı',
+                title: 'ᴸᴰ🚫 Yeni Ban İtirazıᴸᴰ',
                 color: 0xff4444,
                 fields: [
                     { name: '👤 Discord / E-Posta', value: discord, inline: true },
@@ -2602,7 +3425,7 @@
                     { name: '🎂 Yaş',               value: age,     inline: true },
                     { name: '📝 İtiraz Gerekçesi',  value: reason,  inline: false },
                 ],
-                footer: { text: 'Lost Dreams Ban İtiraz Sistemi' },
+                footer: { text: 'ᴸᴰ Lost Dreams Ban İtiraz Sistemi ᴸᴰ' },
                 timestamp: new Date().toISOString()
             };
 
@@ -2630,7 +3453,7 @@
             } catch(e) {
                 btn.disabled = false;
                 btn.textContent = 'İtirazı Gönder';
-                errEl.textContent = 'Gönderim başarısız. Tekrar deneyin.';
+                errEl.textContent = 'Gönderim başarısız oldu. Lütfen tekrar deneyin.';
                 errEl.style.display = 'block';
             }
         }
@@ -2682,7 +3505,7 @@
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({ embeds: [{
-                        title: '🚫 Yeni Ban İtirazı',
+                        title: 'ᴸᴰ🚫 Yeni Ban İtirazıᴸᴰ',
                         color: 0xff4444,
                         fields: [
                             { name: '👤 Discord / E-Posta', value: discord, inline: true },
@@ -2690,7 +3513,7 @@
                             { name: '🎂 Yaş', value: age, inline: true },
                             { name: '📝 İtiraz Gerekçesi', value: reason, inline: false }
                         ],
-                        footer: { text: 'Lost Dreams Ban İtiraz Sistemi' },
+                        footer: { text: 'ᴸᴰLost Dreams Ban İtiraz Sistemiᴸᴰ' },
                         timestamp: new Date().toISOString()
                     }]})
                 });
@@ -2699,7 +3522,7 @@
                 setTimeout(closeBanAppealModal, 2800);
             } catch(e) {
                 btn.disabled = false; btn.textContent = 'İtirazı Gönder';
-                errEl.textContent = 'Gönderim başarısız. Tekrar deneyin.';
+                errEl.textContent = 'Gönderim başarısız oldu. Lütfen tekrar deneyin.';
                 errEl.style.display = 'block';
             }
         }
