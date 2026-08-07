@@ -1652,20 +1652,22 @@
             transform: translate3d(-6%, -4%, 0) scale(0.94);
         }
         .partner-panel.is-animating::before {
-            animation: panelBloom 0.95s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            animation: panelBloom 1.6s cubic-bezier(0.16, 0.84, 0.44, 1) forwards;
         }
         .partner-panel.is-animating::after {
-            animation: panelGlow 0.95s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            animation: panelGlow 1.8s cubic-bezier(0.16, 0.84, 0.44, 1) forwards;
         }
         @keyframes panelBloom {
-            0% { opacity: 0; transform: scale(0.94) translate3d(-3%, -2%, 0); }
-            35% { opacity: 0.8; transform: scale(1.03) translate3d(2%, 1.5%, 0); }
-            100% { opacity: 0; transform: scale(1.14) translate3d(8%, 6%, 0); }
+            0% { opacity: 0; transform: scale(0.88) translate3d(-5%, -4%, 0); }
+            18% { opacity: 0.55; transform: scale(1.01) translate3d(1%, 1%, 0); }
+            48% { opacity: 0.9; transform: scale(1.08) translate3d(6%, 4%, 0); }
+            100% { opacity: 0; transform: scale(1.25) translate3d(16%, 10%, 0); }
         }
         @keyframes panelGlow {
-            0% { opacity: 0; transform: translate3d(-8%, -6%, 0) scale(0.92); }
-            35% { opacity: 0.9; transform: translate3d(2%, 2%, 0) scale(1.02); }
-            100% { opacity: 0; transform: translate3d(12%, 8%, 0) scale(1.14); }
+            0% { opacity: 0; transform: translate3d(-12%, -8%, 0) scale(0.9); }
+            22% { opacity: 0.72; transform: translate3d(2%, 3%, 0) scale(1.04); }
+            68% { opacity: 0.55; transform: translate3d(12%, 8%, 0) scale(1.15); }
+            100% { opacity: 0; transform: translate3d(24%, 16%, 0) scale(1.35); }
         }
         .partner-close {
             position: absolute;
@@ -3264,7 +3266,7 @@
                 panel.classList.remove('is-animating');
                 void panel.offsetWidth;
                 panel.classList.add('is-animating');
-                setTimeout(() => panel.classList.remove('is-animating'), 1100);
+                setTimeout(() => panel.classList.remove('is-animating'), 1900);
             }
             playOpenSound();
         }
