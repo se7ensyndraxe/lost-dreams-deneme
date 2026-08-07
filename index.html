@@ -1720,18 +1720,58 @@
             gap: 16px;
             padding: 16px;
             border-radius: 18px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04));
+            overflow: hidden;
+            isolation: isolate;
+            background: linear-gradient(135deg, rgba(255,255,255,0.11), rgba(255,255,255,0.04));
             border: 1px solid rgba(255,255,255,0.12);
             box-shadow: inset 0 1px 0 rgba(255,255,255,0.14), 0 8px 20px rgba(0,0,0,0.10);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
             transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease, background 0.28s ease;
         }
+        .partner-card::before {
+            content: '';
+            position: absolute;
+            inset: -25%;
+            background: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.26), transparent 42%), radial-gradient(circle at 80% 80%, rgba(0,212,255,0.16), transparent 38%);
+            filter: blur(18px);
+            opacity: 0.9;
+            animation: cardGlow 5.5s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .partner-card::after {
+            content: '';
+            position: absolute;
+            inset: -20% -30%;
+            background: linear-gradient(115deg, transparent 0%, rgba(255,255,255,0.22) 24%, rgba(255,255,255,0.04) 44%, rgba(0,212,255,0.12) 70%, transparent 100%);
+            transform: translateX(-140%) rotate(8deg);
+            filter: blur(8px);
+            opacity: 0.8;
+            animation: cardSheen 6.8s cubic-bezier(0.2, 0.9, 0.2, 1) infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .partner-card > * {
+            position: relative;
+            z-index: 1;
+        }
         .partner-card:hover {
             transform: translateY(-2px);
             border-color: rgba(0,212,255,0.20);
             box-shadow: inset 0 1px 0 rgba(255,255,255,0.16), 0 12px 24px rgba(0,0,0,0.14);
             background: linear-gradient(135deg, rgba(255,255,255,0.14), rgba(255,255,255,0.06));
+        }
+        @keyframes cardGlow {
+            0%, 100% { transform: translate3d(-2%, -1%, 0) scale(1); opacity: 0.8; }
+            50% { transform: translate3d(2%, 2%, 0) scale(1.04); opacity: 1; }
+        }
+        @keyframes cardSheen {
+            0% { transform: translateX(-140%) rotate(8deg); opacity: 0; }
+            20% { opacity: 0.3; }
+            50% { opacity: 0.9; }
+            80% { opacity: 0.25; }
+            100% { transform: translateX(180%) rotate(8deg); opacity: 0; }
         }
         .partner-avatar {
             width: 78px; height: 78px; border-radius: 20px; overflow: hidden;
